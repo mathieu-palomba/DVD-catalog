@@ -4,18 +4,36 @@
     <meta charset="utf-8">
     <title>Google Phone Gallery</title>
 
-    <!-- Libraries -->
+    <!-- CSS -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css">
+    <!-- Our CSS -->
     <link rel="stylesheet" href="css/app.css">
+    <!-- For CSS Transitions and/or Keyframe Animations -->
+    <link rel="stylesheet" href="css/animations.css">
+
+    <!-- Libraries -->
+    <!-- jQuery is used for JavaScript animations (include this before angular.js) -->
+    <script src="lib/jQuery/jquery-1.9.1.min.js"></script>
+    <!-- Angular library -->
     <script src="lib/angular/angular.js"></script>
+    <!-- Require module to handle route-->
     <script src="lib/angular/angular-route.js"></script>
+    <!-- Require module for create our ressource -->
+    <script src="lib/angular/angular-resource.js"></script>
+    <!-- Required module to enable animation support in AngularJS -->
+    <script src="lib/angular/angular-animate.js"></script>
 
     <!-- JavaScript files -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/filters.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/animations.js"></script>
 </head>
 <body ng-controller="PhoneListCtrl">
-<div ng-view></div>
+    <div class="view-container">
+        <div ng-view class="view-frame"></div>
+    </div>
 </body>
 </html>

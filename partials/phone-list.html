@@ -15,7 +15,7 @@
                 <!--Body content-->
 
                 <ul class="phones">
-                    <li ng-repeat="phone in phones | filter:query | orderBy:orderProp" class="thumbnail">
+                    <li ng-repeat="phone in phones | filter:query | orderBy:orderProp" class="thumbnail phone-listing">
                         <a href="#/phones/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>     <!-- We redirect to the correct view when the user click on the picture -->
                         <a href="#/phones/{{phone.id}}">{{phone.name}} ({{phone.price}}€)</a>                   <!-- We redirect to the correct view when the user click on the description -->
                         <p>{{phone.snippet}}</p>
