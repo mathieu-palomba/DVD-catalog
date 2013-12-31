@@ -36,7 +36,7 @@ phonecatServices.factory('Allocine', ['$http',
 //                        console.log(status);
 //                    });
 
-                /*var url = "http://www.omdbapi.com/?t=Avatar"; //"https://api.themoviedb.org/3/movie/550?api_key=37c2294ca3753bd14d165eda4b3f9314?callback";
+                /*var url = "http://www.omdbapi.com/?t=Avatar"; //"https://api.themoviedb.org/3/movie/550?api_key=37c2294ca3753bd14d165eda4b3f9314";
                 $http.jsonp(url).then(function (response) {
                     console.log('response');
                     //var json = mapDOM(response.data, true);
@@ -44,17 +44,16 @@ phonecatServices.factory('Allocine', ['$http',
                     //console.log(response.data);
                 });*/
 
-                function JSON_CALLBACK(data) {
-                    // returning from async callbacks is (generally) meaningless
-                    console.log("Success");
-                    console.log(data);
-                }
-                var url = "http://www.omdbapi.com/?t=Avatar&callback=JSON_CALLBACK";
+                var url = "https://api.themoviedb.org/3/movie/550?api_key=37c2294ca3753bd14d165eda4b3f9314&language=fr&callback=JSON_CALLBACK";
                 $http.jsonp(url).
                     success(function(data, status, headers, config) {
-                        // this callback will be called asynchronously
-                        // when the response is available
+                        // This callback will be called asynchronously when the response is available
                         console.log('response');
+                        console.log(data);
+                    }).
+                    error(function(data, status, headers, config) {
+                        // Called asynchronously if an error occurs or server returns response with an error status.
+                        console.log('error');
                         console.log(data);
                     });
 
