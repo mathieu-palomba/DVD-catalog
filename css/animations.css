@@ -1,3 +1,4 @@
+/* Animations when routes changed. */
 .view-container {
     position: relative;
 }
@@ -51,8 +52,9 @@
     from { opacity: 1; }
     to { opacity: 0; }
 }
-/* don't forget about the vendor-prefixes! */
+/* Don't forget about the vendor-prefixes! */
 
+/* Animations for ng-repeat in the phone-list view. */
 .phone-listing.ng-enter,
 .phone-listing.ng-leave,
 .phone-listing.ng-move {
