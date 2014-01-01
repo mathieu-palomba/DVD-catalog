@@ -1,0 +1,16 @@
+{
+    "name": "Dvds-catalog",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "express": "3.4.4",
+        "ejs": "*",
+        "mongoose": "*",
+        "connect-mongo": "*"
+    },
+    "author": "Mathieu <perdodelamancha31@gmail.com>",
+    "description": "DVDs catalog"
+}
