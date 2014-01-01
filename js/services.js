@@ -14,6 +14,9 @@ phonecatServices.factory('Phone', ['$resource',
     }]
 );
 
+/**
+ * This service permit to execute a JSONP request to get JSON data.
+ */
 phonecatServices.factory('GetMovieData', ['$http',
     function ($http) {
         return {
@@ -29,8 +32,6 @@ phonecatServices.factory('GetMovieData', ['$http',
                         console.log('Error');
                         console.log(data);
                     });
-
-                return null;
             }
         };
     }]

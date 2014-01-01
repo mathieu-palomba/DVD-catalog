@@ -18,12 +18,6 @@ phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone', 'GetMovieDat
 
         // This value must have the same name in the html view to set the default filter
         $scope.orderProp = 'age';
-
-        // This request get the movie ID to get the movie informations
-        $scope.page = GetMovieData.getData("https://api.themoviedb.org/3/search/movie?api_key=37c2294ca3753bd14d165eda4b3f9314&query=Avatar&language=fr&callback=JSON_CALLBACK");
-
-        // This request get the movie information from the previous request
-        $scope.page = GetMovieData.getData("https://api.themoviedb.org/3/movie/19995?api_key=37c2294ca3753bd14d165eda4b3f9314&language=fr&callback=JSON_CALLBACK");
     }
 ]);
 
@@ -50,42 +44,9 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Ph
 ]);
 
 /**
- * Get phone informations.
+ * Add Phone controllers.
  */
-//phonecatControllers.controller('PhoneGetInformations', ['$scope',
-//    function ($scope) {
-//        $scope.getXhr = function () {
-//            var xhr = null;
-//            if (window.XMLHttpRequest) // Firefox et autres
-//                xhr = new XMLHttpRequest();
-//            else if (window.ActiveXObject) { // Internet Explorer
-//                try {
-//                    xhr = new ActiveXObject("Msxml2.XMLHTTP");
-//                } catch (e) {
-//                    xhr = new ActiveXObject("Microsoft.XMLHTTP");
-//                }
-//            }
-//            else { // XMLHttpRequest non supporté par le navigateur
-//                alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest...");
-//                xhr = false;
-//            }
-//            return xhr
-//        };
-//
-//        $scope.getInformations = function() {
-//            var xhr = $scope.getXhr()
-//            // On défini ce qu'on va faire quand on aura la réponse
-//            xhr.onreadystatechange = function () {
-//                // On ne fait quelque chose que si on a tout reçu et que le serveur est ok
-//                if (xhr.readyState == 4 && xhr.status == 200) {
-//                    alert(xhr.responseText);
-//                }
-//            }
-//            xhr.open("GET", "http://www.allocine.fr/recherche/?q=avatar", true);
-//            xhr.send(null);
-//            console.log(xhr);
-//        };
-//
-//        $scope.getInformations;
-//    }]
-//);
+phonecatControllers.controller('PhoneAddCtrl', ['$scope',
+    function ($scope) {
+    }]
+);
