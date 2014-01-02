@@ -1,0 +1,39 @@
+<form class="form-horizontal">
+    <div class="control-group">
+        <label class="control-label" for="inputMovieName">Nom du film</label>
+
+        <div class="controls">
+            <div class="input-append">
+                <input type="text" id="inputMovieName" placeholder="Nom du film" class="span2">
+                <button class="btn" type="button">Rechercher</button>
+            </div>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="inputGenre">Genre</label>
+
+        <div class="controls">
+            <select id="inputGenre">
+                <option ng-repeat="genre in genres">{{genre}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="inputReleaseData">Date de sortie</label>
+
+        <div class="controls">
+            <input type="text" id="inputReleaseData" placeholder="Date de sortie (1 janvier 2014)"></textarea>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="inputOverview">Resumé</label>
+
+        <div class="controls">
+            <textarea rows="5" id="inputOverview" placeholder="Resumé"></textarea>
+        </div>
+    </div>
+    <div class="controls">
+        <button type="submit" class="btn btn-primary">Sauvegarder</button>
+        <button type="button" ng-click="cancelAddPhone()" class="btn">Cancel</button>
+    </div>
+</form>

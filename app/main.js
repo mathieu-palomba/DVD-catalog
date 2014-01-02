@@ -86,12 +86,22 @@
 
 var express = require('express');
 var http = require('http');
+var mongoose = require('mongoose');
 
+// Connection to the DB
+var db = mongoose.connect('mongodb://localhost/dvds-catalog', function(err) {
+    if (err) {
+        throw err;
+    }
+});
+
+// Instantiate express module
 var app = express();
 
-app.use(express.logger()) // Active le middleware de logging
-    .use(express.static(__dirname + '/public')) // Indique que le dossier /public contient des fichiers statiques
-    .use(express.favicon(__dirname + '/public/favicon.ico')); // Active la favicon indiquée
+// Active logging middleware, notice the /public folder which contain the static files and enable the favicon
+app.use(express.logger())
+    .use(express.static(__dirname + '/public'))
+    .use(express.favicon(__dirname + '/public/img/favicon.ico'));
 
 // Set views path, template engine and default layout
 app.set('views', __dirname + '/app/views');
@@ -100,4 +110,4 @@ app.set('view engine', 'ejs');
 // Routes
 require( './config/routes' )( app );
 
-app.listen(3000);
+app.listen(3030);
