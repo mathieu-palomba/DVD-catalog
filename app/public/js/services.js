@@ -20,7 +20,9 @@ phonecatServices.factory('Phone', ['$resource',
 phonecatServices.factory('Dvd', ['$resource',
     function ($resource) {
         return $resource('addPhone/', {}, {
-            saveDvd: {method: 'POST', url: 'addPhone/save'}
+            saveDvd: {method: 'POST', url: 'addDvd/save'},
+            getAllDvd: {method: 'GET', url: 'getAllDvd/'},
+            getDvd: {method: 'GET', url: 'getDvd/:dvd'}
         });
     }]
 );

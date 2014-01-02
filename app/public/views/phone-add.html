@@ -1,44 +1,43 @@
 <h1>Ajout d'un nouveau film</h1>
 
-<form name="movieForm" class="form-horizontal">
+<form name="dvdForm" class="form-horizontal">
     <div class="control-group">
-        <label class="control-label" for="inputMovieName">Nom du film</label>
+        <label class="control-label" for="inputDvdName">Nom du film</label>
 
         <div class="controls">
             <div class="input-append">
-                <input type="text" id="inputMovieName" ng-model="dvd.name" placeholder="Nom du film" required
+                <input type="text" id="inputDvdName" ng-model="dvd.name" placeholder="Nom du film" required
                        class="span2">
                 <button class="btn" type="button" title="Pré-remplissage des champs si le film est répertorié">Rechercher</button>
             </div>
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="inputGenre">Genre</label>
+        <label class="control-label" for="inputDvdGenre">Genre</label>
 
         <div class="controls">
-            <select id="inputGenre">
-                <option ng-repeat="genre in genres" ng-model="dvd.genre" required>{{genre}}</option>
+            <select id="inputDvdGenre">
+                <option ng-repeat="genre in genres" ng-model="dvd.genre">{{genre}}</option>
             </select>
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="inputReleaseData">Date de sortie</label>
+        <label class="control-label" for="inputDvdReleaseData">Date de sortie</label>
 
         <div class="controls">
-            <input type="text" id="inputReleaseData" ng-model="dvd.releaseDate"
+            <input type="text" id="inputDvdReleaseData" ng-model="dvd.releaseDate"
                    placeholder="Date de sortie (1 janvier 2014)" required></textarea>
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label" for="inputOverview">Resumé</label>
+        <label class="control-label" for="inputDvdOverview">Resumé</label>
 
         <div class="controls">
-            <textarea rows="5" id="inputOverview" ng-model="dvd.overview" placeholder="Resumé" required></textarea>
+            <textarea rows="5" id="inputDvdOverview" ng-model="dvd.overview" placeholder="Resumé du film" required class="textArea"></textarea>
         </div>
     </div>
     <div class="controls">
-        <button type="submit" id="saveButton" ng-click="performSave()" ng-disabled="!vendorForm.$valid"
-                class="btn btn-primary">Sauvegarder
+        <button type="submit" id="saveButton" ng-click="performSave()" ng-disabled="!dvdForm.$valid" class="btn btn-primary">Sauvegarder
         </button>
         <button type="button" id="cancelButton" ng-click="cancelAddPhone()" class="btn">Cancel</button>
     </div>

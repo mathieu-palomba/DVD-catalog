@@ -2,7 +2,7 @@
  * Dependencies modules.
  * @type {*|module}
  */
-var phonecatApp = angular.module('phonecatApp', [
+var dvdsCatApp = angular.module('dvdsCatApp', [
     'ngRoute',
     'phonecatControllers',
     'phonecatFilters',
@@ -13,7 +13,7 @@ var phonecatApp = angular.module('phonecatApp', [
 /**
  * Routes handler.
  */
-phonecatApp.config(['$routeProvider',
+dvdsCatApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
             when('/phones', {           // When index.html is loaded, we display the new template url

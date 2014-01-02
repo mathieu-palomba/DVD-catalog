@@ -85,9 +85,9 @@
 //exports = module.exports = app;
 
 var express = require('express');
+var mongoose = require('mongoose');
 var fs = require( 'fs' );
 var http = require('http');
-var mongoose = require('mongoose');
 
 // Connection to the DB
 var db = mongoose.connect('mongodb://localhost/dvds-catalog', function(err) {
@@ -126,7 +126,9 @@ var app = express();
 app//.use(express.logger())
     .use(express.static(__dirname + '/public'))
     .use(express.favicon(__dirname + '/public/img/favicon.ico'))
-    .use(express.bodyParser());
+//    .use(express.bodyParser());   // Deprecated, replace by the following two lines
+    .use(express.urlencoded())
+    .use(express.json());
 
 // Set views path, template engine and default layout
 app.set('views', __dirname + '/app/views');
@@ -135,4 +137,4 @@ app.set('view engine', 'ejs');
 // Routes
 require( './config/routes' )( app );
 
-app.listen(3030);
+app.listen(3040);

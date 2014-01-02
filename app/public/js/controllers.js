@@ -99,6 +99,7 @@ phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
                 if( dvd.success )
                 {
                     console.log("DVD added successfully");
+                    $location.url('/phone');
                 }
                 else
                 {
@@ -114,6 +115,34 @@ phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
         $scope.cancelAddPhone = function () {
             $location.url('/phone');
         };
+
+        var dvd = Dvd.getAllDvd( function()
+        {
+            if( dvd.success )
+            {
+                console.log("DVD got successfully");
+                console.log(dvd.dvd);
+                //$location.url('/phone');
+            }
+            else
+            {
+                console.log("Error when getting the DVD list");
+            }
+        } );
+
+//        var dvd = Dvd.getDvd( {dvd: 'avatar'}, function()
+//        {
+//            if( dvd.success )
+//            {
+//                console.log("DVD got successfully");
+//                console.log(dvd.dvd[0]);
+//                //$location.url('/phone');
+//            }
+//            else
+//            {
+//                console.log("Error when getting the DVD");
+//            }
+//        } );
     }]
 )
 ;
