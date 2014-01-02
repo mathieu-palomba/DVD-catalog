@@ -55,8 +55,8 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Ph
 /**
  * Add Phone controllers.
  */
-phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location',
-    function ($scope, $location) {
+phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
+    function ($scope, $location, Dvd) {
         console.log("Add phone controller");
 
         $scope.genres = {
@@ -79,6 +79,37 @@ phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location',
             thriller: 'Thriller',
             war: 'Guerre',
             western: 'Western'
+        };
+
+        $scope.dvd = {
+            name: '',
+            genre: $scope.genres.action,
+            releaseDate: '',
+            overview: '',
+            actors: null
+        };
+
+
+        /**
+         * Save the new DVD in the database.
+         */
+        $scope.performSave = function () {
+
+            console.log("save dvd in angular");
+            console.log($scope.dvd);
+//            var dvd = Dvd.saveDvd( $scope.dvd );
+            var dvd = Dvd.saveDvd( {dvd: $scope.dvd}, function()
+            {
+                if( dvd.success )
+                {
+                    console.log("Success");
+                }
+                else
+                {
+                    console.log("Error");
+                }
+            } );
+
         };
 
         /**

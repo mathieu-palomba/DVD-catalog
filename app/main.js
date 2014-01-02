@@ -85,6 +85,7 @@
 //exports = module.exports = app;
 
 var express = require('express');
+var fs = require( 'fs' );
 var http = require('http');
 var mongoose = require('mongoose');
 
@@ -95,13 +96,37 @@ var db = mongoose.connect('mongodb://localhost/dvds-catalog', function(err) {
     }
 });
 
+//Bootstrap models
+var models_path = __dirname + '/app/models';
+var walk = function( path )
+{
+    fs.readdirSync( path ).forEach( function( file )
+    {
+        var newPath = path + '/' + file;
+        var stat = fs.statSync( newPath );
+        if( stat.isFile() )
+        {
+            if( /(.*)\.(js$|coffee$)/.test( file ) )
+            {
+                require( newPath );
+            }
+        }
+        else if( stat.isDirectory() )
+        {
+            walk( newPath );
+        }
+    } );
+};
+walk( models_path );
+
 // Instantiate express module
 var app = express();
 
 // Active logging middleware, notice the /public folder which contain the static files and enable the favicon
-app.use(express.logger())
+app//.use(express.logger())
     .use(express.static(__dirname + '/public'))
-    .use(express.favicon(__dirname + '/public/img/favicon.ico'));
+    .use(express.favicon(__dirname + '/public/img/favicon.ico'))
+    .use(express.bodyParser());
 
 // Set views path, template engine and default layout
 app.set('views', __dirname + '/app/views');
