@@ -10,15 +10,15 @@ var mongoose = require( 'mongoose' ),
 exports.create = function( req, res )
 {
     console.log("create DVD in ndejs");
-    console.log(req.body);
+    console.log(req.body.dvd);
     var isError = false;
 
     var newDvd = new Dvd({
-        name: req.body.name,
-        genre: req.body.genre,
-        release_date: req.body.releaseDate,
-        overview: req.body.overview,
-        actors: [req.body.actors]
+        name: req.body.dvd.name,
+        genre: req.body.dvd.genre,
+        release_date: req.body.dvd.releaseDate,
+        overview: req.body.dvd.overview,
+        actors: [req.body.dvd.actors]
     });
 
     newDvd.save(function (err) {

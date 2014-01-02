@@ -4,6 +4,10 @@ body {
   padding-top: 20px;
 }
 
+.informations-header {
+    padding-bottom: 50px;
+}
+
 .phone-images {
   width: 450px;
   height: 450px;
@@ -88,4 +92,5 @@ ul.specs dt {
 
 h1 {
   border-bottom: 1px solid gray;
+  text-align:center;
 }

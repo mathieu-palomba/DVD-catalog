@@ -122,7 +122,7 @@ walk( models_path );
 // Instantiate express module
 var app = express();
 
-// Active logging middleware, notice the /public folder which contain the static files and enable the favicon
+// Active logging middleware, notice the /public folder which contain the static files, enable the favicon and allow the body parsing when nodeJS receive a client request (by angularJS for example)
 app//.use(express.logger())
     .use(express.static(__dirname + '/public'))
     .use(express.favicon(__dirname + '/public/img/favicon.ico'))

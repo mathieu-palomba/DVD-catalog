@@ -94,19 +94,15 @@ phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
          * Save the new DVD in the database.
          */
         $scope.performSave = function () {
-
-            console.log("save dvd in angular");
-            console.log($scope.dvd);
-//            var dvd = Dvd.saveDvd( $scope.dvd );
             var dvd = Dvd.saveDvd( {dvd: $scope.dvd}, function()
             {
                 if( dvd.success )
                 {
-                    console.log("Success");
+                    console.log("DVD added successfully");
                 }
                 else
                 {
-                    console.log("Error");
+                    console.log("Error when added the DVD");
                 }
             } );
 

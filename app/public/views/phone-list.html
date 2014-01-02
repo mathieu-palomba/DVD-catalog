@@ -1,20 +1,24 @@
 <div class="container-fluid">
-    <button type="button" ng-click="addPhone()" class="btn btn-primary btn-sm">Get</button>
     <div class="row-fluid">
+
+        <!--Sidebar content-->
         <div class="span2">
-            <!--Sidebar content-->
-            <p class="text-info">Total number of phones: {{phones.length}}</p>
-            Search: <input type="text" ng-model="query">
+            <div class="informations-header">
+                <p class="text-info">Total number of phones: {{phones.length}}</p>
+                <button type="button" ng-click="addPhone()" class="btn btn-primary btn-sm">Ajouter un film</button>
+            </div>
+
+            <div>Search: <input type="text" ng-model="query"></div>
 
             <div>Sort by:</div>
             <select ng-model="orderProp">
                 <option value="name">Alphabetical</option>
                 <option value="age">Newest</option>
             </select>
-
         </div>
+
+        <!--Body content-->
         <div class="span10">
-            <!--Body content-->
             <ul class="phones">
                 <li ng-repeat="phone in phones | filter:query | orderBy:orderProp" class="thumbnail phone-listing">
                     <a href="#/phones/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
