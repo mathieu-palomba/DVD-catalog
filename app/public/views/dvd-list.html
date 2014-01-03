@@ -5,7 +5,7 @@
         <div class="span2">
             <div class="informations-header">
                 <p class="text-info">Total number of phones: {{phones.length}}</p>
-                <button type="button" ng-click="addPhone()" class="btn btn-primary btn-sm">Ajouter un film</button>
+                <button type="button" ng-click="addDvd()" class="btn btn-primary btn-sm">Ajouter un film</button>
             </div>
 
             <div>Search: <input type="text" ng-model="query"></div>
@@ -22,9 +22,9 @@
         <div class="span10">
             <ul class="phones">
                 <li ng-repeat="phone in phones | filter:query | orderBy:orderProp" class="thumbnail phone-listing">
-                    <a href="#/phones/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
+                    <a href="#/dvd/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
                     <!-- We redirect to the correct view when the user click on the picture -->
-                    <a href="#/phones/{{phone.id}}">{{phone.name}} ({{phone.price}}€)</a>
+                    <a href="#/dvd/{{phone.id}}">{{phone.name}} ({{phone.price}}€)</a>
                     <!-- We redirect to the correct view when the user click on the description -->
                     <p>{{phone.snippet}}</p>
                 </li>

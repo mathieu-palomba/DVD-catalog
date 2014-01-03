@@ -90,7 +90,7 @@ var fs = require( 'fs' );
 var http = require('http');
 
 // Connection to the DB
-var db = mongoose.connect('mongodb://localhost/dvds-catalog', function(err) {
+var db = mongoose.connect('mongodb://localhost/dvd-catalog', function(err) {
     if (err) {
         throw err;
     }

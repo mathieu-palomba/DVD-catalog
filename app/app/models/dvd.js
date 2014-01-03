@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 /**
- * The actor schema needed in the dvd schema.
+ * The actor schema needed in the DVD schema.
  */
 var actorSchema = mongoose.Schema({
     name: {type: String},

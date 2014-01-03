@@ -1,12 +1,12 @@
 /**
  * Resources services.
  */
-var phonecatServices = angular.module('phonecatServices', ['ngResource']);
+var dvdCatServices = angular.module('dvdCatServices', ['ngResource']);
 
 /**
  * This service permit to create a RESTful client and avoid the $http lower method.
  */
-phonecatServices.factory('Phone', ['$resource',
+dvdCatServices.factory('Phone', ['$resource',
     function ($resource) {
         return $resource('phones/:phoneId.json', {}, {
             query: {method: 'GET', params: {phoneId: 'phones'}, isArray: true}
@@ -17,9 +17,9 @@ phonecatServices.factory('Phone', ['$resource',
 /**
  * This service permit to manage the DVD queries.
  */
-phonecatServices.factory('Dvd', ['$resource',
+dvdCatServices.factory('Dvd', ['$resource',
     function ($resource) {
-        return $resource('addPhone/', {}, {
+        return $resource('addDvd/', {}, {
             saveDvd: {method: 'POST', url: 'addDvd/save'},
             getAllDvd: {method: 'GET', url: 'getAllDvd/'},
             getDvd: {method: 'GET', url: 'getDvd/:dvd'}
@@ -30,7 +30,7 @@ phonecatServices.factory('Dvd', ['$resource',
 /**
  * This service permit to execute a JSONP request to get JSON data.
  */
-phonecatServices.factory('GetMovieData', ['$http',
+dvdCatServices.factory('GetMovieData', ['$http',
     function ($http) {
         return {
             getData: function (url) {

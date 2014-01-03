@@ -2,34 +2,34 @@
  * Dependencies modules.
  * @type {*|module}
  */
-var dvdsCatApp = angular.module('dvdsCatApp', [
+var dvdCatApp = angular.module('dvdCatApp', [
     'ngRoute',
-    'phonecatControllers',
-    'phonecatFilters',
-    'phonecatServices',
-    'phonecatAnimations'
+    'dvdCatControllers',
+    'dvdCatFilter',
+    'dvdCatServices',
+    'dvdCatAnimations'
 ]);
 
 /**
  * Routes handler.
  */
-dvdsCatApp.config(['$routeProvider',
+dvdCatApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-            when('/phones', {           // When index.html is loaded, we display the new template url
-                templateUrl: 'views/phone-list.html',
-                controller: 'PhoneListCtrl'
+            when('/dvd', {           // When index.html is loaded, we display the new template url
+                templateUrl: 'views/dvd-list.html',
+                controller: 'DvdListCtrl'
             }).
-            when('/phones/:phoneId', {
-                templateUrl: 'views/phone-detail.html',
+            when('/dvd/:dvdId', {
+                templateUrl: 'views/dvd-detail.html',
                 controller: 'PhoneDetailCtrl'
             }).
-            when('/addPhone', {
-                templateUrl: 'views/phone-add.html',
+            when('/addDvd', {
+                templateUrl: 'views/dvd-add.html',
                 controller: 'PhoneAddCtrl'
             }).
             otherwise({
-                redirectTo: '/phones'   // The name which appear when loading index.html
+                redirectTo: '/dvd'   // The name which appear when loading index.html
             });
     }
 ]);

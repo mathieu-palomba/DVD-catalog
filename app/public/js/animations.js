@@ -1,12 +1,12 @@
 /**
  * Animation services.
  */
-var phonecatAnimations = angular.module('phonecatAnimations', ['ngAnimate']);
+var dvdCatAnimations = angular.module('dvdCatAnimations', ['ngAnimate']);
 
 /**
  * Animation when the user click/mouse enter in the thumbnails.
  */
-phonecatAnimations.animation('.phone', function () {
+dvdCatAnimations.animation('.phone', function () {
     return {
         addClass: function (element, className, done) {
             if (className != 'active') {

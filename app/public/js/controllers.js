@@ -1,12 +1,12 @@
 /**
  * Controllers.
  */
-var phonecatControllers = angular.module('phonecatControllers', []);
+var dvdCatControllers = angular.module('dvdCatControllers', []);
 
 /**
- * Phone List controllers.
+ * DVD List controllers.
  */
-phonecatControllers.controller('PhoneListCtrl', ['$scope', '$location', 'Phone', 'GetMovieData',
+dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', 'Phone', 'GetMovieData',
     function ($scope, $location, Phone, GetMovieData) {
         console.log("Phone List controller");
         // Method without our service
@@ -21,18 +21,18 @@ phonecatControllers.controller('PhoneListCtrl', ['$scope', '$location', 'Phone',
         $scope.orderProp = 'age';
 
         /**
-         * Redirection into the add phone html page.
+         * Redirection into the add DVD html page.
          */
-        $scope.addPhone = function () {
-            $location.url('/addPhone');
+        $scope.addDvd = function () {
+            $location.url('/addDvd');
         };
     }
 ]);
 
 /**
- * Phone Details controllers.
+ * DVD Details controllers.
  */
-phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
+dvdCatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
     function ($scope, $routeParams, Phone) {
         console.log("Phone details controller");
         // Method without our service
@@ -42,7 +42,7 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Ph
          });*/
 
         // Method with our service
-        $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function (phone) {
+        $scope.phone = Phone.get({phoneId: $routeParams.dvdId}, function (phone) {
             $scope.mainImageUrl = phone.images[0];
         });
 
@@ -53,9 +53,9 @@ phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Ph
 ]);
 
 /**
- * Add Phone controllers.
+ * Add DVD controllers.
  */
-phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
+dvdCatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
     function ($scope, $location, Dvd) {
         console.log("Add phone controller");
 
@@ -99,7 +99,7 @@ phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
                 if( dvd.success )
                 {
                     console.log("DVD added successfully");
-                    $location.url('/phone');
+                    $location.url('/dvd');
                 }
                 else
                 {
@@ -113,7 +113,7 @@ phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
          * Redirection into the index html page.
          */
         $scope.cancelAddPhone = function () {
-            $location.url('/phone');
+            $location.url('/dvd');
         };
 
         var dvd = Dvd.getAllDvd( function()
@@ -122,7 +122,7 @@ phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
             {
                 console.log("DVD got successfully");
                 console.log(dvd.dvd);
-                //$location.url('/phone');
+                //$location.url('/dvd');
             }
             else
             {
@@ -136,7 +136,7 @@ phonecatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
 //            {
 //                console.log("DVD got successfully");
 //                console.log(dvd.dvd[0]);
-//                //$location.url('/phone');
+//                //$location.url('/dvd');
 //            }
 //            else
 //            {
