@@ -60,7 +60,7 @@ app.set('view engine', 'ejs');
 require( './config/routes' )( app );
 
 // Server listen the following port
-app.listen(3040);
+app.listen(3030);
 
 // TODO
 // check double entries in the DB (check by name)

@@ -9,5 +9,6 @@ module.exports = function( app )
     app.post( '/addDvd/save', dvd.create );
     app.get( '/getDvd/:dvd', dvd.getDvd );
     app.get( '/getAllDvd', dvd.getAllDvd );
+    app.get( '/isDvdExist/:dvd', dvd.isDvdExist );
 
 };

@@ -2,7 +2,9 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-    Dvd = mongoose.model('Dvd');
+    Dvd = mongoose.model('Dvd'),
+    fs = require('fs'),             // fs and request is used to download cross domain pictures
+    request = require('request');
 
 /**
  * Create a new DVD in the database.
@@ -18,6 +20,8 @@ exports.create = function (req, res) {
         genre: req.body.dvd.genre,
         release_date: req.body.dvd.releaseDate,
         overview: req.body.dvd.overview,
+        productionCompanies: req.body.dvd.productionCompanies,
+        director: req.body.dvd.director,
         actors: [req.body.dvd.actors]
     });
 
@@ -50,7 +54,7 @@ exports.getAllDvd = function (req, res) {
             }
             else {
                 console.log("DVD list got");
-                res.jsonp({"success": true, "dvd": data});
+                res.jsonp({"success": true, "dvdList": data});
             }
         })
 };
@@ -75,4 +79,49 @@ exports.getDvd = function (req, res) {
                 res.jsonp({"success": true, "dvd": data});
             }
         })
+};
+
+
+/**
+ * Check if the DVD requested by the user is in the database.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.isDvdExist = function (req, res) {
+    var dvdRequested = req.params.dvd;
+    var isError = false;
+    console.log(dvdRequested);
+
+    Dvd.find({name: dvdRequested})
+        .exec(function (err, data) {
+            if (err == true) {
+                console.log("Error during checking the DVD");
+                res.send('err');
+            }
+            else {
+                if(data[0] != undefined) {
+                    console.log("DVD exist");
+                }
+                else {
+                    isError = true;
+                }
+
+                res.jsonp({"success": !isError});
+            }
+        })
+};
+
+/**
+ * Download the "uri" pictures at the "filename" path.
+ * @param uri : The source of the picture to download
+ * @param filename : The name of the picture downloaded.
+ * download('https://www.google.com/images/srpr/logo3w.png', 'google.png');
+ */
+exports.download = function(uri, filename){
+    request.head(uri, function(err, res, body){
+        console.log('content-type:', res.headers['content-type']);
+        console.log('content-length:', res.headers['content-length']);
+
+        request(uri).pipe(fs.createWriteStream(filename));
+    });
 };

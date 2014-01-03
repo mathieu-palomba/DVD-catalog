@@ -4,7 +4,7 @@
 var dvdCatServices = angular.module('dvdCatServices', ['ngResource']);
 
 /**
- * This service permit to create a RESTful client and avoid the $http lower method.
+ * This service permit to create a RESTful client and avoid the $http lower method. The $ressource route must hve the same name in "app.js".
  */
 dvdCatServices.factory('Dvd', ['$resource',
     function ($resource) {
@@ -15,7 +15,8 @@ dvdCatServices.factory('Dvd', ['$resource',
             DvdAdd: $resource('', {}, {
                 saveDvd: {method: 'POST', url: 'addDvd/save'},
                 getDvd: {method: 'GET', url: 'getDvd/:dvd'},
-                getAllDvd: {method: 'GET', url: 'getAllDvd/'}
+                getAllDvd: {method: 'GET', url: 'getAllDvd/'},
+                isDvdExist: {method: 'GET', url: 'isDvdExist/:dvd'}
             })
         }
     }]

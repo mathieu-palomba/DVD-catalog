@@ -8,7 +8,7 @@ body {
     padding-bottom: 50px;
 }
 
-.phone-images {
+.dvd-images {
   width: 450px;
   height: 450px;
   overflow: hidden;
@@ -35,7 +35,7 @@ body {
 }
 
 /** Detail View **/
-img.phone {
+img.dvd {
   float: left;
   margin-right: 3em;
   margin-bottom: 2em;
@@ -45,25 +45,25 @@ img.phone {
   width: 400px;
 }
 
-ul.phone-thumbs {
+ul.dvd-thumbs {
   margin: 0;
   list-style: none;
 }
 
-ul.phone-thumbs li {
+ul.dvd-thumbs li {
   border: 1px solid black;
   display: inline-block;
   margin: 1em;
   background-color: white;
 }
 
-ul.phone-thumbs img {
+ul.dvd-thumbs img {
   height: 100px;
   width: 100px;
   padding: 1em;
 }
 
-ul.phone-thumbs img:hover {
+ul.dvd-thumbs img:hover {
   cursor: pointer;
 }
 
@@ -98,4 +98,8 @@ h1 {
 /** Add DVD view **/
 .textArea {
     width: 300px;
+}
+
+.movie-poster {
+    border: 2px groove inset;
 }

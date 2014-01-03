@@ -33,8 +33,8 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', 'Dvd',
         console.log("Dvd Details controller");
 
         // Method with our service
-        $scope.phone = Dvd.DvdList.get({dvdId: $routeParams.dvdId}, function (phone) {
-            $scope.mainImageUrl = phone.images[0];
+        $scope.dvd = Dvd.DvdList.get({dvdId: $routeParams.dvdId}, function (dvd) {
+            $scope.mainImageUrl = dvd.images[0];
         });
 
         $scope.setImage = function (imageUrl) {
@@ -50,6 +50,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', 'Dvd',
     function ($scope, $location, Dvd) {
         console.log("Dvd Add controller");
 
+        // The different movie genres.
         $scope.genres = {
             action: 'Action',
             adventure: 'Aventure',
@@ -72,13 +73,18 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', 'Dvd',
             western: 'Western'
         };
 
+        // Initialize the DVD form.
         $scope.dvd = {
             name: '',
             genre: $scope.genres.action,
             releaseDate: '',
             overview: '',
+            productionCompanies: '',
+            director: '',
             actors: null
         };
+
+        // Set the movie poster url.
 
 
         /**
@@ -103,25 +109,25 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', 'Dvd',
         /**
          * Redirection into the index html page.
          */
-        $scope.cancelAddPhone = function () {
+        $scope.cancelAddDvd = function () {
             $location.url('/dvd');
         };
 
-        var dvd = Dvd.DvdAdd.getAllDvd( function()
-        {
-            if( dvd.success )
-            {
-                console.log("DVD got successfully");
-                console.log(dvd.dvd);
-                //$location.url('/dvd');
-            }
-            else
-            {
-                console.log("Error when getting the DVD list");
-            }
-        } );
+//        var dvdList = Dvd.DvdAdd.getAllDvd( function()
+//        {
+//            if( dvdList.success )
+//            {
+//                console.log("DVD got successfully");
+//                console.log(dvdList.dvdList);
+//                //$location.url('/dvd');
+//            }
+//            else
+//            {
+//                console.log("Error when getting the DVD list");
+//            }
+//        } );
 
-//        var dvd = Dvd.DvdAdd.getDvd( {dvd: 'avatar'}, function()
+//        var dvd = Dvd.DvdAdd.getDvd( {dvd: 'Avatar'}, function()
 //        {
 //            if( dvd.success )
 //            {
@@ -134,6 +140,32 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', 'Dvd',
 //                console.log("Error when getting the DVD");
 //            }
 //        } );
+
+        var dvd = Dvd.DvdAdd.isDvdExist( {dvd: 'Avatar'}, function()
+        {
+            if( dvd.success )
+            {
+                console.log("DVD exist");
+            }
+            else
+            {
+                console.log("Error when checking the DVD");
+            }
+        } );
+
+        // To display image canvas
+//        var canvas = document.getElementById('imageCanvas');
+//        var context = canvas.getContext('2d');
+//        var imageObj = new Image();
+//
+//        imageObj.onload = function() {
+//            context.drawImage(imageObj, 0, 0);
+//            context.lineWidth = 2;
+//            context.strokeStyle = "black";
+//            context.strokeRect(0, 0, 500, 500);
+//        };
+//        imageObj.src = 'http://image.tmdb.org/t/p/w500/nzN40Eck9q6YbdaNQs4pZbMKsfP.jpg';
+
     }]
 )
 ;
