@@ -22,11 +22,11 @@ dvdCatApp.config(['$routeProvider',
             }).
             when('/dvd/:dvdId', {
                 templateUrl: 'views/dvd-detail.html',
-                controller: 'PhoneDetailCtrl'
+                controller: 'DvdDetailCtrl'
             }).
             when('/addDvd', {
                 templateUrl: 'views/dvd-add.html',
-                controller: 'PhoneAddCtrl'
+                controller: 'DvdAddCtrl'
             }).
             otherwise({
                 redirectTo: '/dvd'   // The name which appear when loading index.html

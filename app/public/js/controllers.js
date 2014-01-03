@@ -6,16 +6,12 @@ var dvdCatControllers = angular.module('dvdCatControllers', []);
 /**
  * DVD List controllers.
  */
-dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', 'Phone', 'GetMovieData',
-    function ($scope, $location, Phone, GetMovieData) {
-        console.log("Phone List controller");
-        // Method without our service
-        /*$http.get('phones/phones.json').success(function(data) {
-         $scope.phones = data;
-         });*/
+dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', 'Dvd', 'GetMovieData',
+    function ($scope, $location, Dvd, GetMovieData) {
+        console.log("Dvd List controller");
 
         // Method with our service
-        $scope.phones = Phone.query();
+        $scope.dvdList = Dvd.DvdList.query();
 
         // This value must have the same name in the html view to set the default filter
         $scope.orderProp = 'age';
@@ -32,17 +28,12 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', 'Phone', 'Ge
 /**
  * DVD Details controllers.
  */
-dvdCatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
-    function ($scope, $routeParams, Phone) {
-        console.log("Phone details controller");
-        // Method without our service
-        /*$http.get('phones/' + $routeParams.phoneId + '.json').success(function(data) {
-         $scope.phone = data;
-         $scope.mainImageUrl = data.images[0];
-         });*/
+dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', 'Dvd',
+    function ($scope, $routeParams, Dvd) {
+        console.log("Dvd Details controller");
 
         // Method with our service
-        $scope.phone = Phone.get({phoneId: $routeParams.dvdId}, function (phone) {
+        $scope.phone = Dvd.DvdList.get({dvdId: $routeParams.dvdId}, function (phone) {
             $scope.mainImageUrl = phone.images[0];
         });
 
@@ -55,9 +46,9 @@ dvdCatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phon
 /**
  * Add DVD controllers.
  */
-dvdCatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
+dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', 'Dvd',
     function ($scope, $location, Dvd) {
-        console.log("Add phone controller");
+        console.log("Dvd Add controller");
 
         $scope.genres = {
             action: 'Action',
@@ -94,7 +85,7 @@ dvdCatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
          * Save the new DVD in the database.
          */
         $scope.performSave = function () {
-            var dvd = Dvd.saveDvd( {dvd: $scope.dvd}, function()
+            var dvd = Dvd.DvdAdd.saveDvd( {dvd: $scope.dvd}, function()
             {
                 if( dvd.success )
                 {
@@ -116,7 +107,7 @@ dvdCatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
             $location.url('/dvd');
         };
 
-        var dvd = Dvd.getAllDvd( function()
+        var dvd = Dvd.DvdAdd.getAllDvd( function()
         {
             if( dvd.success )
             {
@@ -130,7 +121,7 @@ dvdCatControllers.controller('PhoneAddCtrl', ['$scope', '$location', 'Dvd',
             }
         } );
 
-//        var dvd = Dvd.getDvd( {dvd: 'avatar'}, function()
+//        var dvd = Dvd.DvdAdd.getDvd( {dvd: 'avatar'}, function()
 //        {
 //            if( dvd.success )
 //            {

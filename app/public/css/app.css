@@ -16,7 +16,7 @@ body {
   float: left;
 }
 
-.phones {
+.dvd-list {
   list-style: none;
 }
 
@@ -28,7 +28,7 @@ body {
   width: 100px;
 }
 
-.phones li {
+.dvd-list li {
   clear: both;
   height: 100px;
   padding-top: 15px;

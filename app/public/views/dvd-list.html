@@ -4,7 +4,7 @@
         <!--Sidebar content-->
         <div class="span2">
             <div class="informations-header">
-                <p class="text-info">Total number of phones: {{phones.length}}</p>
+                <p class="text-info">Total number of DVD: {{dvdList.length}}</p>
                 <button type="button" ng-click="addDvd()" class="btn btn-primary btn-sm">Ajouter un film</button>
             </div>
 
@@ -20,13 +20,13 @@
 
         <!--Body content-->
         <div class="span10">
-            <ul class="phones">
-                <li ng-repeat="phone in phones | filter:query | orderBy:orderProp" class="thumbnail phone-listing">
-                    <a href="#/dvd/{{phone.id}}" class="thumb"><img ng-src="{{phone.imageUrl}}"></a>
+            <ul class="dvd-list">
+                <li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">
+                    <a href="#/dvd/{{dvd.id}}" class="thumb"><img ng-src="{{dvd.imageUrl}}"></a>
                     <!-- We redirect to the correct view when the user click on the picture -->
-                    <a href="#/dvd/{{phone.id}}">{{phone.name}} ({{phone.price}}€)</a>
+                    <a href="#/dvd/{{dvd.id}}">{{dvd.name}} ({{dvd.price}}€)</a>
                     <!-- We redirect to the correct view when the user click on the description -->
-                    <p>{{phone.snippet}}</p>
+                    <p>{{dvd.snippet}}</p>
                 </li>
             </ul>
 

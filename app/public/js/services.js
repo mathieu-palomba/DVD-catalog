@@ -6,24 +6,18 @@ var dvdCatServices = angular.module('dvdCatServices', ['ngResource']);
 /**
  * This service permit to create a RESTful client and avoid the $http lower method.
  */
-dvdCatServices.factory('Phone', ['$resource',
-    function ($resource) {
-        return $resource('phones/:phoneId.json', {}, {
-            query: {method: 'GET', params: {phoneId: 'phones'}, isArray: true}
-        });
-    }]
-);
-
-/**
- * This service permit to manage the DVD queries.
- */
 dvdCatServices.factory('Dvd', ['$resource',
     function ($resource) {
-        return $resource('addDvd/', {}, {
-            saveDvd: {method: 'POST', url: 'addDvd/save'},
-            getAllDvd: {method: 'GET', url: 'getAllDvd/'},
-            getDvd: {method: 'GET', url: 'getDvd/:dvd'}
-        });
+        return {
+            DvdList: $resource('phones/:dvdId.json', {}, {
+                query: {method: 'GET', params: {dvdId: 'phones'}, isArray: true}
+            }),
+            DvdAdd: $resource('', {}, {
+                saveDvd: {method: 'POST', url: 'addDvd/save'},
+                getDvd: {method: 'GET', url: 'getDvd/:dvd'},
+                getAllDvd: {method: 'GET', url: 'getAllDvd/'}
+            })
+        }
     }]
 );
 
@@ -49,3 +43,16 @@ dvdCatServices.factory('GetMovieData', ['$http',
         };
     }]
 );
+
+/**
+ * This service permit to manage the DVD queries. (DEPRECATED)
+ */
+//dvdCatServices.factory('Dvd', ['$resource',
+//    function ($resource) {
+//        return $resource('addDvd/', {}, {
+//            saveDvd: {method: 'POST', url: 'addDvd/save'},
+//            getAllDvd: {method: 'GET', url: 'getAllDvd/'},
+//            getDvd: {method: 'GET', url: 'getDvd/:dvd'}
+//        });
+//    }]
+//);

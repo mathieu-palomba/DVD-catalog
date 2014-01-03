@@ -6,7 +6,7 @@ var dvdCatAnimations = angular.module('dvdCatAnimations', ['ngAnimate']);
 /**
  * Animation when the user click/mouse enter in the thumbnails.
  */
-dvdCatAnimations.animation('.phone', function () {
+dvdCatAnimations.animation('.dvd', function () {
     return {
         addClass: function (element, className, done) {
             if (className != 'active') {
