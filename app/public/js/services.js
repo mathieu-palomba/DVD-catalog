@@ -22,32 +22,32 @@ dvdCatServices.factory('Dvd', ['$resource',
     }]
 );
 
-/**
- * This service permit to execute a JSONP request to get JSON data.
- */
-dvdCatServices.factory('GetMovieData', ['$http',
-    function ($http) {
-        return {
-            getData: function (url) {
-                $http.jsonp(url).
-                    success(function (data, status, headers, config) {
-                        // This callback will be called asynchronously when the response is available
-                        console.log('Response');
-                        console.log(data);
-                    }).
-                    error(function (data, status, headers, config) {
-                        // Called asynchronously if an error occurs or server returns response with an error status.
-                        console.log('Error');
-                        console.log(data);
-                    });
-            }
-        };
-    }]
-);
+///**
+// * This service permit to execute a JSONP request to get JSON data.
+// */
+//dvdCatServices.factory('MovieDB', ['$http',
+//    function ($http) {
+//        return {
+//            getMovieData: function (url) {
+//                $http.jsonp(url).
+//                    success(function (data, status, headers, config) {
+//                        // This callback will be called asynchronously when the response is available
+//                        console.log('Response');
+//                        console.log(data.results[0]);
+//                    }).
+//                    error(function (data, status, headers, config) {
+//                        // Called asynchronously if an error occurs or server returns response with an error status.
+//                        console.log('Error');
+//                        console.log(data);
+//                    });
+//            }
+//        };
+//    }]
+//);
 
-/**
- * This service permit to manage the DVD queries. (DEPRECATED)
- */
+///**
+// * This service permit to manage the DVD queries. (DEPRECATED)
+// */
 //dvdCatServices.factory('Dvd', ['$resource',
 //    function ($resource) {
 //        return $resource('addDvd/', {}, {

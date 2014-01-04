@@ -6,8 +6,8 @@ var dvdCatControllers = angular.module('dvdCatControllers', []);
 /**
  * DVD List controllers.
  */
-dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', 'Dvd', 'GetMovieData',
-    function ($scope, $location, Dvd, GetMovieData) {
+dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', 'Dvd',
+    function ($scope, $location, Dvd) {
         console.log("Dvd List controller");
 
         // Method with our service
@@ -46,9 +46,11 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', 'Dvd',
 /**
  * Add DVD controllers.
  */
-dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', 'Dvd',
-    function ($scope, $location, Dvd) {
+dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd',
+    function ($scope, $location, $http, Dvd) {
         console.log("Dvd Add controller");
+
+
 
         // The different movie genres.
         $scope.genres = {
@@ -84,33 +86,48 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', 'Dvd',
             actors: null
         };
 
-        // Set the movie poster url.
-
-
-        /**
-         * Save the new DVD in the database.
-         */
-        $scope.performSave = function () {
-            var dvd = Dvd.DvdAdd.saveDvd( {dvd: $scope.dvd}, function()
-            {
-                if( dvd.success )
-                {
-                    console.log("DVD added successfully");
-                    $location.url('/dvd');
-                }
-                else
-                {
-                    console.log("Error when added the DVD");
-                }
-            } );
-
-        };
-
         /**
          * Redirection into the index html page.
          */
         $scope.cancelAddDvd = function () {
             $location.url('/dvd');
+        };
+
+        /**
+         * Execute a JSONP request to get movie information from internet.
+         * @param url: The requested url
+         * @param movieDetails: The variable where the request result is set
+         */
+        $scope.getMovieInformation = function (url, movieDetails) {
+            $http.jsonp(url).
+                success(function (data, status, headers, config) {
+                    // This callback will be called asynchronously when the response is available
+                    console.log('Data got from internet');
+                    console.log(data);
+                    movieDetails = data;
+                }).
+                error(function (data, status, headers, config) {
+                    // Called asynchronously if an error occurs or server returns response with an error status.
+                    console.log('Error when getting the data from internet');
+                    console.log(data);
+                    movieDetails = null;
+                });
+        };
+
+        /**
+         * Save the new DVD in the database.
+         */
+        $scope.performSave = function () {
+            var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
+                if (dvd.success) {
+                    console.log("DVD added successfully");
+                    $location.url('/dvd');
+                }
+                else {
+                    console.log("Error when added the DVD");
+                }
+            });
+
         };
 
 //        var dvdList = Dvd.DvdAdd.getAllDvd( function()
@@ -141,17 +158,17 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', 'Dvd',
 //            }
 //        } );
 
-        var dvd = Dvd.DvdAdd.isDvdExist( {dvd: 'Avatar'}, function()
-        {
-            if( dvd.success )
-            {
+        var dvd = Dvd.DvdAdd.isDvdExist({dvd: 'Avatar'}, function () {
+            if (dvd.success) {
                 console.log("DVD exist");
             }
-            else
-            {
+            else {
                 console.log("Error when checking the DVD");
             }
-        } );
+        });
+
+        // Set the movie poster url.
+        $scope.moviePoster = 'http://image.tmdb.org/t/p/w500/nzN40Eck9q6YbdaNQs4pZbMKsfP.jpg';
 
         // To display image canvas
 //        var canvas = document.getElementById('imageCanvas');
