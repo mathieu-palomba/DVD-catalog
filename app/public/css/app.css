@@ -97,9 +97,10 @@ h1 {
 
 /** Add DVD view **/
 .textArea {
-    width: 300px;
+    width: 500px;
+    resize: none;
 }
 
 .movie-poster {
-    border: 2px groove inset;
+    border: 2px inset black;
 }

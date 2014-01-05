@@ -31,14 +31,14 @@
 
                     <div class="controls">
                         <input type="text" id="inputDvdReleaseData" ng-model="dvd.releaseDate"
-                               placeholder="Date de sortie (1 janvier 2014)" required></textarea>
+                               placeholder="Date de sortie (2014-01-31)" required></textarea>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="inputDvdOverview" class="control-label">Resumé</label>
 
                     <div class="controls">
-                        <textarea rows="5" id="inputDvdOverview" ng-model="dvd.overview" placeholder="Resumé du film"
+                        <textarea rows="10" id="inputDvdOverview" ng-model="dvd.overview" placeholder="Resumé du film"
                                   required class="textArea"></textarea>
                     </div>
                 </div>
@@ -59,6 +59,15 @@
                                placeholder="producteur (James Cameron)" required></textarea>
                     </div>
                 </div>
+                <div class="control-group">
+                    <label for="inputDvdActors" class="control-label">Acteurs</label>
+
+                    <div class="controls">
+                        <textarea rows="2" id="inputDvdActors" ng-model="dvd.actors"
+                                  placeholder="Acteurs (Jean Dujardin, Alexendra Lamy, ...)" required
+                                  class="textArea"></textarea>
+                    </div>
+                </div>
                 <div class="controls">
                     <button type="submit" id="saveButton" ng-click="performSave()" ng-disabled="!dvdForm.$valid"
                             class="btn btn-primary">Sauvegarder
@@ -72,6 +81,6 @@
     <div class="span6">
             <!-- Picture content -->
             <!--<canvas id="imageCanvas" width="500" height="500" onload="cancelAddDvd()"></canvas>-->
-            <img id="moviePoster" src={{moviePoster}} width="480" height="250" class="movie-poster">
+            <img id="moviePoster" src={{moviePoster}} width="480" height="250" class="{{moviePoster ? 'movie-poster' : ''}}">
         </div>
 </div>

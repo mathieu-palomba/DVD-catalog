@@ -50,7 +50,6 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
     function ($scope, $location, $http, Dvd, MovieDB) {
         console.log('Dvd Add controller');
 
-        // The MovieDB request to get movie information.
 
 
         // The different movie genres.
@@ -85,7 +84,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             overview: '',
             productionCompanies: '',
             director: '',
-            actors: null
+            actors: ''
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.
@@ -107,23 +106,65 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             console.log('Checking movie data: ' + $scope.dvd.name);
 
             // We get the movie ID
-            var product = MovieDB.getMovieID.request({ apiKeyVar: $scope.requests.movieDBKey, queryVar: $scope.dvd.name, languageVar: 'fr' },
+            var dvdID = MovieDB.GetMovieID.request({ apiKeyVar: $scope.requests.movieDBKey, queryVar: $scope.dvd.name, languageVar: 'fr' },
                 function success() {
                     // This callback will be called asynchronously when the response is available
-                    if(product.results.length > 0) {
-                        console.log('Movie got from internet');
-                        console.log(product);
+                    if(dvdID.results.length > 0) {
+                        console.log('Movie ID got from internet');
+                        console.log(dvdID);
 
                         // We set the popover message and the class button OK
                         $scope.dvd.searchError = false;
                         $scope.dynamicPopover = 'Le film à été trouvé';
 
                         // Set the movie poster url.
-                        $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', product.results[0].poster_path);
+                        $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', dvdID.results[0].poster_path);
+
+                        // If an ID is founded, we can get the movie details
+                        var dvdDetails = MovieDB.GetMovieDetails.request({ queryVar: dvdID.results[0].id, apiKeyVar: $scope.requests.movieDBKey, languageVar: 'fr' },
+                            function success() {
+                                // This callback will be called asynchronously when the response is available
+                                console.log('Movie details got from internet');
+                                console.log(dvdDetails);
+
+                                // We fill out the movies form
+                                $scope.dvd.genre = dvdDetails.genres[0];
+                                $scope.dvd.releaseDate = dvdDetails.release_date;
+                                $scope.dvd.overview = dvdDetails.overview;
+                                $scope.dvd.productionCompanies = '';
+
+                                for (var productionCompanyID in dvdDetails.production_companies) {
+                                    $scope.dvd.productionCompanies += dvdDetails.production_companies[productionCompanyID].name + ', ';
+                                }
+                            },
+                            function err() {
+                                // Called asynchronously if an error occurs or server returns response with an error status.
+                                console.log('Error when getting the movie details from internet');
+                            });
+
+                        // If an ID is founded, we can get the movie cast
+                        var dvdCast = MovieDB.GetMovieCast.request({ queryVar: dvdID.results[0].id, apiKeyVar: $scope.requests.movieDBKey, languageVar: 'fr' },
+                            function success() {
+                                // This callback will be called asynchronously when the response is available
+                                console.log('Movie cast got from internet');
+                                console.log(dvdCast);
+
+                                // We fill out the movies form
+                                $scope.dvd.director = dvdCast.crew[0].name;
+                                $scope.dvd.actors = '';
+
+                                for (var i = 0; i < 5; i++) {
+                                    $scope.dvd.actors += dvdCast.cast[i].name + ', ';
+                                }
+                            },
+                            function err() {
+                                // Called asynchronously if an error occurs or server returns response with an error status.
+                                console.log('Error when getting the movie cast from internet');
+                            });
                     }
 
                     else {
-                        console.log('The movie is not listed');
+                        console.log('The movie ID is not listed');
 
                         // We set the popover message and the class button error
                         $scope.dvd.searchError = true;
@@ -132,27 +173,36 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                 },
                 function err() {
                     // Called asynchronously if an error occurs or server returns response with an error status.
-                    console.log('Error when getting the data from internet');
+                    console.log('Error when getting the movie ID from internet');
+
+                    // We set the popover message and the class button error
+                    $scope.dvd.searchError = true;
+                    $scope.dynamicPopover = 'Le film n\'est pas répertorié';
                 });
-
-
-            // We can get the movie details
         };
 
         /**
          * Save the new DVD in the database.
          */
         $scope.performSave = function () {
-            var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
-                if (dvd.success) {
-                    console.log('DVD added successfully');
-                    $location.url('/dvd');
+            // We check if a DVD already exist in the database
+            var check = Dvd.DvdAdd.isDvdExist({dvd: 'Avatar'}, function () {
+                if (check.success) {
+                    console.log('DVD already exist');
                 }
                 else {
-                    console.log("Error when added the DVD");
+                    // We save the DVD in the database
+                    var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
+                        if (dvd.success) {
+                            console.log('DVD added successfully');
+                            $location.url('/dvd');
+                        }
+                        else {
+                            console.log("Error when added the DVD");
+                        }
+                    });
                 }
             });
-
         };
 
 //        var dvdList = Dvd.DvdAdd.getAllDvd( function()

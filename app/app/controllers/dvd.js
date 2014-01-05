@@ -22,7 +22,7 @@ exports.create = function (req, res) {
         overview: req.body.dvd.overview,
         productionCompanies: req.body.dvd.productionCompanies,
         director: req.body.dvd.director,
-        actors: [req.body.dvd.actors]
+        actors: req.body.dvd.actors
     });
 
     newDvd.save(function (err) {
@@ -89,7 +89,7 @@ exports.getDvd = function (req, res) {
  */
 exports.isDvdExist = function (req, res) {
     var dvdRequested = req.params.dvd;
-    var isError = false;
+    var isExist = false;
     console.log(dvdRequested);
 
     Dvd.find({name: dvdRequested})
@@ -101,12 +101,10 @@ exports.isDvdExist = function (req, res) {
             else {
                 if(data[0] != undefined) {
                     console.log("DVD exist");
-                }
-                else {
-                    isError = true;
+                    isExist = true;
                 }
 
-                res.jsonp({"success": !isError});
+                res.jsonp({"success": isExist});
             }
         })
 };

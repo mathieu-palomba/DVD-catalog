@@ -13,7 +13,8 @@ dvdCatServices.factory('Dvd', ['$resource',
                 query: {method: 'GET', params: {dvdId: 'phones'}, isArray: true}
             }),
             DvdAdd: $resource('', {}, {
-                saveDvd: {method: 'POST', url: 'addDvd/save'},
+                saveDvd: {method: 'POST', url: 'addDvd/saveDvd'},
+                download: {method: 'POST', url: 'addDvd/saveImage'},
                 getDvd: {method: 'GET', url: 'getDvd/:dvd'},
                 getAllDvd: {method: 'GET', url: 'getAllDvd/'},
                 isDvdExist: {method: 'GET', url: 'isDvdExist/:dvd'}
@@ -28,10 +29,13 @@ dvdCatServices.factory('Dvd', ['$resource',
 dvdCatServices.factory('MovieDB', ['$resource',
     function ($resource) {
         return {
-            getMovieID: $resource('https://api.themoviedb.org/3/search/movie?api_key=:apiKeyVar&query=:queryVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
+            GetMovieID: $resource('https://api.themoviedb.org/3/search/movie?api_key=:apiKeyVar&query=:queryVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
                 request: {method: 'JSONP'}
             }),
-            getMovieDetails: $resource('https://api.themoviedb.org/3/movie/queryVar?api_key=apiKeyVar&language=languageVar&callback=JSON_CALLBACK', {}, {
+            GetMovieDetails: $resource('https://api.themoviedb.org/3/movie/:queryVar?api_key=:apiKeyVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
+                request: {method: 'JSONP'}
+            }),
+            GetMovieCast: $resource('https://api.themoviedb.org/3/movie/:queryVar/credits?api_key=:apiKeyVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
                 request: {method: 'JSONP'}
             })
         }
