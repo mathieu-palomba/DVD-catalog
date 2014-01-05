@@ -50,6 +50,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
     function ($scope, $location, $http, Dvd, MovieDB) {
         console.log('Dvd Add controller');
 
+        // The MovieDB request to get movie information.
 
 
         // The different movie genres.
@@ -233,14 +234,14 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 //            }
 //        } );
 
-        var dvd = Dvd.DvdAdd.isDvdExist({dvd: 'Avatar'}, function () {
-            if (dvd.success) {
-                console.log('DVD exist');
-            }
-            else {
-                console.log('Error when checking the DVD');
-            }
-        });
+//        var dvd = Dvd.DvdAdd.isDvdExist({dvd: 'Avatar'}, function () {
+//            if (dvd.success) {
+//                console.log('DVD exist');
+//            }
+//            else {
+//                console.log('Error when checking the DVD');
+//            }
+//        });
 
         // To display image canvas
 //        var canvas = document.getElementById('imageCanvas');

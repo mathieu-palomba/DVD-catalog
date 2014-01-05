@@ -88,8 +88,9 @@ exports.getDvd = function (req, res) {
  * @param res : The response
  */
 exports.isDvdExist = function (req, res) {
-    var dvdRequested = req.params.dvd;
+    var dvdRequested = req.params.dvd.toLowerCase();
     var isExist = false;
+    console.log('Is DVD exist');
     console.log(dvdRequested);
 
     Dvd.find({name: dvdRequested})
@@ -103,7 +104,6 @@ exports.isDvdExist = function (req, res) {
                     console.log("DVD exist");
                     isExist = true;
                 }
-
                 res.jsonp({"success": isExist});
             }
         })
