@@ -50,18 +50,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
     function ($scope, $location, $http, Dvd, MovieDB) {
         console.log('Dvd Add controller');
 
-        // The MovieDB request to get movie information.
-        $scope.requests = {
-            movieDBKey: '37c2294ca3753bd14d165eda4b3f9314',
-            movieID: 'https://api.themoviedb.org/3/search/movie?api_key=VAR_API_KEY&query=VAR_QUERY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            movieDetails: 'https://api.themoviedb.org/3/movie/VAR_QUERY?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            movieImagesPath: 'https://api.themoviedb.org/3/movie/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            movieStaff: 'https://api.themoviedb.org/3/movie/VAR_QUERY/credits?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            peopleID: 'https://api.themoviedb.org/3/search/person?api_key=VAR_API_KEY&query=VAR_QUERY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            peopleDetails: 'https://api.themoviedb.org/3/person/VAR_QUERY?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            peopleImagesPath: 'https://api.themoviedb.org/3/person/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            images: 'http://image.tmdb.org/t/p/w500VAR_QUERY'
-        };
+
 
         // The different movie genres.
         $scope.genres = {
