@@ -70,8 +70,8 @@
                         <!--<textarea rows="2" id="inputDvdActors" ng-model="dvd.actors"-->
                         <!--placeholder="Acteurs (Jean Dujardin, Alexendra Lamy, ...)" required-->
                         <!--class="textArea"></textarea>-->
-                        <input type="text" id="inputDvdActors" ng-model="dvd.actors[$index]"
-                               placeholder="Acteurs (Jean Dujardin, Alexendra Lamy, ...)" required></textarea>
+                        <input type="text" id="inputDvdActors" ng-model="dvd.actors[$index].name"
+                               placeholder="Acteurs (Jean Dujardin)" required></textarea>
                         <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" class="btn btn-success btn-small">Add</button>
                         <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
                     </div>

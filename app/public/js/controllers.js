@@ -51,7 +51,17 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         console.log('Dvd Add controller');
 
         // The MovieDB request to get movie information.
-
+        $scope.requests = {
+            movieDBKey: '37c2294ca3753bd14d165eda4b3f9314',
+            movieID: 'https://api.themoviedb.org/3/search/movie?api_key=VAR_API_KEY&query=VAR_QUERY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            movieDetails: 'https://api.themoviedb.org/3/movie/VAR_QUERY?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            movieImagesPath: 'https://api.themoviedb.org/3/movie/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            movieStaff: 'https://api.themoviedb.org/3/movie/VAR_QUERY/credits?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleID: 'https://api.themoviedb.org/3/search/person?api_key=VAR_API_KEY&query=VAR_QUERY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleDetails: 'https://api.themoviedb.org/3/person/VAR_QUERY?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleImagesPath: 'https://api.themoviedb.org/3/person/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            images: 'http://image.tmdb.org/t/p/w500VAR_QUERY'
+        };
 
         // The different movie genres.
         $scope.genres = {
@@ -85,7 +95,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             overview: '',
             productionCompanies: '',
             director: '',
-            actors: ['']    //{name: ''}
+            actors: [ {name: ''}]
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.
@@ -106,10 +116,21 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         /**
          * Add a new Actor.
          */
-        $scope.addInputActor = function(){
-            if ($scope.dvd.actors.indexOf('') == -1) {
-                $scope.dvd.actors.push('');
+        $scope.addInputActor = function(actor){
+//            if ($scope.dvd.actors.indexOf('') == -1) {
+//                $scope.dvd.actors.push('');
+//            }
+            var isExist = false;
+
+            for (var actorID in $scope.dvd.actors) {
+                if($scope.dvd.actors[actorID].name == '')
+                    isExist = true;
             }
+
+            if(!isExist) {
+                $scope.dvd.actors.push( {name: ''} );
+            }
+
             console.log($scope.dvd.actors);
             console.log($scope.dvd.actors.length);
 
@@ -120,7 +141,11 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          * @param actor: The actor to delete
          */
         $scope.deleteThisActor = function(actor){
-            $scope.dvd.actors.splice(actor,1);
+            console.log(actor);
+//            $scope.dvd.actors.splice(actor,1);
+            $scope.dvd.actors.length -= 1;
+            delete $scope.dvd.actors[actor];
+
             console.log($scope.dvd.actors);
             console.log($scope.dvd.actors.length);
 
@@ -188,7 +213,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                                 if(dvdCast.cast.length > 0) {
                                     for (var i = 0; i < 5; i++) {
 //                                        $scope.dvd.actors += dvdCast.cast[i].name + ', ';
-                                        $scope.dvd.actors.push(dvdCast.cast[i].name);
+                                        $scope.dvd.actors.push( {name: dvdCast.cast[i].name} );
                                     }
                                 }
                             },

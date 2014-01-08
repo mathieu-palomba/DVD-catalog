@@ -15,16 +15,19 @@ exports.create = function (req, res) {
     console.log("create DVD in nodejs");
     console.log(req.body.dvd);
     var isError = false;
+
+    // We create the DVD model.
     var newDvd = new Dvd({
         title: req.body.dvd.title,
         genre: req.body.dvd.genre,
         releaseDate: req.body.dvd.releaseDate,
         overview: req.body.dvd.overview,
         productionCompanies: req.body.dvd.productionCompanies,
-        director: req.body.dvd.director//,
-//        actors: req.body.dvd.actors
+        director: req.body.dvd.director,
+        actors: req.body.dvd.actors//actorsArray
     });
 
+    // We save the DVD model in the database.
     newDvd.save(function (err) {
         if (err) {
             console.log("Error during writing DVD");
