@@ -106,23 +106,19 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          * Add a new Actor.
          */
         $scope.addInputActor = function(actor){
-//            if ($scope.dvd.actors.indexOf('') == -1) {
-//                $scope.dvd.actors.push('');
-//            }
+            // The boolean which permit to check if an empty field exist
             var isExist = false;
 
+            // We check if an empty field alreayd exist
             for (var actorID in $scope.dvd.actors) {
                 if($scope.dvd.actors[actorID].name == '')
                     isExist = true;
             }
 
+            // If no field are empty, we add a new input field
             if(!isExist) {
                 $scope.dvd.actors.push( {name: ''} );
             }
-
-            console.log($scope.dvd.actors);
-            console.log($scope.dvd.actors.length);
-
         }
 
         /**
@@ -130,14 +126,9 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          * @param actor: The actor to delete
          */
         $scope.deleteThisActor = function(actor){
-            console.log(actor);
-//            $scope.dvd.actors.splice(actor,1);
+            // We decrement the length for the ng-repeat, and we delete the actor value
             $scope.dvd.actors.length -= 1;
             delete $scope.dvd.actors[actor];
-
-            console.log($scope.dvd.actors);
-            console.log($scope.dvd.actors.length);
-
         };
 
         /**
