@@ -79,18 +79,21 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         // Initialize the DVD form.
         $scope.dvd = {
             searchError: false,
-            name: '',
+            title: '',
             genre: $scope.genres.action,
             releaseDate: '',
             overview: '',
             productionCompanies: '',
             director: '',
-            actors: ''
+            actors: ['']    //{name: ''}
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.
+        $scope.dynamicPopoverStatus = {
+            error: 'Le film n\'est pas répertorié',
+            success: 'Le film à été trouvé'
+        };
         $scope.dynamicPopoverPlacement = 'right';
-        $scope.dynamicPopover = 'Le film n\'est pas répertorié';
         $scope.dynamicPopoverTrigger = 'focus';
 
         /**
@@ -101,13 +104,36 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         };
 
         /**
+         * Add a new Actor.
+         */
+        $scope.addInputActor = function(){
+            if ($scope.dvd.actors.indexOf('') == -1) {
+                $scope.dvd.actors.push('');
+            }
+            console.log($scope.dvd.actors);
+            console.log($scope.dvd.actors.length);
+
+        }
+
+        /**
+         * Delete the current Actor.
+         * @param actor: The actor to delete
+         */
+        $scope.deleteThisActor = function(actor){
+            $scope.dvd.actors.splice(actor,1);
+            console.log($scope.dvd.actors);
+            console.log($scope.dvd.actors.length);
+
+        };
+
+        /**
          * Get the movie information to fill out the DVD structure.
          */
         $scope.checkMovieInformation = function () {
-            console.log('Checking movie data: ' + $scope.dvd.name);
+            console.log('Checking movie data: ' + $scope.dvd.title);
 
             // We get the movie ID
-            var dvdID = MovieDB.GetMovieID.request({ apiKeyVar: $scope.requests.movieDBKey, queryVar: $scope.dvd.name, languageVar: 'fr' },
+            var dvdID = MovieDB.GetMovieID.request({ apiKeyVar: $scope.requests.movieDBKey, queryVar: $scope.dvd.title, languageVar: 'fr' },
                 function success() {
                     // This callback will be called asynchronously when the response is available
                     if(dvdID.results.length > 0) {
@@ -116,10 +142,13 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                         // We set the popover message and the class button OK
                         $scope.dvd.searchError = false;
-                        $scope.dynamicPopover = 'Le film à été trouvé';
+                        $scope.dynamicPopover = $scope.dynamicPopoverStatus.success;
 
-                        // Set the movie poster url.
-                        $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', dvdID.results[0].poster_path);
+                        // Set the movie poster url and the movie title.
+                        $scope.dvd.title = dvdID.results[0].title;
+                        if(dvdID.results[0].poster_path != undefined && dvdID.results[0].poster_path != null) {
+                            $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', dvdID.results[0].poster_path);
+                        }
 
                         // If an ID is founded, we can get the movie details
                         var dvdDetails = MovieDB.GetMovieDetails.request({ queryVar: dvdID.results[0].id, apiKeyVar: $scope.requests.movieDBKey, languageVar: 'fr' },
@@ -129,7 +158,8 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                                 console.log(dvdDetails);
 
                                 // We fill out the movies form
-                                $scope.dvd.genre = dvdDetails.genres[0];
+                                $scope.dvd.genre = dvdDetails.genres[0].name;
+                                console.log($scope.dvd.genre);
                                 $scope.dvd.releaseDate = dvdDetails.release_date;
                                 $scope.dvd.overview = dvdDetails.overview;
                                 $scope.dvd.productionCompanies = '';
@@ -152,10 +182,14 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                                 // We fill out the movies form
                                 $scope.dvd.director = dvdCast.crew[0].name;
-                                $scope.dvd.actors = '';
+                                $scope.dvd.actors = [];
 
-                                for (var i = 0; i < 5; i++) {
-                                    $scope.dvd.actors += dvdCast.cast[i].name + ', ';
+                                // If the list isn't empty
+                                if(dvdCast.cast.length > 0) {
+                                    for (var i = 0; i < 5; i++) {
+//                                        $scope.dvd.actors += dvdCast.cast[i].name + ', ';
+                                        $scope.dvd.actors.push(dvdCast.cast[i].name);
+                                    }
                                 }
                             },
                             function err() {
@@ -169,7 +203,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                         // We set the popover message and the class button error
                         $scope.dvd.searchError = true;
-                        $scope.dynamicPopover = 'Le film n\'est pas répertorié';
+                        $scope.dynamicPopover = $scope.dynamicPopoverStatus.error;
                     }
                 },
                 function err() {
@@ -178,7 +212,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                     // We set the popover message and the class button error
                     $scope.dvd.searchError = true;
-                    $scope.dynamicPopover = 'Le film n\'est pas répertorié';
+                    $scope.dynamicPopover = $scope.dynamicPopoverStatus.error;
                 });
         };
 

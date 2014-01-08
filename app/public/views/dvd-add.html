@@ -10,9 +10,13 @@
 
                     <div class="controls">
                         <div class="input-append">
-                            <input type="text" id="inputDvdName" ng-model="dvd.name" placeholder="Nom du film" required>
+                            <input type="text" id="inputDvdName" ng-model="dvd.title" placeholder="Nom du film" required>
                             <button type="button"
-                                    title="Pré-remplissage des champs si le film est répertorié" ng-click="checkMovieInformation()" popover-placement="{{dynamicPopoverPlacement}}" popover="{{dynamicPopover}}" popover-title="{{dynamicPopoverTitle}}" popover-trigger="{{dynamicPopoverTrigger}}" class="{{dvd.searchError ? 'btn btn-danger' : 'btn'}}">Rechercher
+                                    title="Pré-remplissage des champs si le film est répertorié"
+                                    ng-click="checkMovieInformation()" ng-disabled="!(dvd.title.length>0)"
+                                    popover-placement="{{dynamicPopoverPlacement}}" popover="{{dynamicPopover}}"
+                                    popover-title="{{dynamicPopoverTitle}}" popover-trigger="{{dynamicPopoverTrigger}}"
+                                    class="{{dvd.searchError ? 'btn btn-danger' : 'btn'}}">Rechercher
                             </button>
                         </div>
                     </div>
@@ -21,8 +25,8 @@
                     <label for="inputDvdGenre" class="control-label">Genre</label>
 
                     <div class="controls">
-                        <select id="inputDvdGenre">
-                            <option ng-repeat="genre in genres" ng-model="dvd.genre">{{genre}}</option>
+                        <select id="inputDvdGenre" ng-model="dvd.genre">
+                            <option ng-repeat="genre in genres">{{genre}}</option>
                         </select>
                     </div>
                 </div>
@@ -62,10 +66,14 @@
                 <div class="control-group">
                     <label for="inputDvdActors" class="control-label">Acteurs</label>
 
-                    <div class="controls">
-                        <textarea rows="2" id="inputDvdActors" ng-model="dvd.actors"
-                                  placeholder="Acteurs (Jean Dujardin, Alexendra Lamy, ...)" required
-                                  class="textArea"></textarea>
+                    <div ng-repeat="actor in dvd.actors" class="controls">
+                        <!--<textarea rows="2" id="inputDvdActors" ng-model="dvd.actors"-->
+                        <!--placeholder="Acteurs (Jean Dujardin, Alexendra Lamy, ...)" required-->
+                        <!--class="textArea"></textarea>-->
+                        <input type="text" id="inputDvdActors" ng-model="dvd.actors[$index]"
+                               placeholder="Acteurs (Jean Dujardin, Alexendra Lamy, ...)" required></textarea>
+                        <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" class="btn btn-success btn-small">Add</button>
+                        <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
                     </div>
                 </div>
                 <div class="controls">
@@ -79,8 +87,9 @@
     </div>
 
     <div class="span6">
-            <!-- Picture content -->
-            <!--<canvas id="imageCanvas" width="500" height="500" onload="cancelAddDvd()"></canvas>-->
-            <img id="moviePoster" src={{moviePoster}} width="480" height="250" class="{{moviePoster ? 'movie-poster' : ''}}">
-        </div>
+        <!-- Picture content -->
+        <!--<canvas id="imageCanvas" width="500" height="500" onload="cancelAddDvd()"></canvas>-->
+        <img id="moviePoster" src={{moviePoster}} width="480" height="250"
+             class="{{moviePoster ? 'movie-poster' : ''}}">
+    </div>
 </div>

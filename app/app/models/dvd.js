@@ -4,15 +4,15 @@ var mongoose = require('mongoose');
  * The actor schema needed in the DVD schema.
  */
 var actorSchema = mongoose.Schema({
-    firstName: {type: String},
-    lastName: {type: String}
+//    firstName: {type: String},
+    name: {type: String}
 });
 
 /**
  * The DVD schema.
  */
 var dvdSchema = mongoose.Schema({
-    name: {
+    title: {
         type: String
     },
     genre: {
@@ -30,10 +30,10 @@ var dvdSchema = mongoose.Schema({
     director: {
         type: String
     },
-    actors: {
-        type: String
-    }
-//    actors: [actorSchema]
+//    actors: {
+//        type: String
+//    }
+    actors: [actorSchema]
 });
 
 /**

@@ -16,13 +16,13 @@ exports.create = function (req, res) {
     console.log(req.body.dvd);
     var isError = false;
     var newDvd = new Dvd({
-        name: req.body.dvd.name,
+        title: req.body.dvd.title,
         genre: req.body.dvd.genre,
-        release_date: req.body.dvd.releaseDate,
+        releaseDate: req.body.dvd.releaseDate,
         overview: req.body.dvd.overview,
         productionCompanies: req.body.dvd.productionCompanies,
-        director: req.body.dvd.director,
-        actors: req.body.dvd.actors
+        director: req.body.dvd.director//,
+//        actors: req.body.dvd.actors
     });
 
     newDvd.save(function (err) {
