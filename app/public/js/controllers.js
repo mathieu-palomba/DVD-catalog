@@ -193,7 +193,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                                 if(dvdCast.cast.length > 0) {
                                     for (var i = 0; i < 5; i++) {
 //                                        $scope.dvd.actors += dvdCast.cast[i].name + ', ';
-                                        $scope.dvd.actors.push( {name: dvdCast.cast[i].name} );
+                                        $scope.dvd.actors.push( {name: dvdCast.cast[i].name + ' (' + dvdCast.cast[i].character + ')'} );
                                     }
                                 }
                             },

@@ -101,6 +101,11 @@ h1 {
     resize: none;
 }
 
+.characterArea {
+    width: 250px;
+    resize: none;
+}
+
 .movie-poster {
     border: 2px inset black;
 }

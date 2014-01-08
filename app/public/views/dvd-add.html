@@ -35,7 +35,7 @@
 
                     <div class="controls">
                         <input type="text" id="inputDvdReleaseData" ng-model="dvd.releaseDate"
-                               placeholder="Date de sortie (2014-01-31)" required></textarea>
+                               placeholder="2014-01-31" required></textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -51,7 +51,7 @@
 
                     <div class="controls">
                         <textarea rows="2" id="inputDvdProductionCompanies" ng-model="dvd.productionCompanies"
-                                  placeholder="Sociétés de Production (MGM, Pixar, ...)" required
+                                  placeholder="MGM, Pixar, ..." required
                                   class="textArea"></textarea>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
 
                     <div class="controls">
                         <input type="text" id="inputDvdDirector" ng-model="dvd.director"
-                               placeholder="producteur (James Cameron)" required></textarea>
+                               placeholder="James Cameron" required class="characterArea"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -71,7 +71,7 @@
                         <!--placeholder="Acteurs (Jean Dujardin, Alexendra Lamy, ...)" required-->
                         <!--class="textArea"></textarea>-->
                         <input type="text" id="inputDvdActors" ng-model="dvd.actors[$index].name"
-                               placeholder="Acteurs (Jean Dujardin)" required></textarea>
+                               placeholder="Jean Dujardin (rôle)" required class="characterArea"></textarea>
                         <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" class="btn btn-success btn-small">Add</button>
                         <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
                     </div>
