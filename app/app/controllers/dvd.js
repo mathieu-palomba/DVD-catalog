@@ -4,6 +4,7 @@
 var mongoose = require('mongoose'),
     Dvd = mongoose.model('Dvd'),
     fs = require('fs'),             // fs and request is used to download cross domain pictures
+    path = require('path'),         // to save files
     request = require('request');
 
 /**
@@ -19,6 +20,7 @@ exports.create = function (req, res) {
     // We create the DVD model.
     var newDvd = new Dvd({
         title: req.body.dvd.title,
+        moviePoster: req.body.dvd.moviePoster,
         genre: req.body.dvd.genre,
         releaseDate: req.body.dvd.releaseDate,
         overview: req.body.dvd.overview,
@@ -40,6 +42,8 @@ exports.create = function (req, res) {
     });
 
 //    res.send();
+
+    // We return OK or KO
     res.jsonp({"success": !isError});
 };
 
@@ -53,10 +57,14 @@ exports.getAllDvd = function (req, res) {
         .exec(function (err, data) {
             if (err == true) {
                 console.log("Error during reading the DVD list");
+
+                // We return KO
                 res.send('err');
             }
             else {
                 console.log("DVD list got");
+
+                // We return OK
                 res.jsonp({"success": true, "dvdList": data});
             }
         })
@@ -75,10 +83,14 @@ exports.getDvd = function (req, res) {
         .exec(function (err, data) {
             if (err == true) {
                 console.log("Error during reading the DVD");
+
+                // We return KO
                 res.send('err');
             }
             else {
                 console.log("DVD got");
+
+                // We return OK
                 res.jsonp({"success": true, "dvd": data});
             }
         })
@@ -100,6 +112,8 @@ exports.isDvdExist = function (req, res) {
         .exec(function (err, data) {
             if (err == true) {
                 console.log("Error during checking the DVD");
+
+                // We return KO
                 res.send('err');
             }
             else {
@@ -107,6 +121,8 @@ exports.isDvdExist = function (req, res) {
                     console.log("DVD exist");
                     isExist = true;
                 }
+
+                // We return OK or KO
                 res.jsonp({"success": isExist});
             }
         })
@@ -116,13 +132,25 @@ exports.isDvdExist = function (req, res) {
  * Download the "uri" pictures at the "filename" path.
  * @param uri : The source of the picture to download
  * @param filename : The name of the picture downloaded.
- * download('https://www.google.com/images/srpr/logo3w.png', 'google.png');
+ * saveImage('https://www.google.com/images/srpr/logo3w.png', 'google.png');
  */
-exports.download = function(uri, filename){
+exports.saveImage = function(req, res){
+    // We get the uri and filename
+    var uri = req.body.uri;
+    var filename = req.body.filename;
+
+    // We compute the good path
+    var imagePath = path.resolve(__dirname, '../../public/img/', filename)
+
+    // We get the image with the uri
     request.head(uri, function(err, res, body){
         console.log('content-type:', res.headers['content-type']);
         console.log('content-length:', res.headers['content-length']);
 
-        request(uri).pipe(fs.createWriteStream(filename));
+        // We create the image file
+        request(uri).pipe(fs.createWriteStream(imagePath));
     });
+
+    // We return OK
+    res.jsonp({"success": true});
 };

@@ -79,6 +79,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         $scope.dvd = {
             searchError: false,
             title: '',
+            moviePoster: '',
             genre: $scope.genres.action,
             releaseDate: '',
             overview: '',
@@ -152,6 +153,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                         // Set the movie poster url and the movie title.
                         $scope.dvd.title = dvdID.results[0].title;
                         if(dvdID.results[0].poster_path != undefined && dvdID.results[0].poster_path != null) {
+                            $scope.dvd.moviePoster = '/img/' + $scope.dvd.title + '.jpg';
                             $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', dvdID.results[0].poster_path);
                         }
 
@@ -235,6 +237,18 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                     var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
                         if (dvd.success) {
                             console.log('DVD added successfully');
+
+                            // We save the movie poster
+                            var saveImage = Dvd.DvdAdd.saveImage({uri: $scope.moviePoster, filename: $scope.dvd.title + '.jpg'}, function () {
+                                if (saveImage.success) {
+                                    console.log('Image successfully saved');
+                                }
+                                else {
+                                    console.log("Error when saved the image");
+                                }
+                            });
+
+                            // We redirect to the index view
                             $location.url('/dvd');
                         }
                         else {

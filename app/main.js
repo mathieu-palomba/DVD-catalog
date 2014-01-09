@@ -18,7 +18,7 @@ var db = mongoose.connect('mongodb://localhost/dvd-catalog', function(err) {
     }
 });
 
-//Bootstrap models
+// Bootstrap models
 var models_path = __dirname + '/app/models';
 var walk = function( path )
 {

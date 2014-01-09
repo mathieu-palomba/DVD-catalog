@@ -15,6 +15,9 @@ var dvdSchema = mongoose.Schema({
     title: {
         type: String
     },
+    moviePoster: {
+        type: String
+    },
     genre: {
         type: String
     },
