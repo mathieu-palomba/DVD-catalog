@@ -1,17 +1,32 @@
 /**
  * Controllers.
  */
-var dvdCatControllers = angular.module('dvdCatControllers', ['ui.bootstrap']);
+var dvdCatControllers = angular.module('dvdCatControllers', ['ui.bootstrap', 'ngRoute']);
 
 /**
  * DVD List controllers.
  */
-dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', 'Dvd',
-    function ($scope, $location, Dvd) {
+dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'Dvd',
+    function ($scope, $location, $route, Dvd) {
         console.log('Dvd List controller');
 
         // Method with our service
-        $scope.dvdList = Dvd.DvdList.query();
+//        $scope.dvdList = Dvd.DvdList.query();
+
+        $scope.dvdList = Dvd.DvdAdd.getAllDvd( function()
+        {
+            if( $scope.dvdList.success )
+            {
+                console.log('DVD got successfully');
+                console.log($scope.dvdList.dvdList[3].moviePoster);
+                $scope.dvdList = $scope.dvdList.dvdList;
+//                $route.reload();
+            }
+            else
+            {
+                console.log('Error when getting the DVD list');
+            }
+        } );
 
         // This value must have the same name in the html view to set the default filter
         $scope.orderProp = 'age';
@@ -89,12 +104,22 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.
-        $scope.dynamicPopoverStatus = {
+        $scope.dynamicFindPopoverStatus = {
             error: 'Le film n\'est pas répertorié',
             success: 'Le film à été trouvé'
         };
-        $scope.dynamicPopoverPlacement = 'right';
-        $scope.dynamicPopoverTrigger = 'focus';
+        $scope.dynamicFindPopover = $scope.dynamicFindPopoverStatus.success;
+        $scope.dynamicFindPopoverPlacement = 'right';
+        $scope.dynamicFindPopoverTrigger = 'focus';
+
+        // Initialize the dynamic popover when the user save a movie already recorder in the database.
+        $scope.dynamicSavePopoverStatus = {
+            error: 'Le film est déjà répertorié',
+            success: 'Le film a été sauvegardé'
+        };
+        $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
+        $scope.dynamicSavePopoverPlacement = 'bottom';
+        $scope.dynamicSavePopoverTrigger = 'click';
 
         /**
          * Redirection into the index html page.
@@ -148,7 +173,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                         // We set the popover message and the class button OK
                         $scope.dvd.searchError = false;
-                        $scope.dynamicPopover = $scope.dynamicPopoverStatus.success;
+                        $scope.dynamicFindPopover = $scope.dynamicFindPopoverStatus.success;
 
                         // Set the movie poster url and the movie title.
                         $scope.dvd.title = dvdID.results[0].title;
@@ -188,12 +213,21 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                                 console.log(dvdCast);
 
                                 // We fill out the movies form
-                                $scope.dvd.director = dvdCast.crew[0].name;
+                                if(dvdCast.crew.length > 0) {
+                                    $scope.dvd.director = dvdCast.crew[0].name;
+                                }
                                 $scope.dvd.actors = [];
 
                                 // If the list isn't empty
-                                if(dvdCast.cast.length > 0) {
+                                if(dvdCast.cast.length > 5) {
                                     for (var i = 0; i < 5; i++) {
+//                                        $scope.dvd.actors += dvdCast.cast[i].name + ', ';
+                                        $scope.dvd.actors.push( {name: dvdCast.cast[i].name + ' (' + dvdCast.cast[i].character + ')'} );
+                                    }
+                                }
+
+                                else {
+                                    for (var i = 0; i < dvdCast.cast.length; i++) {
 //                                        $scope.dvd.actors += dvdCast.cast[i].name + ', ';
                                         $scope.dvd.actors.push( {name: dvdCast.cast[i].name + ' (' + dvdCast.cast[i].character + ')'} );
                                     }
@@ -210,7 +244,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                         // We set the popover message and the class button error
                         $scope.dvd.searchError = true;
-                        $scope.dynamicPopover = $scope.dynamicPopoverStatus.error;
+                        $scope.dynamicFindPopover = $scope.dynamicFindPopoverStatus.error;
                     }
                 },
                 function err() {
@@ -219,7 +253,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                     // We set the popover message and the class button error
                     $scope.dvd.searchError = true;
-                    $scope.dynamicPopover = $scope.dynamicPopoverStatus.error;
+                    $scope.dynamicFindPopover = $scope.dynamicFindPopoverStatus.error;
                 });
         };
 
@@ -228,9 +262,12 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          */
         $scope.performSave = function () {
             // We check if a DVD already exist in the database
-            var check = Dvd.DvdAdd.isDvdExist({dvd: 'Avatar'}, function () {
+            var check = Dvd.DvdAdd.isDvdExist({dvd: $scope.dvd.title}, function () {
                 if (check.success) {
                     console.log('DVD already exist');
+
+                    // We notify to the user that the save failed because the DVD already exist
+                    $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.error;
                 }
                 else {
                     // We save the DVD in the database
@@ -242,14 +279,17 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                             var saveImage = Dvd.DvdAdd.saveImage({uri: $scope.moviePoster, filename: $scope.dvd.title + '.jpg'}, function () {
                                 if (saveImage.success) {
                                     console.log('Image successfully saved');
+
+                                    // We notify to the user that the save performed
+                                    $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
+
+                                    // We redirect to the index view
+                                    $location.url('/dvd');
                                 }
                                 else {
                                     console.log("Error when saved the image");
                                 }
                             });
-
-                            // We redirect to the index view
-                            $location.url('/dvd');
                         }
                         else {
                             console.log("Error when added the DVD");

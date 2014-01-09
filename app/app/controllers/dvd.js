@@ -59,7 +59,8 @@ exports.getAllDvd = function (req, res) {
                 console.log("Error during reading the DVD list");
 
                 // We return KO
-                res.send('err');
+//                res.send('err');
+                result.jsonp({"success": false});
             }
             else {
                 console.log("DVD list got");
@@ -79,13 +80,13 @@ exports.getDvd = function (req, res) {
     var dvdRequested = req.params.dvd;
     console.log(dvdRequested);
 
-    Dvd.find({name: dvdRequested})
+    Dvd.find({title: dvdRequested})
         .exec(function (err, data) {
             if (err == true) {
                 console.log("Error during reading the DVD");
 
                 // We return KO
-                res.send('err');
+                result.jsonp({"success": false});
             }
             else {
                 console.log("DVD got");
@@ -103,20 +104,21 @@ exports.getDvd = function (req, res) {
  * @param res : The response
  */
 exports.isDvdExist = function (req, res) {
-    var dvdRequested = req.params.dvd.toLowerCase();
+    var dvdRequested = req.params.dvd;
     var isExist = false;
     console.log('Is DVD exist');
     console.log(dvdRequested);
 
-    Dvd.find({name: dvdRequested})
+    Dvd.find({title: dvdRequested})
         .exec(function (err, data) {
             if (err == true) {
                 console.log("Error during checking the DVD");
 
                 // We return KO
-                res.send('err');
+                result.jsonp({"success": false});
             }
             else {
+                console.log(data);
                 if(data[0] != undefined) {
                     console.log("DVD exist");
                     isExist = true;
@@ -130,27 +132,37 @@ exports.isDvdExist = function (req, res) {
 
 /**
  * Download the "uri" pictures at the "filename" path.
- * @param uri : The source of the picture to download
- * @param filename : The name of the picture downloaded.
+ * @param req : The request
+ * @param res : The response
  * saveImage('https://www.google.com/images/srpr/logo3w.png', 'google.png');
  */
 exports.saveImage = function(req, res){
-    // We get the uri and filename
+    // We get the uri to download the file and the filename
     var uri = req.body.uri;
     var filename = req.body.filename;
+    var result = res;
 
     // We compute the good path
     var imagePath = path.resolve(__dirname, '../../public/img/', filename)
 
     // We get the image with the uri
     request.head(uri, function(err, res, body){
-        console.log('content-type:', res.headers['content-type']);
-        console.log('content-length:', res.headers['content-length']);
+        if (err == true) {
+            console.log("Error during getting the poster image");
 
-        // We create the image file
-        request(uri).pipe(fs.createWriteStream(imagePath));
+            // We return KO
+            result.jsonp({"success": false});
+        }
+
+        else {
+            console.log('content-type:', res.headers['content-type']);
+            console.log('content-length:', res.headers['content-length']);
+
+            // We create the image file
+            request(uri).pipe(fs.createWriteStream(imagePath));
+
+            // We return OK
+            result.jsonp({"success": true});
+        }
     });
-
-    // We return OK
-    res.jsonp({"success": true});
 };

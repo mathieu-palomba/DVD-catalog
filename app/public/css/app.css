@@ -8,14 +8,6 @@ body {
     padding-bottom: 50px;
 }
 
-.dvd-images {
-  width: 450px;
-  height: 450px;
-  overflow: hidden;
-  position: relative;
-  float: left;
-}
-
 .dvd-list {
   list-style: none;
 }
@@ -23,14 +15,14 @@ body {
 .thumb {
   float: left;
   margin: -1em 1em 1.5em 0em;
-  padding-bottom: 1em;
+  padding-bottom: 2em;
   height: 100px;
   width: 100px;
 }
 
 .dvd-list li {
   clear: both;
-  height: 100px;
+  height: 116px;
   padding-top: 15px;
 }
 
@@ -43,6 +35,14 @@ img.dvd {
   padding: 2em;
   height: 400px;
   width: 400px;
+}
+
+.dvd-images {
+    width: 450px;
+    height: 450px;
+    overflow: hidden;
+    position: relative;
+    float: left;
 }
 
 ul.dvd-thumbs {

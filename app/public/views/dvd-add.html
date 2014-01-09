@@ -14,8 +14,8 @@
                             <button type="button"
                                     title="Pré-remplissage des champs si le film est répertorié"
                                     ng-click="checkMovieInformation()" ng-disabled="!(dvd.title.length>0)"
-                                    popover-placement="{{dynamicPopoverPlacement}}" popover="{{dynamicPopover}}"
-                                    popover-title="{{dynamicPopoverTitle}}" popover-trigger="{{dynamicPopoverTrigger}}"
+                                    popover-placement="{{dynamicFindPopoverPlacement}}" popover="{{dynamicFindPopover}}"
+                                    popover-title="{{dynamicFindPopoverTitle}}" popover-trigger="{{dynamicFindPopoverTrigger}}"
                                     class="{{dvd.searchError ? 'btn btn-danger' : 'btn'}}">Rechercher
                             </button>
                         </div>
@@ -78,6 +78,8 @@
                 </div>
                 <div class="controls">
                     <button type="submit" id="saveButton" ng-click="performSave()" ng-disabled="!dvdForm.$valid"
+                            popover-placement="{{dynamicSavePopoverPlacement}}" popover="{{dynamicSavePopover}}"
+                            popover-title="{{dynamicSavePopoverTitle}}" popover-trigger="{{dynamicSavePopoverTrigger}}"
                             class="btn btn-primary">Sauvegarder
                     </button>
                     <button type="button" id="cancelButton" ng-click="cancelAddDvd()" class="btn">Cancel</button>

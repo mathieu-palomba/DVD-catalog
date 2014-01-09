@@ -20,13 +20,22 @@
 
         <!--Body content-->
         <div class="span10">
+            <!--<ul class="dvd-list">-->
+                <!--<li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">-->
+                    <!--<a href="#/dvd/{{dvd.id}}" class="thumb"><img ng-src="{{dvd.imageUrl}}"></a>-->
+                    <!--&lt;!&ndash; We redirect to the correct view when the user click on the picture &ndash;&gt;-->
+                    <!--<a href="#/dvd/{{dvd.id}}">{{dvd.name}} ({{dvd.price}}€)</a>-->
+                    <!--&lt;!&ndash; We redirect to the correct view when the user click on the description &ndash;&gt;-->
+                    <!--<p>{{dvd.snippet}}</p>-->
+                <!--</li>-->
+            <!--</ul>-->
             <ul class="dvd-list">
                 <li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">
-                    <a href="#/dvd/{{dvd.id}}" class="thumb"><img ng-src="{{dvd.imageUrl}}"></a>
+                    <a href="#/dvd/{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}"></a>
                     <!-- We redirect to the correct view when the user click on the picture -->
-                    <a href="#/dvd/{{dvd.id}}">{{dvd.name}} ({{dvd.price}}€)</a>
+                    <a href="#/dvd/{{dvd.title}}">{{dvd.title}}</a>
                     <!-- We redirect to the correct view when the user click on the description -->
-                    <p>{{dvd.snippet}}</p>
+                    <p>{{dvd.overview}}</p>
                 </li>
             </ul>
 
