@@ -1,115 +1,27 @@
-<div class="dvd-images">
+<div class="dvd-thumb">
     <img ng-src="{{dvd.moviePoster}}" class="dvd">
 </div>
 
 <h1>{{dvd.title}}</h1>
+<p>
+    <strong>Genre :</strong> {{dvd.genre}}
+</p>
+<p>
+    <strong>Date de sortie :</strong> {{dvd.releaseDate}}
+</p>
+<p>
+    <strong>Producteur :</strong> {{dvd.director}}
+</p>
+<p>
+    <strong>Compagnies de production :</strong> {{dvd.productionCompanies}}
+</p>
+<p>
+    <strong>Résumé :</strong></br>{{dvd.overview}}
+</p>
 
-<p>{{dvd.overview}}</p>
-
-<ul class="dvd-thumbs">
-    <li ng-repeat="img in dvd.images">
-        <img ng-src="{{img}}" ng-mouseenter="setImage(img)">
-    </li>
-</ul>
-
-<ul class="specs">
-    <li>
-        <span>Availability and Networks</span>
-        <dl>
-            <dt>Availability</dt>
-            <dd ng-repeat="availability in dvd.availability">{{availability}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Battery</span>
-        <dl>
-            <dt>Type</dt>
-            <dd>{{dvd.battery.type}}</dd>
-            <dt>Talk Time</dt>
-            <dd>{{dvd.battery.talkTime}}</dd>
-            <dt>Standby time (max)</dt>
-            <dd>{{dvd.battery.standbyTime}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Storage and Memory</span>
-        <dl>
-            <dt>RAM</dt>
-            <dd>{{dvd.storage.ram}}</dd>
-            <dt>Internal Storage</dt>
-            <dd>{{dvd.storage.flash}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Connectivity</span>
-        <dl>
-            <dt>Network Support</dt>
-            <dd>{{dvd.connectivity.cell}}</dd>
-            <dt>WiFi</dt>
-            <dd>{{dvd.connectivity.wifi}}</dd>
-            <dt>Bluetooth</dt>
-            <dd>{{dvd.connectivity.bluetooth}}</dd>
-            <dt>Infrared</dt>
-            <dd>{{dvd.connectivity.infrared | checkmark}}</dd>
-            <dt>GPS</dt>
-            <dd>{{dvd.connectivity.gps | checkmark}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Android</span>
-        <dl>
-            <dt>OS Version</dt>
-            <dd>{{dvd.android.os}}</dd>
-            <dt>UI</dt>
-            <dd>{{dvd.android.ui}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Size and Weight</span>
-        <dl>
-            <dt>Dimensions</dt>
-            <dd ng-repeat="dim in dvd.sizeAndWeight.dimensions">{{dim}}</dd>
-            <dt>Weight</dt>
-            <dd>{{dvd.sizeAndWeight.weight}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Display</span>
-        <dl>
-            <dt>Screen size</dt>
-            <dd>{{dvd.display.screenSize}}</dd>
-            <dt>Screen resolution</dt>
-            <dd>{{dvd.display.screenResolution}}</dd>
-            <dt>Touch screen</dt>
-            <dd>{{dvd.display.touchScreen | checkmark}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Hardware</span>
-        <dl>
-            <dt>CPU</dt>
-            <dd>{{dvd.hardware.cpu}}</dd>
-            <dt>USB</dt>
-            <dd>{{dvd.hardware.usb}}</dd>
-            <dt>Audio / headphone jack</dt>
-            <dd>{{dvd.hardware.audioJack}}</dd>
-            <dt>FM Radio</dt>
-            <dd>{{dvd.hardware.fmRadio | checkmark}}</dd>
-            <dt>Accelerometer</dt>
-            <dd>{{dvd.hardware.accelerometer | checkmark}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Camera</span>
-        <dl>
-            <dt>Primary</dt>
-            <dd>{{dvd.camera.primary}}</dd>
-            <dt>Features</dt>
-            <dd>{{dvd.camera.features.join(', ')}}</dd>
-        </dl>
-    </li>
-    <li>
-        <span>Additional Features</span>
-        <dd>{{dvd.additionalFeatures}}</dd>
-    </li>
-</ul>
+<p>
+    <strong>Acteurs :</strong>
+</p>
+<p ng-repeat="actor in dvd.actors">
+    {{actor.name}}
+</p>

@@ -4,31 +4,22 @@
         <!--Sidebar content-->
         <div class="span2">
             <div class="informations-header">
-                <p class="text-info">Total number of DVD: {{dvdList.length}}</p>
+                <p class="text-info">Nombre total de DVD : {{dvdList.length}}</p>
                 <button type="button" ng-click="addDvd()" class="btn btn-primary">Ajouter un film</button>
             </div>
 
-            <div>Search: <input type="text" ng-model="query"></div>
+            <div>Rechercher : <input type="text" ng-model="query"></div>
 
-            <div>Sort by:
+            <div>Trier par :
                 <select ng-model="orderProp">
-                    <option value="title">Alphabetical</option>
-                    <option value="age">Newest</option>
+                    <option value="title">Alphabetique</option>
+                    <option value="age">Nouveau</option>
                 </select>
             </div>
         </div>
 
         <!--Body content-->
         <div class="span10">
-            <!--<ul class="dvd-list">-->
-                <!--<li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">-->
-                    <!--<a href="#/dvd/{{dvd.id}}" class="thumb"><img ng-src="{{dvd.imageUrl}}"></a>-->
-                    <!--&lt;!&ndash; We redirect to the correct view when the user click on the picture &ndash;&gt;-->
-                    <!--<a href="#/dvd/{{dvd.id}}">{{dvd.name}} ({{dvd.price}}€)</a>-->
-                    <!--&lt;!&ndash; We redirect to the correct view when the user click on the description &ndash;&gt;-->
-                    <!--<p>{{dvd.snippet}}</p>-->
-                <!--</li>-->
-            <!--</ul>-->
             <ul class="dvd-list">
                 <li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">
                     <!-- We redirect to the correct view when the user click on the picture -->
@@ -45,6 +36,7 @@
                     <p ng-repeat="actor in dvd.actors">
                         {{actor.name}}
                     </p>
+                    <button type="button" id="deleteButton" ng-click="deleteDvd(dvd.title)" class="btn btn-danger deleteButton">Supprimer</button>
                 </li>
             </ul>
 

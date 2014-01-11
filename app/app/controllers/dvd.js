@@ -14,7 +14,7 @@ var mongoose = require('mongoose'),
  * @param res : The response
  */
 exports.create = function (req, res) {
-    console.log("create DVD in nodejs");
+    console.log("Create DVD in nodejs");
     var isError = false;
 
     // We create the DVD model.
@@ -46,6 +46,24 @@ exports.create = function (req, res) {
     // We return OK or KO
     res.jsonp({"success": !isError});
 };
+
+exports.delete = function (req, res) {
+    console.log("Delete DVD in nodejs");
+    var dvdToDelete = req.body.dvd;
+
+    console.log(dvdToDelete);
+    Dvd.remove({ title: dvdToDelete }, function (err) {
+        if(err) {
+            console.log("Error when deleting the DVD")
+            res.jsonp({"success": false});
+        }
+
+        else {
+            console.log("DVD successfully deleted")
+            res.jsonp({"success": true});
+        }
+    });
+}
 
 /**
  * Get all DVD in the database.

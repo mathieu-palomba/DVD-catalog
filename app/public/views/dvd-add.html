@@ -82,15 +82,13 @@
                             popover-title="{{dynamicSavePopoverTitle}}" popover-trigger="{{dynamicSavePopoverTrigger}}"
                             class="btn btn-primary">Sauvegarder
                     </button>
-                    <button type="button" id="cancelButton" ng-click="cancelAddDvd()" class="btn">Cancel</button>
+                    <button type="button" id="cancelButton" ng-click="cancelAddDvd()" class="btn">Annuler</button>
                 </div>
             </form>
         </div>
     </div>
 
     <div class="span6">
-        <!-- Picture content -->
-        <!--<canvas id="imageCanvas" width="500" height="500" onload="cancelAddDvd()"></canvas>-->
         <img id="moviePoster" src={{moviePoster}} width="480" height="250"
              class="{{moviePoster ? 'movie-poster' : ''}}">
     </div>
