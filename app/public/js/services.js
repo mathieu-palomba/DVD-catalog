@@ -15,6 +15,7 @@ dvdCatServices.factory('Dvd', ['$resource',
             DvdAdd: $resource('', {}, {
                 saveDvd: {method: 'POST', url: 'addDvd/saveDvd'},
                 saveImage: {method: 'POST', url: 'addDvd/saveImage'},
+                renameImage: {method: 'POST', url: 'addDvd/renameImage'},
                 getDvd: {method: 'GET', url: 'getDvd/:dvd'},
                 getAllDvd: {method: 'GET', url: 'getAllDvd/'},
                 isDvdExist: {method: 'GET', url: 'isDvdExist/:dvd'}

@@ -15,15 +15,16 @@ body {
 .thumb {
   float: left;
   margin: -1em 1em 1.5em 0em;
-  padding-bottom: 2em;
-  height: 100px;
-  width: 100px;
+  padding-bottom: 1em;
+  height: 50%;
+  width: 240px;
 }
 
 .dvd-list li {
   clear: both;
-  height: 116px;
-  padding-top: 15px;
+  height: 100%;
+  padding-top: 20px;
+  margin-bottom: 20px;
 }
 
 /** Detail View **/

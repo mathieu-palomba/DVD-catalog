@@ -18,7 +18,7 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
             if( $scope.dvdList.success )
             {
                 console.log('DVD got successfully');
-                console.log($scope.dvdList.dvdList[3].moviePoster);
+                console.log($scope.dvdList.dvdList);
                 $scope.dvdList = $scope.dvdList.dvdList;
 //                $route.reload();
             }
@@ -72,7 +72,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             action: 'Action',
             adventure: 'Aventure',
             animation: 'Animation',
-            comedy: 'Comedie',
+            comedy: 'Comédie',
             crime: 'Policier',
             disaster: 'Catastrophique',
             documentary: 'Documentaire',
@@ -93,6 +93,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         // Initialize the DVD form.
         $scope.dvd = {
             searchError: false,
+            temporaryMoviePosterName: 'temporaryImg.jpg',
             title: '',
             moviePoster: '',
             genre: $scope.genres.action,
@@ -119,7 +120,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         };
         $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
         $scope.dynamicSavePopoverPlacement = 'bottom';
-        $scope.dynamicSavePopoverTrigger = 'click';
+        $scope.dynamicSavePopoverTrigger = 'focus';     // Primary it's "click"
 
         /**
          * Redirection into the index html page.
@@ -178,8 +179,18 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                         // Set the movie poster url and the movie title.
                         $scope.dvd.title = dvdID.results[0].title;
                         if(dvdID.results[0].poster_path != undefined && dvdID.results[0].poster_path != null) {
-                            $scope.dvd.moviePoster = '/img/' + $scope.dvd.title + '.jpg';
+                            $scope.dvd.moviePoster = 'img/' + $scope.dvd.title + '.jpg';
                             $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', dvdID.results[0].poster_path);
+
+                            // We pre-saved the movie poster to win time (avoid time problem when the user saved it's DVD and it's relocated in the "/dvd" route)
+                            var saveImage = Dvd.DvdAdd.saveImage({uri: $scope.moviePoster, filename: $scope.dvd.temporaryMoviePosterName}, function () {
+                                if (saveImage.success) {
+                                    console.log('Image successfully saved');
+                                }
+                                else {
+                                    console.log("Error when saved the image");
+                                }
+                            });
                         }
 
                         // If an ID is founded, we can get the movie details
@@ -190,7 +201,9 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                                 console.log(dvdDetails);
 
                                 // We fill out the movies form
-                                $scope.dvd.genre = dvdDetails.genres[0].name;
+                                if(dvdDetails.genres.length > 0 ) {
+                                    $scope.dvd.genre = dvdDetails.genres[0].name;
+                                }
                                 console.log($scope.dvd.genre);
                                 $scope.dvd.releaseDate = dvdDetails.release_date;
                                 $scope.dvd.overview = dvdDetails.overview;
@@ -270,29 +283,29 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                     $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.error;
                 }
                 else {
-                    // We save the DVD in the database
-                    var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
-                        if (dvd.success) {
-                            console.log('DVD added successfully');
+                    // We save the movie poster
+                    var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: $scope.dvd.temporaryMoviePosterName, filename: $scope.dvd.title + '.jpg'}, function () {
+                        if (renamedImage.success) {
+                            console.log('Image successfully renamed');
 
-                            // We save the movie poster
-                            var saveImage = Dvd.DvdAdd.saveImage({uri: $scope.moviePoster, filename: $scope.dvd.title + '.jpg'}, function () {
-                                if (saveImage.success) {
-                                    console.log('Image successfully saved');
-
-                                    // We notify to the user that the save performed
-                                    $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
-
-                                    // We redirect to the index view
-                                    $location.url('/dvd');
+                            // We save the DVD in the database
+                            var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
+                                if (dvd.success) {
+                                    console.log('DVD added successfully');
                                 }
                                 else {
-                                    console.log("Error when saved the image");
+                                    console.log("Error when added the DVD");
                                 }
                             });
+
+                            // We notify to the user that the save performed
+                            $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
+
+                            // We redirect to the index view
+                            $location.url('/dvd');
                         }
                         else {
-                            console.log("Error when added the DVD");
+                            console.log("Error when saved the image");
                         }
                     });
                 }

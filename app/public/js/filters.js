@@ -11,3 +11,14 @@ dvdCatFilter.filter('checkmark', function() {
         return input ? '\u2713' : '\u2718';
     };
 });
+
+/**
+ * Filter to display bar code three per three.
+ */
+dvdCatFilter.filter('overviewMaxLength', function() {
+        return function(overview) {
+            var maxLength = 1000;
+            return overview.length > maxLength ? overview.substr(0, maxLength) + '...' : overview;
+        };
+    }
+);

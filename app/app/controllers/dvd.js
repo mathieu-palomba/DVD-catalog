@@ -5,6 +5,7 @@ var mongoose = require('mongoose'),
     Dvd = mongoose.model('Dvd'),
     fs = require('fs'),             // fs and request is used to download cross domain pictures
     path = require('path'),         // to save files
+    http = require('http'),
     request = require('request');
 
 /**
@@ -14,7 +15,6 @@ var mongoose = require('mongoose'),
  */
 exports.create = function (req, res) {
     console.log("create DVD in nodejs");
-    console.log(req.body.dvd);
     var isError = false;
 
     // We create the DVD model.
@@ -143,7 +143,7 @@ exports.saveImage = function(req, res){
     var result = res;
 
     // We compute the good path
-    var imagePath = path.resolve(__dirname, '../../public/img/', filename)
+    var imagePath = path.resolve(__dirname, '../../public/img/', filename);
 
     // We get the image with the uri
     request.head(uri, function(err, res, body){
@@ -165,4 +165,27 @@ exports.saveImage = function(req, res){
             result.jsonp({"success": true});
         }
     });
+};
+
+/**
+ * Rename the "temporaryFilename" pictures at the "filename" path.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.renameImage = function(req, res){
+    // We get the temporary filename and the filename
+    var temporaryFilename = req.body.temporaryFilename;
+    var filename = req.body.filename;
+
+    // We compute the good paths
+    var temporaryImagePath = path.resolve(__dirname, '../../public/img/', temporaryFilename)
+    var imagePath = path.resolve(__dirname, '../../public/img/', filename);
+
+    // We rename the temporary image with the "temporary filename" in the "filename" image
+    fs.rename(temporaryImagePath, imagePath, function(){
+        console.log("Rename");
+
+        // We return OK
+        res.jsonp({"success": true});
+    })
 };
