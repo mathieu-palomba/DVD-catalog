@@ -13,7 +13,7 @@ dvdCatFilter.filter('checkmark', function() {
 });
 
 /**
- * Filter to display bar code three per three.
+ * Filter to display only maxLength characters for the DVD overview.
  */
 dvdCatFilter.filter('overviewMaxLength', function() {
         return function(overview) {

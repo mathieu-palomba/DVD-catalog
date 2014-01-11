@@ -1,11 +1,10 @@
-<!-- We're only changing the top of the file -->
 <div class="dvd-images">
-    <img ng-src="{{img}}" class="dvd" ng-repeat="img in dvd.images" ng-class="{active:mainImageUrl==img}">
+    <img ng-src="{{dvd.moviePoster}}" class="dvd">
 </div>
 
-<h1>{{dvd.name}}</h1>
+<h1>{{dvd.title}}</h1>
 
-<p>{{dvd.description}}</p>
+<p>{{dvd.overview}}</p>
 
 <ul class="dvd-thumbs">
     <li ng-repeat="img in dvd.images">

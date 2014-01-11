@@ -77,7 +77,7 @@
                     </div>
                 </div>
                 <div class="controls">
-                    <button type="submit" id="saveButton" ng-click="performSave()" ng-disabled="!dvdForm.$valid"
+                    <button type="submit" id="saveButton" ng-click="performSave()" ng-disabled="!dvdForm.$valid || dvd.genre==''"
                             popover-placement="{{dynamicSavePopoverPlacement}}" popover="{{dynamicSavePopover}}"
                             popover-title="{{dynamicSavePopoverTitle}}" popover-trigger="{{dynamicSavePopoverTrigger}}"
                             class="btn btn-primary">Sauvegarder

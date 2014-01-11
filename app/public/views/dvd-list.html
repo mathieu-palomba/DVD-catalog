@@ -12,7 +12,7 @@
 
             <div>Sort by:
                 <select ng-model="orderProp">
-                    <option value="name">Alphabetical</option>
+                    <option value="title">Alphabetical</option>
                     <option value="age">Newest</option>
                 </select>
             </div>
@@ -32,7 +32,7 @@
             <ul class="dvd-list">
                 <li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">
                     <!-- We redirect to the correct view when the user click on the picture -->
-                    <a href="#/dvd/{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}"></a>
+                    <a href="#/dvd/{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="moviePoster"></a>
                     <!-- We redirect to the correct view when the user click on the description -->
                     <a href="#/dvd/{{dvd.title}}" class="lead">{{dvd.title}}</a>
 

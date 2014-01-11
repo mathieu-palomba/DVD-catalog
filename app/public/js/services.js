@@ -9,16 +9,17 @@ var dvdCatServices = angular.module('dvdCatServices', ['ngResource']);
 dvdCatServices.factory('Dvd', ['$resource',
     function ($resource) {
         return {
-            DvdList: $resource('phones/:dvdId.json', {}, {
-                query: {method: 'GET', params: {dvdId: 'phones'}, isArray: true}
+            DvdList: $resource('', {}, {
+                    getAllDvd: {method: 'GET', url: 'getAllDvd/'}
             }),
             DvdAdd: $resource('', {}, {
                 saveDvd: {method: 'POST', url: 'addDvd/saveDvd'},
                 saveImage: {method: 'POST', url: 'addDvd/saveImage'},
                 renameImage: {method: 'POST', url: 'addDvd/renameImage'},
-                getDvd: {method: 'GET', url: 'getDvd/:dvd'},
-                getAllDvd: {method: 'GET', url: 'getAllDvd/'},
                 isDvdExist: {method: 'GET', url: 'isDvdExist/:dvd'}
+            }),
+            DvdDetails: $resource('', {}, {
+                getDvd: {method: 'GET', url: 'getDvd/:dvd'}
             })
         }
     }]

@@ -6,21 +6,18 @@ var dvdCatControllers = angular.module('dvdCatControllers', ['ui.bootstrap', 'ng
 /**
  * DVD List controllers.
  */
-dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'Dvd',
-    function ($scope, $location, $route, Dvd) {
+dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', 'Dvd',
+    function ($scope, $location, Dvd) {
         console.log('Dvd List controller');
 
-        // Method with our service
-//        $scope.dvdList = Dvd.DvdList.query();
-
-        $scope.dvdList = Dvd.DvdAdd.getAllDvd( function()
+        // We get the DVD list
+        $scope.dvdList = Dvd.DvdList.getAllDvd( function()
         {
             if( $scope.dvdList.success )
             {
                 console.log('DVD got successfully');
                 console.log($scope.dvdList.dvdList);
                 $scope.dvdList = $scope.dvdList.dvdList;
-//                $route.reload();
             }
             else
             {
@@ -48,9 +45,24 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', 'Dvd',
         console.log('Dvd Details controller');
 
         // Method with our service
-        $scope.dvd = Dvd.DvdList.get({dvdId: $routeParams.dvdId}, function (dvd) {
-            $scope.mainImageUrl = dvd.images[0];
-        });
+//        $scope.dvd = Dvd.DvdList.get({dvdId: $routeParams.dvdId}, function (dvd) {
+//            $scope.mainImageUrl = dvd.images[0];
+//        });
+
+        // We get the DVD
+        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {dvd: $routeParams.dvdId}, function()
+        {
+            if( $scope.dvdSearch.success )
+            {
+                console.log('DVD got successfully');
+                $scope.dvd = $scope.dvdSearch.dvd[0];
+                $scope.mainImageUrl = $scope.dvd.moviePoster;
+            }
+            else
+            {
+                console.log('Error when getting the DVD list');
+            }
+        } );
 
         $scope.setImage = function (imageUrl) {
             $scope.mainImageUrl = imageUrl;
@@ -202,8 +214,19 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                                 // We fill out the movies form
                                 if(dvdDetails.genres.length > 0 ) {
-                                    $scope.dvd.genre = dvdDetails.genres[0].name;
+                                    var genreExist = false;
+
+                                    // We check if the genre exist in our list
+                                    for(var genreID in $scope.genres) {
+                                        if($scope.genres[genreID] == dvdDetails.genres[0].name) {
+                                            genreExist = true;
+                                        }
+                                    }
+
+                                    // If the genre exist, we display it, else we set '' to disable "save" button in "add-dvd" view
+                                    genreExist ? $scope.dvd.genre = dvdDetails.genres[0].name : $scope.dvd.genre = '';
                                 }
+
                                 console.log($scope.dvd.genre);
                                 $scope.dvd.releaseDate = dvdDetails.release_date;
                                 $scope.dvd.overview = dvdDetails.overview;
