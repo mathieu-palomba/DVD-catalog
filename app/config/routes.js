@@ -8,6 +8,7 @@ module.exports = function( app )
     var dvd = require( '../app/controllers/dvd' );
     app.post( '/addDvd/saveDvd', dvd.create );
     app.post( '/dvd/deleteDvd', dvd.delete );
+    app.post( '/dvd/editDvd', dvd.edit );
     app.post( '/addDvd/saveImage', dvd.saveImage );
     app.post( '/addDvd/renameImage', dvd.renameImage );
     app.get( '/getDvd/:dvd', dvd.getDvd );

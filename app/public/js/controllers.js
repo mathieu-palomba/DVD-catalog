@@ -82,6 +82,25 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', 'Dvd',
                 console.log('Error when getting the DVD list');
             }
         } );
+
+        /**
+         * Edit the selected DVD.
+         */
+        $scope.editDvd = function(dvd) {
+            // We edit the DVD
+            $scope.dvdEdited = Dvd.DvdDetails.editDvd( {dvd: dvd}, function()
+            {
+                if( $scope.dvdEdited.success )
+                {
+                    console.log('DVD edited successfully');
+                    $route.reload();
+                }
+                else
+                {
+                    console.log('Error when deleting the DVD');
+                }
+            } );
+        };
     }
 ]);
 
@@ -103,7 +122,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             crime: 'Policier',
             disaster: 'Catastrophique',
             documentary: 'Documentaire',
-            drama: 'Dramatique',
+            drama: 'Drame',
             erotic: 'Erotique',
             family: 'Famille',
             fantastic: 'Fantastique',

@@ -20,7 +20,8 @@ dvdCatServices.factory('Dvd', ['$resource',
                 isDvdExist: {method: 'GET', url: 'isDvdExist/:dvd'}
             }),
             DvdDetails: $resource('', {}, {
-                getDvd: {method: 'GET', url: 'getDvd/:dvd'}
+                getDvd: {method: 'GET', url: 'getDvd/:dvd'},
+                editDvd: {method: 'POST', url: '/dvd/editDvd'}
             })
         }
     }]

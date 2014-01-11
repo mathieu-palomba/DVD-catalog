@@ -47,6 +47,11 @@ exports.create = function (req, res) {
     res.jsonp({"success": !isError});
 };
 
+/**
+ * Delete a DVD in the database.
+ * @param req : The request
+ * @param res : The response
+ */
 exports.delete = function (req, res) {
     console.log("Delete DVD in nodejs");
     var dvdToDelete = req.body.dvd;
@@ -63,6 +68,18 @@ exports.delete = function (req, res) {
             res.jsonp({"success": true});
         }
     });
+};
+
+/**
+ * Edit a DVD in the database.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.edit = function (req, res) {
+    console.log("Edit DVD in nodejs");
+    var dvdToEdit = req.body.dvd;
+
+    console.log(dvdToEdit);
 }
 
 /**
