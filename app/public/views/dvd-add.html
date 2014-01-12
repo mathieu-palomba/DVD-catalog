@@ -10,7 +10,7 @@
 
                     <div class="controls">
                         <div class="input-append">
-                            <input type="text" id="inputDvdName" ng-model="dvd.title" placeholder="Nom du film" required>
+                            <input type="text" id="inputDvdName" ng-model="dvd.title" placeholder="Nom du film" required autofocus>
                             <button type="button"
                                     title="Pré-remplissage des champs si le film est répertorié"
                                     ng-click="checkMovieInformation()" ng-disabled="!(dvd.title.length>0)"

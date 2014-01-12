@@ -10,7 +10,9 @@
         "ejs": "*",
         "mongoose": "*",
         "connect-mongo": "*",
-        "request": "*"
+        "request": "*",
+		"passport": "*",
+		"passport-local": "*"
     },
     "author": "Mathieu <perdodelamancha31@gmail.com>",
     "description": "DVDs catalog"

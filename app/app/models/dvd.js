@@ -5,7 +5,9 @@ var mongoose = require('mongoose');
  */
 var actorSchema = mongoose.Schema({
 //    firstName: {type: String},
-    name: {type: String}
+    name: {
+        type: String
+    }
 });
 
 /**
@@ -13,7 +15,8 @@ var actorSchema = mongoose.Schema({
  */
 var dvdSchema = mongoose.Schema({
     title: {
-        type: String
+        type: String,
+        unique: true
     },
     moviePoster: {
         type: String
