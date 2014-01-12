@@ -3,6 +3,28 @@
  */
 var dvdCatServices = angular.module('dvdCatServices', ['ngResource']);
 
+dvdCatServices.constant('GenresConstant', {
+    action: 'Action',
+    adventure: 'Aventure',
+    animation: 'Animation',
+    comedy: 'Comédie',
+    crime: 'Policier',
+    disaster: 'Catastrophique',
+    documentary: 'Documentaire',
+    drama: 'Drame',
+    erotic: 'Erotique',
+    family: 'Famille',
+    fantastic: 'Fantastique',
+    martialArts: 'Arts Martiaux',
+    horror: 'Horreur',
+    musical: 'Musical',
+    romance: 'Romantique',
+    scienceFiction: 'Science fiction',
+    thriller: 'Thriller',
+    war: 'Guerre',
+    western: 'Western'
+});
+
 /**
  * This service permit to create a RESTful client and avoid the $http lower method. The $ressource route must hve the same name in "app.js".
  */

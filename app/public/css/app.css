@@ -62,6 +62,10 @@ h1 {
     margin-top: -420px;
 }
 
+.backButton {
+    float: right;
+}
+
 /** Add DVD view **/
 .textArea {
     width: 500px;

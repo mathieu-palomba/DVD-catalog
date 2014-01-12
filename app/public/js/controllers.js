@@ -39,19 +39,25 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
          * Delete the selected DVD.
          */
         $scope.deleteDvd = function(dvd) {
-            // We delete the DVD
-            $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {dvd: dvd}, function()
-            {
-                if( $scope.dvdDeleted.success )
-                {
-                    console.log('DVD deleted successfully');
-                    $route.reload();
+            // We ask user confirmation
+            bootbox.confirm('Are you sure to delete ' + dvd + '?', function(result) {
+                // OK clicked
+                if(result) {
+                    // We delete the DVD
+                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {dvd: dvd}, function()
+                    {
+                        if( $scope.dvdDeleted.success )
+                        {
+                            console.log('DVD deleted successfully');
+                            $route.reload();
+                        }
+                        else
+                        {
+                            console.log('Error when deleting the DVD');
+                        }
+                    } );
                 }
-                else
-                {
-                    console.log('Error when deleting the DVD');
-                }
-            } );
+            });
         };
     }
 ]);
@@ -59,14 +65,9 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
 /**
  * DVD Details controllers.
  */
-dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', 'Dvd',
-    function ($scope, $routeParams, Dvd) {
+dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$location', 'Dvd',
+    function ($scope, $routeParams, $location, Dvd) {
         console.log('Dvd Details controller');
-
-        // Method with our service
-//        $scope.dvd = Dvd.DvdList.get({dvdId: $routeParams.dvdId}, function (dvd) {
-//            $scope.mainImageUrl = dvd.images[0];
-//        });
 
         // We get the DVD
         $scope.dvdSearch = Dvd.DvdDetails.getDvd( {dvd: $routeParams.dvdId}, function()
@@ -75,31 +76,25 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', 'Dvd',
             {
                 console.log('DVD got successfully');
                 $scope.dvd = $scope.dvdSearch.dvd[0];
-                $scope.mainImageUrl = $scope.dvd.moviePoster;
             }
             else
             {
-                console.log('Error when getting the DVD list');
+                console.log('Error when getting the DVD');
             }
         } );
 
         /**
-         * Edit the selected DVD.
+         * Redirection into the edit DVD html page.
          */
-        $scope.editDvd = function(dvd) {
-            // We edit the DVD
-            $scope.dvdEdited = Dvd.DvdDetails.editDvd( {dvd: dvd}, function()
-            {
-                if( $scope.dvdEdited.success )
-                {
-                    console.log('DVD edited successfully');
-                    $route.reload();
-                }
-                else
-                {
-                    console.log('Error when deleting the DVD');
-                }
-            } );
+        $scope.editDvd = function(dvdId) {
+            $location.url('/editDvd/' + dvdId);
+        };
+
+        /**
+         * Redirection into the DVD list html page.
+         */
+        $scope.back = function(dvdId) {
+            $location.url('/dvd');
         };
     }
 ]);
@@ -107,34 +102,13 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', 'Dvd',
 /**
  * Add DVD controllers.
  */
-dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB',
-    function ($scope, $location, $http, Dvd, MovieDB) {
+dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB', 'GenresConstant',
+    function ($scope, $location, $http, Dvd, MovieDB, GenresConstant) {
         console.log('Dvd Add controller');
 
 
-
         // The different movie genres.
-        $scope.genres = {
-            action: 'Action',
-            adventure: 'Aventure',
-            animation: 'Animation',
-            comedy: 'Comédie',
-            crime: 'Policier',
-            disaster: 'Catastrophique',
-            documentary: 'Documentaire',
-            drama: 'Drame',
-            erotic: 'Erotique',
-            family: 'Famille',
-            fantastic: 'Fantastique',
-            martialArts: 'Arts Martiaux',
-            horror: 'Horreur',
-            musical: 'Musical',
-            romance: 'Romantique',
-            scienceFiction: 'Science fiction',
-            thriller: 'Thriller',
-            war: 'Guerre',
-            western: 'Western'
-        };
+        $scope.genres = GenresConstant;
 
         // Initialize the DVD form.
         $scope.dvd = {
@@ -369,43 +343,6 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             });
         };
 
-//        var dvdList = Dvd.DvdAdd.getAllDvd( function()
-//        {
-//            if( dvdList.success )
-//            {
-//                console.log('DVD got successfully');
-//                console.log(dvdList.dvdList);
-//                //$location.url('/dvd');
-//            }
-//            else
-//            {
-//                console.log('Error when getting the DVD list');
-//            }
-//        } );
-
-//        var dvd = Dvd.DvdAdd.getDvd( {dvd: 'Avatar'}, function()
-//        {
-//            if( dvd.success )
-//            {
-//                console.log('DVD got successfully');
-//                console.log(dvd.dvd[0]);
-//                //$location.url('/dvd');
-//            }
-//            else
-//            {
-//                console.log("Error when getting the DVD");
-//            }
-//        } );
-
-//        var dvd = Dvd.DvdAdd.isDvdExist({dvd: 'Avatar'}, function () {
-//            if (dvd.success) {
-//                console.log('DVD exist');
-//            }
-//            else {
-//                console.log('Error when checking the DVD');
-//            }
-//        });
-
         // To display image canvas
 //        var canvas = document.getElementById('imageCanvas');
 //        var context = canvas.getContext('2d');
@@ -420,5 +357,103 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 //        imageObj.src = 'http://image.tmdb.org/t/p/w500/nzN40Eck9q6YbdaNQs4pZbMKsfP.jpg';
 
     }]
-)
-;
+);
+
+/**
+ * DVD Edit controllers.
+ */
+dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'GenresConstant',
+    function ($scope, $location, $routeParams, Dvd, GenresConstant) {
+        console.log('Dvd Edit controller');
+
+        // We get the genres list
+        $scope.genres = GenresConstant;
+
+        // We get the DVD
+        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {dvd: $routeParams.dvdId}, function()
+        {
+            if( $scope.dvdSearch.success )
+            {
+                console.log('DVD load successfully');
+                $scope.dvd = $scope.dvdSearch.dvd[0];
+
+                // In the case if user change the title
+                $scope.dvd.oldTitle = $scope.dvd.title;
+            }
+            else
+            {
+                console.log('Error when loading the DVD');
+            }
+        } );
+
+        /**
+         * Redirection into the DVD details html page (oldTitle because the film was not updated).
+         */
+        $scope.cancelEditDvd = function () {
+            $location.url('/dvd/' + $scope.dvd.oldTitle);
+        };
+
+        /**
+         * Add a new Actor.
+         */
+        $scope.addInputActor = function(actor){
+            // The boolean which permit to check if an empty field exist
+            var isExist = false;
+
+            // We check if an empty field alreayd exist
+            for (var actorID in $scope.dvd.actors) {
+                if($scope.dvd.actors[actorID].name == '')
+                    isExist = true;
+            }
+
+            // If no field are empty, we add a new input field
+            if(!isExist) {
+                $scope.dvd.actors.push( {name: ''} );
+            }
+        }
+
+        /**
+         * Delete the current Actor.
+         * @param actor: The actor to delete
+         */
+        $scope.deleteThisActor = function(actor){
+            // We decrement the length for the ng-repeat, and we delete the actor value
+            $scope.dvd.actors.length -= 1;
+            delete $scope.dvd.actors[actor];
+        };
+
+
+        /**
+         * Update the current DVD with new informations.
+         */
+        $scope.performUpdate = function () {
+            // If the title has changed, we rename the movie poster file and movie poster path
+            if($scope.dvd.oldTitle != $scope.dvd.title) {
+                $scope.dvd.moviePoster = 'img/' + $scope.dvd.title + '.jpg';
+
+                // We rename the movie poster
+                var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: $scope.dvd.oldTitle + '.jpg', filename: $scope.dvd.title + '.jpg'}, function () {
+                    if (renamedImage.success) {
+                        console.log('Image successfully renamed');
+                    }
+                    else {
+                        console.log("Error when saved the image");
+                    }
+                });
+            }
+
+            // We edit the DVD
+            $scope.dvdEdited = Dvd.DvdDetails.editDvd({dvd: $scope.dvd}, function () {
+                if ($scope.dvdEdited.success) {
+                    console.log('DVD edited successfully');
+
+                    // We redirect into the DVD details view ( title because the film was updated)
+                    $location.url('/dvd/' + $scope.dvd.title);
+                }
+                else {
+                    console.log('Error when deleting the DVD');
+                }
+            });
+        }
+    }
+]);

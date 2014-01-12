@@ -56,7 +56,7 @@ exports.delete = function (req, res) {
     console.log("Delete DVD in nodejs");
     var dvdToDelete = req.body.dvd;
 
-    console.log(dvdToDelete);
+    // We delete the DVD from the database.
     Dvd.remove({ title: dvdToDelete }, function (err) {
         if(err) {
             console.log("Error when deleting the DVD")
@@ -79,7 +79,21 @@ exports.edit = function (req, res) {
     console.log("Edit DVD in nodejs");
     var dvdToEdit = req.body.dvd;
 
-    console.log(dvdToEdit);
+    // We update the DVD from the database.
+    Dvd.update({ title: dvdToEdit.oldTitle }, { $set: { title: dvdToEdit.title, moviePoster: dvdToEdit.moviePoster,
+         genre: dvdToEdit.genre, releaseDate: dvdToEdit.releaseDate,
+         overview: dvdToEdit.overview, productionCompanies: dvdToEdit.productionCompanies,
+         director: dvdToEdit.director, actors: dvdToEdit.actors } },
+        function (err, numberAffected) {
+        if (err) {
+            console.log("Error during updating the DVD");
+            res.jsonp({"success": false});
+        }
+        else {
+            console.log("DVD updated " + numberAffected);
+            res.jsonp({"success": true});
+        }
+    });
 }
 
 /**

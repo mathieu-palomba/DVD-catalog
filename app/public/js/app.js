@@ -28,6 +28,10 @@ dvdCatApp.config(['$routeProvider',
                 templateUrl: 'views/dvd-add.html',
                 controller: 'DvdAddCtrl'
             }).
+            when('/editDvd/:dvdId', {
+                templateUrl: 'views/dvd-edit.html',
+                controller: 'DvdEditCtrl'
+            }).
             otherwise({
                 redirectTo: '/dvd'   // The name which appear when loading index.html
             });
