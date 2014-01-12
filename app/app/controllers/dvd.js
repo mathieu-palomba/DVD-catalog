@@ -109,13 +109,18 @@ exports.getAllDvd = function (req, res) {
 
                 // We return KO
 //                res.send('err');
-                result.jsonp({"success": false});
+                res.jsonp({"success": false});
             }
             else {
                 console.log("DVD list got");
 
-                // We return OK
-                res.jsonp({"success": true, "dvdList": data});
+                if(data.length > 0) {
+                    // We return OK
+                    res.jsonp({"success": true, "dvdList": data});
+                }
+                else {
+                    res.jsonp({"success": false});
+                }
             }
         })
 };
@@ -135,13 +140,18 @@ exports.getDvd = function (req, res) {
                 console.log("Error during reading the DVD");
 
                 // We return KO
-                result.jsonp({"success": false});
+                res.jsonp({"success": false});
             }
             else {
                 console.log("DVD got");
 
-                // We return OK
-                res.jsonp({"success": true, "dvd": data});
+                if(data.length > 0) {
+                    // We return OK
+                    res.jsonp({"success": true, "dvd": data});
+                }
+                else {
+                    res.jsonp({"success": false});
+                }
             }
         })
 };
@@ -164,7 +174,7 @@ exports.isDvdExist = function (req, res) {
                 console.log("Error during checking the DVD");
 
                 // We return KO
-                result.jsonp({"success": false});
+                res.jsonp({"success": false});
             }
             else {
                 console.log(data);
@@ -231,7 +241,7 @@ exports.renameImage = function(req, res){
     var imagePath = path.resolve(__dirname, '../../public/img/', filename);
 
     // We rename the temporary image with the "temporary filename" in the "filename" image
-    fs.rename(temporaryImagePath, imagePath, function(){
+    fs.rename(temporaryImagePath, imagePath, function() {
         console.log("Rename");
 
         // We return OK

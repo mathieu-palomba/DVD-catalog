@@ -80,6 +80,7 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$locat
             else
             {
                 console.log('Error when getting the DVD');
+                $location.url('/dvd');
             }
         } );
 
@@ -105,6 +106,7 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$locat
 dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB', 'GenresConstant',
     function ($scope, $location, $http, Dvd, MovieDB, GenresConstant) {
         console.log('Dvd Add controller');
+
 
 
         // The different movie genres.
@@ -383,6 +385,7 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
             else
             {
                 console.log('Error when loading the DVD');
+                $location.url('/dvd');
             }
         } );
 
