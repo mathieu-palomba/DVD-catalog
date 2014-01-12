@@ -3,6 +3,7 @@
 */
 var express = require('express');
 var mongoose = require('mongoose');
+var passport = require('passport');
 var fs = require('fs');
 var http = require('http');
 
@@ -51,42 +52,20 @@ app//.use(express.logger())
     .use(express.urlencoded())      // Replace bodyParser
     .use(express.json())            // Replace bodyParser
     .use(express.cookieParser())    // CookieParser should be above session
-    .use(express.session({
+    .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
         secret: "mylittlesecret",
         cookie: {maxAge: new Date(Date.now() + 3600000)}, // 1 hour
         maxAge: new Date(Date.now() + 3600000) // 1 hour
-    }));
+    }))
+    .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
+    .use(passport.session());       // The important part. Must go AFTER the express session is initialized
 
 // Set views path, template engine and default layout
 app.set('views', __dirname + '/app/views');
 app.set('view engine', 'ejs');
 
-// TODO
-var passport = require('passport');
-var user = require('./app/models/user');
-
+// Passport
 require( './config/passport' )( passport );
-
-// Default session handling. Won't explain it as there are a lot of resources out there
-//app.use(express.session({
-//    secret: "mylittlesecret",
-//    cookie: {maxAge: new Date(Date.now() + 3600000)}, // 1 hour
-//    maxAge: new Date(Date.now() + 3600000) // 1 hour
-//}));
-
-// The important part. Must go AFTER the express session is initialized
-app.use(passport.initialize());
-app.use(passport.session());
-
-// Set up your express routes
-//var auth = require('./app/controllers/user');
-//
-//app.post('/auth/login', auth.login);
-//app.post('/auth/logout', auth.logout);
-//app.get('/auth/login/success', auth.loginSuccess);
-//app.get('/auth/login/failure', auth.loginFailure);
-//app.post('/auth/register', auth.register);
-// END TODO
 
 // Routes
 require( './config/routes' )( app );

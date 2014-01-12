@@ -18,10 +18,13 @@ var AuthController = {
     // On Login Success callback
     loginSuccess: function(req, res){
         console.log('login success');
+
         res.json({
             success: true,
             user: req.session.passport.user
         });
+
+//        res.redirect( '/dvd', {user: err );
     },
 
     // On Login Failure callback
@@ -39,11 +42,14 @@ var AuthController = {
             success:false,
             message: 'Invalid username or password.'
         });
+
+        res.redirect( '/' );
     },
 
     // Log out a user   
     logout: function(req, res){
         console.log('Logout');
+
         req.logout();
         res.end();
     },
@@ -52,15 +58,15 @@ var AuthController = {
     register: function(req, res){
         console.log('Create user');
 
-        User.create({name: req.body.name, email: req.body.email, password: req.body.password}, function(err){
-            if (err) {
-                console.log(err);
-                res.redirect('/* Your error redirection path */');
-                return;
-            }
-
-            res.redirect('/* Your success redirection path */');
-        });
+//        User.create({name: req.body.name, email: req.body.email, password: req.body.password}, function(err){
+//            if (err) {
+//                console.log(err);
+//                res.redirect('/* Your error redirection path */');
+//                return;
+//            }
+//
+//            res.redirect('/* Your success redirection path */');
+//        });
     }
 
 };

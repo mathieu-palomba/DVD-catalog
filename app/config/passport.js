@@ -21,13 +21,13 @@ module.exports = function( passport )
         } );
     } );
 
-    passport.validPassword = function(password){
-        if (this.password == password){
-            return true;
-        }
-
-        return false;
-    }
+//    passport.validPassword = function(password){
+//        if (this.password == password){
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
     //Use local strategy
     passport.use( new LocalStrategy( {
@@ -36,7 +36,7 @@ module.exports = function( passport )
         },
         function( username, password, done )
         {
-            console.log('Local srategy ' + username + ' ' + password);
+            console.log('Local strategy ' + username + ' ' + password);
 
             User.findOne( {username: username}, function( err, user )
             {
