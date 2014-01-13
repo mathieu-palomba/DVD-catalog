@@ -24,7 +24,7 @@ var AuthController = {
             user: req.session.passport.user
         });
 
-//        res.redirect( '/dvd', {user: err );
+        res.redirect( '/dvd' );
     },
 
     // On Login Failure callback
@@ -52,6 +52,8 @@ var AuthController = {
 
         req.logout();
         res.end();
+
+        res.redirect( '/' );
     },
 
     // Register a user
@@ -67,6 +69,12 @@ var AuthController = {
 //
 //            res.redirect('/* Your success redirection path */');
 //        });
+    },
+
+    // Ensure that user it's authenticated
+    ensureAuthenticated: function(req, res, next) {
+        if (req.isAuthenticated()) { return next(); }
+        res.redirect('/')
     }
 
 };

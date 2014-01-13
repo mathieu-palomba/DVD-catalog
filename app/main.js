@@ -54,8 +54,8 @@ app//.use(express.logger())
     .use(express.cookieParser())    // CookieParser should be above session
     .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
         secret: "mylittlesecret",
-        cookie: {maxAge: new Date(Date.now() + 3600000)}, // 1 hour
-        maxAge: new Date(Date.now() + 3600000) // 1 hour
+        cookie: {maxAge: new Date(Date.now() + 3600000)}, // 3600000 = 1 hour
+        maxAge: new Date(Date.now() + 3600000) // 3600000 = 1 hour
     }))
     .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
     .use(passport.session());       // The important part. Must go AFTER the express session is initialized
@@ -71,7 +71,10 @@ require( './config/passport' )( passport );
 require( './config/routes' )( app );
 
 // Server listen the following port
-app.listen(3050);
+var port = 3050;
+app.listen(port);
+
+console.log('Server start on port: ' + port);
 
 // TODO
 // handle users

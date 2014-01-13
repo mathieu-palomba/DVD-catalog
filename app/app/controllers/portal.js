@@ -2,6 +2,6 @@
  * GET home page.
  */
 exports.portal = function (req, res) {
-    console.log(req);
-    res.render('portal.ejs');
+    console.log(req.user);
+    res.render('portal.ejs', {user: req.user});
 };

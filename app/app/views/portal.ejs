@@ -52,8 +52,30 @@
     <script src="js/app.js"></script>
 </head>
 <body>
+<!-- navbar -->
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="#">Accueil</a>
+        <!-- Space Divider -->
+        <ul class="nav">
+            <li class="divider-vertical"></li>
+        </ul>
+
+        <!-- Space Divider with logout link -->
+        <ul class="nav pull-right">
+            <li class="divider-vertical"></li>
+            <li><a href="/user/logout">Logout</a></li>
+        </ul>
+
+        <!-- User information -->
+        <p class="navbar-text">Hello  <%= user ? user.username : "unknown" %></p>
+    </div>
+</div>
+<!-- end navbar -->
+
 <div class="view-container">
     <div ng-view class="view-frame"></div>
 </div>
+
 </body>
 </html>
