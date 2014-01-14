@@ -6,6 +6,7 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var fs = require('fs');
 var http = require('http');
+var flash = require('connect-flash');
 
 /**
 * Main application entry file.
@@ -44,6 +45,10 @@ walk( models_path );
 // Instantiate express module
 var app = express();
 
+// Set views path, template engine and default layout
+app.set('views', __dirname + '/app/views');
+app.set('view engine', 'ejs');
+
 // Active logging middleware, notice the /public folder which contain the static files, enable the favicon and allow the body parsing when nodeJS receive a client request (by angularJS for example)
 app//.use(express.logger())
     .use(express.static(__dirname + '/public'))
@@ -57,12 +62,9 @@ app//.use(express.logger())
         cookie: {maxAge: new Date(Date.now() + 3600000)}, // 3600000 = 1 hour
         maxAge: new Date(Date.now() + 3600000) // 3600000 = 1 hour
     }))
+    .use(flash())                   // Connect flash for flash messages
     .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
     .use(passport.session());       // The important part. Must go AFTER the express session is initialized
-
-// Set views path, template engine and default layout
-app.set('views', __dirname + '/app/views');
-app.set('view engine', 'ejs');
 
 // Passport
 require( './config/passport' )( passport );
@@ -72,9 +74,9 @@ require( './config/routes' )( app );
 
 // Server listen the following port
 var port = 3050;
-app.listen(port);
-
-console.log('Server start on port: ' + port);
+app.listen(port, function() {
+    console.log('Server start on port: ' + port);
+});
 
 // TODO
 // handle users

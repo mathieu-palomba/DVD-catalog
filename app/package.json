@@ -12,8 +12,9 @@
         "connect-mongo": "*",
         "request": "*",
 		"passport": "*",
-		"passport-local": "*"
+		"passport-local": "*",
+		"connect-flash": "*"
     },
     "author": "Mathieu <perdodelamancha31@gmail.com>",
-    "description": "DVDs catalog"
+    "description": "DVD catalog"
 }

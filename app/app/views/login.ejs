@@ -24,6 +24,9 @@
         <!--<button class="btn btn-primary" type="submit">Sign in</button>-->
     <!--</form>-->
 
+    <% if( locals.message )  { %>
+    <div class="alert alert-danger"><%= message %></div>
+    <% } %>
     <form action="/user/login" method="post">
         <div>
             <label>Username:</label>

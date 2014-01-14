@@ -6,13 +6,16 @@ var AuthController = {
 
     // The sign in view
     signIn: function (req, res) {
-        res.render('login.ejs');
+        console.log('Sing in');
+
+        res.render('login');
     },
 
     // Login a user 
     login: passport.authenticate('local', {
         successRedirect: '/user/login/success',
-        failureRedirect: '/user/login/failure'
+        failureRedirect: '/user/login/failure',
+        failureFlash: true                          // You can set you're error message here if you don't want to user the "new LocalStrategy" error message in the return done function
     }),
 
     // On Login Success callback
@@ -31,6 +34,8 @@ var AuthController = {
     loginFailure: function(req, res){
         console.log('login failure');
 
+//        console.log(req.message);
+
 //        User.create({username: 'mathieu', email: 'mathieu@mathieu.fr', password: 'root'}, function(err){
 //            if (err) {
 //                console.log(err);
@@ -38,12 +43,16 @@ var AuthController = {
 //            }
 //        });
 
-        res.json({
-            success:false,
-            message: 'Invalid username or password.'
-        });
+//        res.json({
+//            success:false,
+//            message: 'Invalid username or password.'
+//        });
 
-        res.redirect( '/' );
+//        res.redirect( '/' );
+
+        res.render( 'login', {
+            message: req.flash( 'error' )
+        } );
     },
 
     // Log out a user   
@@ -73,8 +82,14 @@ var AuthController = {
 
     // Ensure that user it's authenticated
     ensureAuthenticated: function(req, res, next) {
-        if (req.isAuthenticated()) { return next(); }
-        res.redirect('/')
+        console.log('Ensure authenticated');
+
+        if (req.isAuthenticated()) {
+            return next();
+        }
+
+//        res.redirect( '/' );
+        res.render( 'login' );
     }
 
 };
