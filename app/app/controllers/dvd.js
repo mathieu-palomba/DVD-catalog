@@ -4,7 +4,7 @@
 var mongoose = require('mongoose'),
     Dvd = mongoose.model('Dvd'),
     fs = require('fs'),             // fs and request is used to download cross domain pictures
-    path = require('path'),         // to save files
+    path = require('path'),         // To save files
     http = require('http'),
     request = require('request');
 

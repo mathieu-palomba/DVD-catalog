@@ -6,6 +6,7 @@
     <!-- CSS -->
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/signin.css">
 
     <!-- Libraries -->
     <!-- jQuery is used for JavaScript animations (include this before angular.js) -->
@@ -13,33 +14,110 @@
 
     <!-- Bootstrap library for popover tooltips (require by bootstrap-ui) -->
     <script src="lib/Bootstrap/bootstrap.js"></script>
+
+    <!--Slider-in icons-->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".username").focus(function() {
+                $(".user-icon").css("left","-48px");
+            });
+            $(".username").blur(function() {
+                $(".user-icon").css("left","0px");
+            });
+
+            $(".password").focus(function() {
+                $(".pass-icon").css("left","-48px");
+            });
+            $(".password").blur(function() {
+                $(".pass-icon").css("left","0px");
+            });
+        });
+    </script>
 </head>
 <body>
 
-<div class="container">
-    <!--<form method="post" action="/user/login" class="form-signin">-->
+<!--<div class="container">-->
+    <!--&lt;!&ndash;<form method="post" action="/user/login" class="form-signin">&ndash;&gt;-->
+        <!--&lt;!&ndash;<h2 class="form-signin-heading">Please sign in</h2>&ndash;&gt;-->
+        <!--&lt;!&ndash;<input type="text" name="username" class="form-control" placeholder="User name" required autofocus>&ndash;&gt;-->
+        <!--&lt;!&ndash;<input type="password" name="password" class="form-control" placeholder="Password" required>&ndash;&gt;-->
+        <!--&lt;!&ndash;<button class="btn btn-primary" type="submit">Sign in</button>&ndash;&gt;-->
+    <!--&lt;!&ndash;</form>&ndash;&gt;-->
+
+    <!--<% if( locals.message )  { %>-->
+    <!--<div class="alert alert-danger"><%= message %></div>-->
+    <!--<% } %>-->
+    <!--<form action="/user/login" method="post" class="form-signin">-->
+        <!--<h2>Identifiez vous s'il vous plait</h2>-->
+        <!--<div>-->
+            <!--<label>Nom d'utilisateur :</label>-->
+            <!--<input type="text" name="username" placeholder="Nom d'utilisateur" required autofocus/><br/>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<label>Mot de passe :</label>-->
+            <!--<input type="password" name="password" placeholder="Mot de passe" required/>-->
+        <!--</div>-->
+        <!--<div>-->
+            <!--<button type="submit" class="btn btn-primary">Envoyer</button>-->
+        <!--</div>-->
+    <!--</form>-->
+<!--</div>-->
+
+<!--<div class="container">-->
+    <!--<form method="post" action="/users/login" class="form-signin">-->
         <!--<h2 class="form-signin-heading">Please sign in</h2>-->
+        <% if( locals.message )  {
+                for(var i=0; i<message.length; i++) { %>
+        <!--<div class="alert alert-danger"><%= message[i] %></div>-->
+        <%  }
+        } %>
         <!--<input type="text" name="username" class="form-control" placeholder="User name" required autofocus>-->
         <!--<input type="password" name="password" class="form-control" placeholder="Password" required>-->
-        <!--<button class="btn btn-primary" type="submit">Sign in</button>-->
+        <!--<button class="btn btn-lg btn-primary btn-block"type="submit">Sign in</button>-->
     <!--</form>-->
+<!--</div>-->
 
+<!--WRAPPER-->
+<div id="wrapper">
+
+    <!--SLIDE-IN ICONS-->
+    <div class="user-icon"></div>
+    <div class="pass-icon"></div>
+    <!--END SLIDE-IN ICONS-->
     <% if( locals.message )  { %>
     <div class="alert alert-danger"><%= message %></div>
     <% } %>
-    <form action="/user/login" method="post">
-        <div>
-            <label>Username:</label>
-            <input type="text" name="username"/><br/>
+    <!--LOGIN FORM-->
+    <form name="login-form" action="/user/login" method="post" class="login-form">
+
+        <!--HEADER-->
+        <div class="header">
+            <!--TITLE--><h1>Formulaire de connexion</h1><!--END TITLE-->
         </div>
-        <div>
-            <label>Password:</label>
-            <input type="password" name="password"/>
+        <!--END HEADER-->
+
+        <!--CONTENT-->
+        <div class="content">
+            <!--USERNAME--><input name="username" type="text" value="Nom d'utilisateur" onfocus="this.value=''" class="input username"/><!--END USERNAME-->
+            <!--PASSWORD--><input name="password" type="password" value="Mot de passe" onfocus="this.value=''" class="input password"/><!--END PASSWORD-->
         </div>
-        <div>
-            <input type="submit" value="Submit"/>
+        <!--END CONTENT-->
+
+        <!--FOOTER-->
+        <div class="footer">
+            <!--LOGIN BUTTON--><input type="submit" name="submit" value="Connexion" class="button" /><!--END LOGIN BUTTON-->
+            <!--REGISTER BUTTON-->
+            <!--<input type="submit" name="submit" value="Register" class="register" />-->
+            <!--END REGISTER BUTTON-->
         </div>
+        <!--END FOOTER-->
+
     </form>
+    <!--END LOGIN FORM-->
+
 </div>
+<!--END WRAPPER-->
+
+<!--GRADIENT--><div class="gradient"></div><!--END GRADIENT-->
 </body>
 </html>
