@@ -6,7 +6,6 @@ var mongoose = require('mongoose');     // MongoDB module
 var passport = require('passport');     // User sessions module
 var fs = require('fs');                 // File System module
 var http = require('http');             // HTTP requests module
-//var flash = require('connect-flash');   // Error message module
 
 /**
 * Main application entry file.

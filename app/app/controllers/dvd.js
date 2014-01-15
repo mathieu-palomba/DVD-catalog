@@ -232,6 +232,8 @@ exports.saveImage = function(req, res){
  * @param res : The response
  */
 exports.renameImage = function(req, res){
+    console.log('Rename image');
+
     // We get the temporary filename and the filename
     var temporaryFilename = req.body.temporaryFilename;
     var filename = req.body.filename;
@@ -240,8 +242,15 @@ exports.renameImage = function(req, res){
     var temporaryImagePath = path.resolve(__dirname, '../../public/img/', temporaryFilename)
     var imagePath = path.resolve(__dirname, '../../public/img/', filename);
 
+    console.log(temporaryImagePath);
+    console.log(imagePath);
+
     // We rename the temporary image with the "temporary filename" in the "filename" image
-    fs.rename(temporaryImagePath, imagePath, function() {
+    fs.rename(temporaryImagePath, imagePath, function(err) {
+        if (err) {
+            console.log(err)
+        };
+
         console.log("Rename");
 
         // We return OK
