@@ -1,24 +1,39 @@
+/**
+ * Module dependencies.
+ */
 var passport = require('passport')
     mongoose = require('mongoose'),
     User = mongoose.model('User'); // The model we defined in the previous example
 
 var AuthController = {
 
-    // The sign in view
+    /**
+     * The sign in view.
+     * @param req : The request
+     * @param res : The response
+     */
     signIn: function (req, res) {
         console.log('Sing in');
 
         res.render('login');
     },
 
-    // Login a user 
+    /**
+     * Login a user.
+     * @param req : The request
+     * @param res : The response
+     */
     login: passport.authenticate('local', {
         successRedirect: '/user/login/success',
         failureRedirect: '/user/login/failure',
         failureFlash: true                          // You can set you're error message here if you don't want to user the "new LocalStrategy" error message in the return done function
     }),
 
-    // On Login Success callback
+    /**
+     * On Login Success callback.
+     * @param req : The request
+     * @param res : The response
+     */
     loginSuccess: function(req, res){
         console.log('login success');
 
@@ -30,7 +45,11 @@ var AuthController = {
         res.redirect( '/dvd' );
     },
 
-    // On Login Failure callback
+    /**
+     * On Login Failure callback.
+     * @param req : The request
+     * @param res : The response
+     */
     loginFailure: function(req, res){
         console.log('login failure');
 
@@ -55,7 +74,11 @@ var AuthController = {
         } );
     },
 
-    // Log out a user   
+    /**
+     * Log out a user.
+     * @param req : The request
+     * @param res : The response
+     */
     logout: function(req, res){
         console.log('Logout');
 
@@ -65,7 +88,27 @@ var AuthController = {
         res.redirect( '/' );
     },
 
-    // Register a user
+    /**
+     * Ensure that user it's authenticated.
+     * @param req : The request
+     * @param res : The response
+     */
+    ensureAuthenticated: function(req, res, next) {
+        console.log('Ensure authenticated');
+
+        if (req.isAuthenticated()) {
+            return next();
+        }
+
+//        res.redirect( '/' );
+        res.render( 'login' );
+    },
+
+    /**
+     * Register a user.
+     * @param req : The request
+     * @param res : The response
+     */
     register: function(req, res){
         console.log('Create user');
 
@@ -80,16 +123,14 @@ var AuthController = {
 //        });
     },
 
-    // Ensure that user it's authenticated
-    ensureAuthenticated: function(req, res, next) {
-        console.log('Ensure authenticated');
-
-        if (req.isAuthenticated()) {
-            return next();
-        }
-
-//        res.redirect( '/' );
-        res.render( 'login' );
+    /**
+     * Send the current user.
+     * @param req : The request
+     * @param res : The response
+     */
+    currentUser: function( req, res )
+    {
+        res.jsonp( req.user || null );
     }
 
 };

@@ -1,5 +1,11 @@
+/**
+ * Module dependencies.
+ */
 var mongoose = require('mongoose');
 
+/**
+ * The User Schema.
+ */
 var userSchema = new mongoose.Schema({
     username: {
         type: String,

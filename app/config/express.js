@@ -30,4 +30,29 @@ module.exports = function( app, passport )
         .use(flash())                   // Connect flash for flash messages
         .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
         .use(passport.session());       // The important part. Must go AFTER the express session is initialized
+
+    app.use(app.router);
+
+    // Since this is the last non-error-handling middleware used, we assume 404, as nothing else responded.
+    app.use(function(req, res, next) {
+        res.status(404);
+
+        console.log('404');
+
+        // Respond with html page
+        if (req.accepts('html')) {
+            var errorPath = path.resolve(__dirname, '../public/img/dvd-catalog/404.jpg');
+            res.render('404', { url: req.url, errorPath: errorPath });
+            return;
+        }
+
+        // Respond with json
+        if (req.accepts('json')) {
+            res.send({ error: 'Not found' });
+            return;
+        }
+
+        // Default to plain-text. send()
+        res.type('txt').send('Not found');
+    });
 };
