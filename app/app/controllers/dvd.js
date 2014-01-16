@@ -249,11 +249,16 @@ exports.renameImage = function(req, res){
     fs.rename(temporaryImagePath, imagePath, function(err) {
         if (err) {
             console.log(err)
-        };
 
-        console.log("Rename");
+            // We return KO
+            res.jsonp({"success": false});
+        }
 
-        // We return OK
-        res.jsonp({"success": true});
+        else {
+            console.log("Rename");
+
+            // We return OK
+            res.jsonp({"success": true});
+        }
     })
 };

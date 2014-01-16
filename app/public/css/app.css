@@ -2,6 +2,11 @@
 
 body {
     padding-top: 20px;
+    background: url(../img/dvd-catalog/bg.png) repeat;
+}
+
+.myNavbar {
+    margin-top: -18px;
 }
 
 .informations-header {
@@ -43,7 +48,8 @@ body {
 .dvd-thumb {
     float: left;
     padding: 0em 2em 2em 2em;
-    background-color: white;
+    /*background-color: white;*/
+    background: url(../img/dvd-catalog/bg.png) repeat;
 }
 
 img.dvd {

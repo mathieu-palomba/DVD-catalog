@@ -46,11 +46,13 @@ module.exports = function( passport )
                 if( err )
                 {
                     console.log("Error");
+
                     return done( err );
                 }
                 if( !user )
                 {
                     console.log("User not found");
+
                     return done( null, false, {
                         message: 'Unknown user'
                     } );
@@ -58,6 +60,7 @@ module.exports = function( passport )
                 if( password != user.password )
                 {
                     console.log("Invalid password");
+
                     return done( null, false, {
                         message: 'Invalid password'
                     } );

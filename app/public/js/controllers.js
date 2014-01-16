@@ -107,6 +107,19 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
     function ($scope, $location, $http, Dvd, MovieDB, GenresConstant) {
         console.log('Dvd Add controller');
 
+        // Hashcode method to generate moviePoster name
+        String.prototype.hashCode = function(){
+            var hash = 0;
+            if (this.length == 0) return hash;
+            for (i = 0; i < this.length; i++) {
+                char = this.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            return hash;
+        };
+
+
 
         // The different movie genres.
         $scope.genres = GenresConstant;
@@ -137,7 +150,8 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         // Initialize the dynamic popover when the user save a movie already recorder in the database.
         $scope.dynamicSavePopoverStatus = {
             error: 'Le film est déjà répertorié',
-            success: 'Le film a été sauvegardé'
+            success: 'Le film a été sauvegardé',
+            retry: 'Attendez un peu avant de cliquez s\'il vous plait'
         };
         $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
         $scope.dynamicSavePopoverPlacement = 'bottom';
@@ -200,7 +214,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                         // Set the movie poster url and the movie title.
                         $scope.dvd.title = dvdID.results[0].title;
                         if(dvdID.results[0].poster_path != undefined && dvdID.results[0].poster_path != null) {
-                            $scope.dvd.moviePoster = 'img/' + $scope.dvd.title + '.jpg';
+                            $scope.dvd.moviePoster = 'img/' + Math.abs($scope.dvd.title.hashCode()) + '.jpg';
                             $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', dvdID.results[0].poster_path);
 
                             // We pre-saved the movie poster to win time (avoid time problem when the user saved it's DVD and it's relocated in the "/dvd" route)
@@ -316,7 +330,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                 }
                 else {
                     // We save the movie poster
-                    var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: $scope.dvd.temporaryMoviePosterName, filename: $scope.dvd.title + '.jpg'}, function () {
+                    var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: $scope.dvd.temporaryMoviePosterName, filename: Math.abs($scope.dvd.title.hashCode()) + '.jpg'}, function () {
                         if (renamedImage.success) {
                             console.log('Image successfully renamed');
 
@@ -337,7 +351,10 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                             $location.url('/dvd');
                         }
                         else {
-                            console.log("Error when saved the image");
+                            console.log("Error when renamed the image");
+
+                            // We notify to the user that the save performed
+                            $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.retry;
                         }
                     });
                 }

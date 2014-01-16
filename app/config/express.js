@@ -34,25 +34,40 @@ module.exports = function( app, passport )
     app.use(app.router);
 
     // Since this is the last non-error-handling middleware used, we assume 404, as nothing else responded.
-//    app.use(function(req, res, next) {
-//        res.status(404);
-//
-//        console.log('404');
-//
-//        // Respond with html page
-//        if (req.accepts('html')) {
-//            var errorPath = path.resolve(__dirname, '../public/img/dvd-catalog/404.jpg');
-//            res.render('404', { url: req.url, errorPath: errorPath });
-//            return;
-//        }
-//
-//        // Respond with json
-//        if (req.accepts('json')) {
-//            res.send({ error: 'Not found' });
-//            return;
-//        }
-//
-//        // Default to plain-text. send()
-//        res.type('txt').send('Not found');
-//    });
+    app.use(function(req, res, next) {
+        res.status(404);
+
+        console.log('404');
+
+        // Respond with html page
+        if (req.accepts('html')) {
+            var errorPath = path.resolve(__dirname, '../public/img/dvd-catalog/404.jpg');
+            res.render('404', { url: req.url, errorPath: errorPath });
+            return;
+        }
+
+        // Respond with json
+        if (req.accepts('json')) {
+            res.send({ error: 'Not found' });
+            return;
+        }
+
+        // Default to plain-text. send()
+        res.type('txt').send('Not found');
+    });
+
+    // Assume "not found" in the error msgs is a 404. This is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
+    app.use(function(err, req, res, next) {
+        //Treat as 404
+        if (~err.message.indexOf('not found'))
+            return next();
+
+        //Log it
+        console.error(err.stack);
+
+        //Error page
+        res.status(500).render('500', {
+            error: err.stack
+        });
+    });
 };

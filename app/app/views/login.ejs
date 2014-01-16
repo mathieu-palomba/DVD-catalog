@@ -44,9 +44,10 @@
         <!--&lt;!&ndash;<button class="btn btn-primary" type="submit">Sign in</button>&ndash;&gt;-->
     <!--&lt;!&ndash;</form>&ndash;&gt;-->
 
-    <!--<% if( locals.message )  { %>-->
-    <!--<div class="alert alert-danger"><%= message %></div>-->
-    <!--<% } %>-->
+
+<% if( locals.message )  { %>
+<div class="alert alert-danger"><%= locals.message %></div>
+<%  } %>
     <!--<form action="/user/login" method="post" class="form-signin">-->
         <!--<h2>Identifiez vous s'il vous plait</h2>-->
         <!--<div>-->
@@ -82,8 +83,8 @@
 
         <!--CONTENT-->
         <div class="content">
-            <!--USERNAME--><input name="username" type="text" value="Nom d'utilisateur" onfocus="this.value=''" class="input username"/><!--END USERNAME-->
-            <!--PASSWORD--><input name="password" type="password" value="Mot de passe" onfocus="this.value=''" class="input password"/><!--END PASSWORD-->
+            <!--USERNAME--><input name="username" type="text" value="Nom d'utilisateur" onfocus="this.value=''" class="input username" required autofocus/><!--END USERNAME-->
+            <!--PASSWORD--><input name="password" type="password" value="Mot de passe" onfocus="this.value=''" class="input password" required/><!--END PASSWORD-->
         </div>
         <!--END CONTENT-->
 

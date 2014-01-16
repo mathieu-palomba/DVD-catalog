@@ -46,6 +46,19 @@ var dvdSchema = mongoose.Schema({
 });
 
 /**
+ * The Owner schema.
+ */
+var ownerSchema = mongoose.Schema({
+    userName: {
+        type: String,
+        unique: true
+    },
+    dvd: [dvdSchema]
+
+});
+
+/**
  * The DVD model which is used to persist DVD in the database.
  */
 var Dvd = mongoose.model('Dvd', dvdSchema);
+//var Owner = mongoose.model('Owner', dvdSchema);

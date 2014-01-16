@@ -58,3 +58,16 @@ var port = 3040;
 app.listen(port, function() {
     console.log('Server start on port: ' + port);
 });
+
+// TODO
+// Gérer les utilisateurs
+// Rajouter trié par rank (avec les petites étoiles)
+// Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
+// Rajouter message d'érreurs lors de la connection sur signin
+// Rajouter images erreur page 404
+// Rajouter une case commentaire lors de l'ajout d'un film dans la vue add-dvd
+// Gérer zone adminisatrateur
+// Ajouter plusieurs genres
+// Faire fichies de conf pour la langue et les constantes
+// Vérifier enregistrement DVD manuelement (pour le movie poster)
+// Pouvoir éditer un utilisateur (mail, username, password...)
