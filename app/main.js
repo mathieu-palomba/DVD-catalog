@@ -67,7 +67,6 @@ app.listen(config.port, function() {
 // Rajouter trié par rank (avec les petites étoiles)
 // Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
 // Rajouter message d'érreurs lors de la connection sur signin
-// Rajouter images erreur page 404
 // Rajouter une case commentaire lors de l'ajout d'un film dans la vue add-dvd
 // Gérer zone adminisatrateur
 // Ajouter plusieurs genres

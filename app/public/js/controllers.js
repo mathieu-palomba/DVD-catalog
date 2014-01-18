@@ -112,7 +112,6 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         console.log('Dvd Add controller');
 
 
-
         // The different movie genres.
         $scope.genres = GenresConstant;
 
@@ -248,7 +247,11 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                                 $scope.dvd.productionCompanies = '';
 
                                 for (var productionCompanyID in dvdDetails.production_companies) {
-                                    $scope.dvd.productionCompanies += dvdDetails.production_companies[productionCompanyID].name + ', ';
+                                    // We compute the concat value ( '' to the last item, ', ' other)
+                                    var concat = '';
+                                    productionCompanyID == dvdDetails.production_companies.length-1 ? concat = '' : concat = ', ';
+
+                                    $scope.dvd.productionCompanies += dvdDetails.production_companies[productionCompanyID].name + concat;
                                 }
                             },
                             function err() {
@@ -428,7 +431,7 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
             if(!isExist) {
                 $scope.dvd.actors.push( {name: ''} );
             }
-        }
+        };
 
         /**
          * Delete the current Actor.
@@ -472,6 +475,16 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
                     console.log('Error when deleting the DVD');
                 }
             });
-        }
+        };
+
+        // Rating handle
+        $scope.rate = 7;
+        $scope.max = 10;
+        $scope.isReadonly = false;
+
+        $scope.hoveringOver = function (value) {
+            $scope.overStar = value;
+            $scope.percent = 100 * (value / $scope.max);
+        };
     }
 ]);

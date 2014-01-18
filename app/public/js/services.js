@@ -3,6 +3,9 @@
  */
 var dvdCatServices = angular.module('dvdCatServices', ['ngResource']);
 
+/**
+ * The movie genres.
+ */
 dvdCatServices.constant('GenresConstant', {
     action: 'Action',
     adventure: 'Aventure',
@@ -25,6 +28,9 @@ dvdCatServices.constant('GenresConstant', {
     western: 'Western'
 });
 
+/**
+ * This services permit to generate jpg ID with string name.
+ */
 dvdCatServices.factory('IdGenerator', function () {
     return {
         moviePosterID: function (moviePosterName) {

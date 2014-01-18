@@ -64,8 +64,8 @@ h1 {
 }
 
 .editButton {
-    float: right;
-    margin-top: -420px;
+    float: left;
+    /*margin-top: -420px;*/
 }
 
 .backButton {
