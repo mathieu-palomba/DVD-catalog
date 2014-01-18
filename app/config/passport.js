@@ -65,16 +65,14 @@ module.exports = function( passport )
                         message: 'Invalid password'
                     } );
                 }
-                return done( null, user );
+//                return done( null, user );
 
-//                // I'm specifying the fields that I want to save into the user's session
-//                // *I don't want to save the password in the session
-//                return done(null, {
-//                    id: user._id,
-//                    name: user.name,
-//                    image: user.image,
-//                    email: user.email,
-//                });
+                // I'm specifying the fields that I want to save into the user's session. I don't want to save the password in the session
+                return done(null, {
+                    id: user._id,
+                    username: user.username,
+                    email: user.email
+                });
             } );
         }
     ) );

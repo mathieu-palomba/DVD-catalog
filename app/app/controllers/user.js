@@ -71,7 +71,6 @@ var AuthController = {
 //        });
 
 //        res.redirect( '/' );
-
         res.render( 'login', {
             message: req.flash( 'error' )
         } );
@@ -87,7 +86,6 @@ var AuthController = {
 
         req.logout();
         res.end();
-
         res.redirect( '/' );
     },
 
@@ -133,7 +131,7 @@ var AuthController = {
      */
     currentUser: function( req, res )
     {
-        res.jsonp( req.user || null );
+        res.jsonp({"success": true, "user": req.user || null});
     }
 
 };

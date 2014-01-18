@@ -208,8 +208,9 @@ exports.getAllDvd = function (req, res) {
                 console.log("DVD list got");
 
                 if(dvd.length > 0) {
+//                    console.log(dvd);
+
                     // We return OK
-                    console.log(dvd);
                     res.jsonp({"success": true, "dvdList": dvd});
                 }
                 else {
@@ -302,25 +303,43 @@ exports.isDvdExist = function (req, res) {
     console.log('Is DVD exist');
     console.log(dvdRequested);
 
-    Dvd.find({title: dvdRequested})
-        .exec(function (err, data) {
-            if (err == true) {
-                console.log("Error during checking the DVD");
+    Owner.findOne({'dvd.title': dvdRequested}, {'dvd.$': 1}, function (err, dvd) {
+        if (err) {
+            return handleError(err);
+        }
 
-                // We return KO
-                res.jsonp({"success": false});
+        else {
+            console.log("DVD got");
+//            console.log(dvd);
+            if(dvd.dvd[0] != undefined) {
+                console.log("DVD exist");
+                isExist = true;
             }
-            else {
-                console.log(data);
-                if(data[0] != undefined) {
-                    console.log("DVD exist");
-                    isExist = true;
-                }
 
-                // We return OK or KO
-                res.jsonp({"success": isExist});
-            }
-        })
+            // We return OK or KO
+            res.jsonp({"success": isExist});
+        }
+    });
+
+//    Dvd.find({title: dvdRequested})
+//        .exec(function (err, data) {
+//            if (err == true) {
+//                console.log("Error during checking the DVD");
+//
+//                // We return KO
+//                res.jsonp({"success": false});
+//            }
+//            else {
+//                console.log(data);
+//                if(data[0] != undefined) {
+//                    console.log("DVD exist");
+//                    isExist = true;
+//                }
+//
+//                // We return OK or KO
+//                res.jsonp({"success": isExist});
+//            }
+//        })
 };
 
 /**

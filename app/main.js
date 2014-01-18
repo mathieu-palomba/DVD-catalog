@@ -7,12 +7,16 @@ var passport = require('passport');     // User sessions module
 var fs = require('fs');                 // File System module
 var http = require('http');             // HTTP requests module
 
+
+// Server configuration
+var config = require( './config/env/config' );
+
 /**
 * Main application entry file.
 * Please note that the order of loading is important.
 */
 // Connection to the DB
-var db = mongoose.connect('mongodb://localhost/dvd-catalog', function(err) {
+var db = mongoose.connect(config.dbPath, function(err) {
     if (err) {
         throw err;
     }
@@ -54,9 +58,8 @@ require( './config/passport' )( passport );
 require( './config/routes' )( app );
 
 // Server listen the following port
-var port = 3040;
-app.listen(port, function() {
-    console.log('Server start on port: ' + port);
+app.listen(config.port, function() {
+    console.log('Server start on port: ' + config.port);
 });
 
 // TODO

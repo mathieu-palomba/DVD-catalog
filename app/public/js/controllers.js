@@ -10,17 +10,23 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
     function ($scope, $location, $route, Dvd) {
         console.log('Dvd List controller');
 
+        // We get the current user
+        $scope.user = Dvd.DvdList.getCurrentUser(function() {
+            if($scope.user.success) {
+                console.log($scope.user.user);
+                $scope.user = $scope.user.user;
+            }
+        });
+
         // We get the DVD list
         $scope.dvdList = Dvd.DvdList.getAllDvd( function()
         {
-            if( $scope.dvdList.success )
-            {
+            if( $scope.dvdList.success ) {
                 console.log('DVD got successfully');
                 console.log($scope.dvdList.dvdList[0].dvd);
                 $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
             }
-            else
-            {
+            else {
                 console.log('Error when getting the DVD list');
                 $scope.dvdList = []
             }
