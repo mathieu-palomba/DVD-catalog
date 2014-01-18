@@ -25,6 +25,33 @@ dvdCatServices.constant('GenresConstant', {
     western: 'Western'
 });
 
+dvdCatServices.factory('IdGenerator', function () {
+    return {
+        moviePosterID: function (moviePosterName) {
+            // Hashcode method to generate moviePoster name
+            String.prototype.hashCode = function () {
+                var hash = 0;
+                if (this.length == 0) return hash;
+                for (i = 0; i < this.length; i++) {
+                    char = this.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash; // Convert to 32bit integer
+                }
+                return hash;
+            };
+
+            //var ID = function () {
+//    // Math.random should be unique because of its seeding algorithm.
+//    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+//    // after the decimal.
+//    return '_' + Math.random().toString(36).substr(2, 9);
+//};
+            // We return the movie poster ID
+            return Math.abs(moviePosterName.hashCode()) + '.jpg';
+        }
+    };
+});
+
 /**
  * This service permit to create a RESTful client and avoid the $http lower method. The $ressource route must hve the same name in "app.js".
  */

@@ -3,25 +3,6 @@
  */
 var dvdCatControllers = angular.module('dvdCatControllers', ['ui.bootstrap', 'ngRoute']);
 
-// Hashcode method to generate moviePoster name
-String.prototype.hashCode = function(){
-    var hash = 0;
-    if (this.length == 0) return hash;
-    for (i = 0; i < this.length; i++) {
-        char = this.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-};
-
-//var ID = function () {
-//    // Math.random should be unique because of its seeding algorithm.
-//    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-//    // after the decimal.
-//    return '_' + Math.random().toString(36).substr(2, 9);
-//};
-
 /**
  * DVD List controllers.
  */
@@ -126,8 +107,8 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$locat
 /**
  * Add DVD controllers.
  */
-dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB', 'GenresConstant',
-    function ($scope, $location, $http, Dvd, MovieDB, GenresConstant) {
+dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB', 'GenresConstant', 'IdGenerator',
+    function ($scope, $location, $http, Dvd, MovieDB, GenresConstant, IdGenerator) {
         console.log('Dvd Add controller');
 
 
@@ -225,7 +206,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                         // Set the movie poster url and the movie title.
                         $scope.dvd.title = dvdID.results[0].title;
                         if(dvdID.results[0].poster_path != undefined && dvdID.results[0].poster_path != null) {
-                            $scope.dvd.moviePoster = 'img/' + Math.abs($scope.dvd.title.hashCode()) + '.jpg';
+                            $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID($scope.dvd.title);
                             $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', dvdID.results[0].poster_path);
 
                             // We pre-saved the movie poster to win time (avoid time problem when the user saved it's DVD and it's relocated in the "/dvd" route)
@@ -341,7 +322,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                 }
                 else {
                     // We save the movie poster
-                    var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: $scope.dvd.temporaryMoviePosterName, filename: Math.abs($scope.dvd.title.hashCode()) + '.jpg'}, function () {
+                    var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: $scope.dvd.temporaryMoviePosterName, filename: IdGenerator.moviePosterID($scope.dvd.title)}, function () {
                         if (renamedImage.success) {
                             console.log('Image successfully renamed');
 
@@ -391,8 +372,8 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 /**
  * DVD Edit controllers.
  */
-dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'GenresConstant',
-    function ($scope, $location, $routeParams, Dvd, GenresConstant) {
+dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'GenresConstant', 'IdGenerator',
+    function ($scope, $location, $routeParams, Dvd, GenresConstant, IdGenerator) {
         console.log('Dvd Edit controller');
 
         // We get the current user
@@ -437,7 +418,7 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
             // The boolean which permit to check if an empty field exist
             var isExist = false;
 
-            // We check if an empty field alreayd exist
+            // We check if an empty field already exist
             for (var actorID in $scope.dvd.actors) {
                 if($scope.dvd.actors[actorID].name == '')
                     isExist = true;
@@ -466,10 +447,10 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
         $scope.performUpdate = function () {
             // If the title has changed, we rename the movie poster file and movie poster path
             if($scope.dvd.oldTitle != $scope.dvd.title) {
-                $scope.dvd.moviePoster = 'img/' + Math.abs($scope.dvd.title.hashCode()) + '.jpg';
+                $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID($scope.dvd.title);
 
                 // We rename the movie poster
-                var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: Math.abs($scope.dvd.oldTitle.hashCode()) + '.jpg', filename: Math.abs($scope.dvd.title.hashCode()) + '.jpg'}, function () {
+                var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: IdGenerator.moviePosterID($scope.dvd.oldTitle), filename: IdGenerator.moviePosterID($scope.dvd.title)}, function () {
                     if (renamedImage.success) {
                         console.log('Image successfully renamed');
                     }
