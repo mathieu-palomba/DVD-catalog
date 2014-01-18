@@ -1,5 +1,7 @@
 .idea
 data
+data-Copie
 old
 node_modules
 app/public/lib
+MongoDB.txt

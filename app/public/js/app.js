@@ -20,7 +20,7 @@ dvdCatApp.config(['$routeProvider',
                 templateUrl: 'views/dvd-list.html',
                 controller: 'DvdListCtrl'
             }).
-            when('/dvd/:dvdId', {
+            when('/dvd/:dvd', {
                 templateUrl: 'views/dvd-detail.html',
                 controller: 'DvdDetailCtrl'
             }).

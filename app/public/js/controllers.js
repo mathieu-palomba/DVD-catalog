@@ -3,6 +3,25 @@
  */
 var dvdCatControllers = angular.module('dvdCatControllers', ['ui.bootstrap', 'ngRoute']);
 
+// Hashcode method to generate moviePoster name
+String.prototype.hashCode = function(){
+    var hash = 0;
+    if (this.length == 0) return hash;
+    for (i = 0; i < this.length; i++) {
+        char = this.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+};
+
+//var ID = function () {
+//    // Math.random should be unique because of its seeding algorithm.
+//    // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+//    // after the decimal.
+//    return '_' + Math.random().toString(36).substr(2, 9);
+//};
+
 /**
  * DVD List controllers.
  */
@@ -11,10 +30,9 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
         console.log('Dvd List controller');
 
         // We get the current user
-        $scope.user = Dvd.DvdList.getCurrentUser(function() {
-            if($scope.user.success) {
-                console.log($scope.user.user);
-                $scope.user = $scope.user.user;
+        $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
+            if($scope.owner.success) {
+                console.log($scope.owner);
             }
         });
 
@@ -51,15 +69,12 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
                 // OK clicked
                 if(result) {
                     // We delete the DVD
-                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {dvd: dvd}, function()
-                    {
-                        if( $scope.dvdDeleted.success )
-                        {
+                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {dvd: dvd, owner: $scope.owner}, function() {
+                        if( $scope.dvdDeleted.success ) {
                             console.log('DVD deleted successfully');
                             $route.reload();
                         }
-                        else
-                        {
+                        else {
                             console.log('Error when deleting the DVD');
                         }
                     } );
@@ -77,7 +92,7 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$locat
         console.log('Dvd Details controller');
 
         // We get the DVD
-        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {dvd: $routeParams.dvdId}, function()
+        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {dvd: $routeParams.dvd}, function()
         {
             if( $scope.dvdSearch.success )
             {
@@ -114,25 +129,6 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$locat
 dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB', 'GenresConstant',
     function ($scope, $location, $http, Dvd, MovieDB, GenresConstant) {
         console.log('Dvd Add controller');
-
-        // Hashcode method to generate moviePoster name
-        String.prototype.hashCode = function(){
-            var hash = 0;
-            if (this.length == 0) return hash;
-            for (i = 0; i < this.length; i++) {
-                char = this.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // Convert to 32bit integer
-            }
-            return hash;
-        };
-
-        var ID = function () {
-            // Math.random should be unique because of its seeding algorithm.
-            // Convert it to base 36 (numbers + letters), and grab the first 9 characters
-            // after the decimal.
-            return '_' + Math.random().toString(36).substr(2, 9);
-        };
 
 
 
@@ -350,7 +346,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                             console.log('Image successfully renamed');
 
                             // We save the DVD in the database
-                            var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
+                            var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd, owner: $scope.owner}, function () {
                                 if (dvd.success) {
                                     console.log('DVD added successfully');
                                 }
@@ -399,6 +395,13 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
     function ($scope, $location, $routeParams, Dvd, GenresConstant) {
         console.log('Dvd Edit controller');
 
+        // We get the current user
+        $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
+            if($scope.owner.success) {
+                console.log($scope.owner);
+            }
+        });
+
         // We get the genres list
         $scope.genres = GenresConstant;
 
@@ -408,7 +411,7 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
             if( $scope.dvdSearch.success )
             {
                 console.log('DVD load successfully');
-                $scope.dvd = $scope.dvdSearch.dvd[0];
+                $scope.dvd = $scope.dvdSearch.dvd.dvd[0];
 
                 // In the case if user change the title
                 $scope.dvd.oldTitle = $scope.dvd.title;
@@ -463,10 +466,10 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
         $scope.performUpdate = function () {
             // If the title has changed, we rename the movie poster file and movie poster path
             if($scope.dvd.oldTitle != $scope.dvd.title) {
-                $scope.dvd.moviePoster = 'img/' + $scope.dvd.title + '.jpg';
+                $scope.dvd.moviePoster = 'img/' + Math.abs($scope.dvd.title.hashCode()) + '.jpg';
 
                 // We rename the movie poster
-                var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: $scope.dvd.oldTitle + '.jpg', filename: $scope.dvd.title + '.jpg'}, function () {
+                var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: Math.abs($scope.dvd.oldTitle.hashCode()) + '.jpg', filename: Math.abs($scope.dvd.title.hashCode()) + '.jpg'}, function () {
                     if (renamedImage.success) {
                         console.log('Image successfully renamed');
                     }
@@ -477,7 +480,7 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
             }
 
             // We edit the DVD
-            $scope.dvdEdited = Dvd.DvdDetails.editDvd({dvd: $scope.dvd}, function () {
+            $scope.dvdEdited = Dvd.DvdDetails.editDvd({dvd: $scope.dvd, owner: $scope.owner}, function () {
                 if ($scope.dvdEdited.success) {
                     console.log('DVD edited successfully');
 

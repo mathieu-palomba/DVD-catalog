@@ -10,6 +10,34 @@ var mongoose = require('mongoose'),
     request = require('request');
 
 /**
+ * Get the Owner in relation with the user login.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.getOwner = function(req, res) {
+    console.log("Find Owner");
+
+    // Find the current login user
+    Owner.findOne({ "userName": req.user.username }, function (err, owner) {
+        if (err) {
+            return handleError(err);
+        }
+
+        else {
+            if(owner) {
+                console.log('Owner found');
+                res.jsonp({"success": true, owner: owner});
+            }
+
+            else {
+                console.log('Owner not found');
+                res.jsonp({"success": false});
+            }
+        }
+    });
+};
+
+/**
  * Create a new DVD in the database.
  * @param req : The request
  * @param res : The response
@@ -30,7 +58,7 @@ exports.create = function (req, res) {
     });
 
     // Find the current login user, else we create it
-    Owner.findOne({ userName: req.user.username }, function (err, owner) {
+    Owner.findOne({ "userName": req.user.username }, function (err, owner) {
         if (err) {
             return handleError(err);
         }
@@ -102,17 +130,21 @@ exports.create = function (req, res) {
  */
 exports.delete = function (req, res) {
     console.log("Delete DVD in nodejs");
-    var dvdToDelete = req.body.dvd.title;
+    var dvdToDelete = req.body.dvd;
+//    var owner = req.body.owner;
+//    console.log(owner);
+
+//    owner.dvd.id(dvdToDelete._id).remove();
 
     // Find the current login user
-    Owner.findOne({ userName: req.user.username }, function (err, owner) {
+    Owner.findOne({ "userName": req.user.username }, function (err, owner) {
         if (err) {
             return handleError(err);
         }
 
         else {
             // We find the DVD to delete
-            Owner.findOne({'dvd.title': dvdToDelete}, {'dvd.$': 1}, function (err, dvd) {
+            Owner.findOne({"dvd.title": dvdToDelete.title}, {"dvd.$": 1}, function (err, dvd) {
                 if (err) {
                     return handleError(err);
                 }
@@ -171,22 +203,41 @@ exports.delete = function (req, res) {
 exports.edit = function (req, res) {
     console.log("Edit DVD in nodejs");
     var dvdToEdit = req.body.dvd;
+    var owner = req.body.owner;
+    console.log(owner.owner._id);
+    console.log(dvdToEdit._id);
 
-    // We update the DVD from the database.
-    Dvd.update({ title: dvdToEdit.oldTitle }, { $set: { title: dvdToEdit.title, moviePoster: dvdToEdit.moviePoster,
-         genre: dvdToEdit.genre, releaseDate: dvdToEdit.releaseDate,
-         overview: dvdToEdit.overview, productionCompanies: dvdToEdit.productionCompanies,
-         director: dvdToEdit.director, actors: dvdToEdit.actors } },
+    Owner.update({"_id": owner.owner._id, "dvd._id": dvdToEdit._id},
+        {$set: {"dvd.$.title": dvdToEdit.title, "dvd.$.moviePoster": dvdToEdit.moviePoster,
+            "dvd.$.genre": dvdToEdit.genre, "dvd.$.releaseDate": dvdToEdit.releaseDate,
+            "dvd.$.overview": dvdToEdit.overview, "dvd.$.productionCompanies": dvdToEdit.productionCompanies,
+            "dvd.$.director": dvdToEdit.director, "dvd.$.actors": dvdToEdit.actors } },
         function (err, numberAffected) {
-        if (err) {
-            console.log("Error during updating the DVD");
-            res.jsonp({"success": false});
-        }
-        else {
-            console.log("DVD updated " + numberAffected);
-            res.jsonp({"success": true});
-        }
-    });
+            if (err) {
+                console.log("Error during updating the DVD");
+                res.jsonp({"success": false});
+            }
+            else {
+                console.log("DVD updated " + numberAffected);
+                res.jsonp({"success": true});
+            }
+        });
+
+//    // We update the DVD from the database.
+//    Dvd.update({ title: dvdToEdit.oldTitle }, { $set: { title: dvdToEdit.title, moviePoster: dvdToEdit.moviePoster,
+//         genre: dvdToEdit.genre, releaseDate: dvdToEdit.releaseDate,
+//         overview: dvdToEdit.overview, productionCompanies: dvdToEdit.productionCompanies,
+//         director: dvdToEdit.director, actors: dvdToEdit.actors } },
+//        function (err, numberAffected) {
+//        if (err) {
+//            console.log("Error during updating the DVD");
+//            res.jsonp({"success": false});
+//        }
+//        else {
+//            console.log("DVD updated " + numberAffected);
+//            res.jsonp({"success": true});
+//        }
+//    });
 }
 
 /**
@@ -195,7 +246,9 @@ exports.edit = function (req, res) {
  * @param res : The response
  */
 exports.getAllDvd = function (req, res) {
-    Owner.find({userName: req.user.username})
+    console.log('Get all DVD');
+
+    Owner.find({"userName": req.user.username})
         .exec(function (err, dvd) {
             if (err == true) {
                 console.log("Error during reading the DVD list");
@@ -205,15 +258,16 @@ exports.getAllDvd = function (req, res) {
                 res.jsonp({"success": false});
             }
             else {
-                console.log("DVD list got");
-
                 if(dvd.length > 0) {
+                    console.log("DVD list got");
 //                    console.log(dvd);
 
                     // We return OK
                     res.jsonp({"success": true, "dvdList": dvd});
                 }
                 else {
+                    console.log("Error when getting the DVD list");
+
                     res.jsonp({"success": false});
                 }
             }
@@ -248,24 +302,34 @@ exports.getAllDvd = function (req, res) {
  * @param res : The response
  */
 exports.getDvd = function (req, res) {
+    console.log('Get DVD');
     var dvdRequested = req.params.dvd;
     console.log(dvdRequested);
 
-    Owner.findOne({'dvd.title': dvdRequested}, {'dvd.$': 1}, function (err, dvd) {
+    Owner.findOne({"userName": req.user.username, "dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
         if (err) {
             return handleError(err);
         }
 
         else {
-            console.log("DVD got");
+            if(dvd) {
+                if(dvd.dvd.length > 0) {
+                    console.log("DVD got");
 
-            if(dvd.length > 0) {
-                // We return OK
-                res.jsonp({"success": true, "dvd": dvd});
+                    // We return OK
+                    res.jsonp({"success": true, "dvd": dvd});
+                }
+                else {
+                    console.log("Error when getting the DVD");
+                    res.jsonp({"success": false});
+                }
             }
+
             else {
+                console.log("Error when getting the DVD");
                 res.jsonp({"success": false});
             }
+
         }
     });
 
@@ -303,15 +367,15 @@ exports.isDvdExist = function (req, res) {
     console.log('Is DVD exist');
     console.log(dvdRequested);
 
-    Owner.findOne({'dvd.title': dvdRequested}, {'dvd.$': 1}, function (err, dvd) {
+    Owner.findOne({"dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
         if (err) {
             return handleError(err);
         }
 
         else {
             console.log("DVD got");
-//            console.log(dvd);
-            if(dvd.dvd[0] != undefined) {
+            console.log(dvd);
+            if(dvd != undefined) {
                 console.log("DVD exist");
                 isExist = true;
             }

@@ -32,18 +32,19 @@ dvdCatServices.factory('Dvd', ['$resource',
     function ($resource) {
         return {
             DvdList: $resource('', {}, {
-                getAllDvd: {method: 'GET', url: 'getAllDvd/'},
+                getAllDvd: {method: 'GET', url: '/getAllDvd/'},
                 deleteDvd: {method: 'POST', url: '/dvd/deleteDvd'},
-                getCurrentUser: {method: 'GET', url: '/user/currentUser'}
+                getCurrentUser: {method: 'GET', url: '/user/currentUser'},
+                getCurrentOwner: {method: 'GET', url: '/owner'}
             }),
             DvdAdd: $resource('', {}, {
-                saveDvd: {method: 'POST', url: 'addDvd/saveDvd'},
-                saveImage: {method: 'POST', url: 'addDvd/saveImage'},
-                renameImage: {method: 'POST', url: 'addDvd/renameImage'},
-                isDvdExist: {method: 'GET', url: 'isDvdExist/:dvd'}
+                saveDvd: {method: 'POST', url: '/addDvd/saveDvd'},
+                saveImage: {method: 'POST', url: '/addDvd/saveImage'},
+                renameImage: {method: 'POST', url: '/addDvd/renameImage'},
+                isDvdExist: {method: 'GET', url: '/isDvdExist/:dvd'}
             }),
             DvdDetails: $resource('', {}, {
-                getDvd: {method: 'GET', url: 'getDvd/:dvd'},
+                getDvd: {method: 'GET', url: '/getDvd/:dvd'},
                 editDvd: {method: 'POST', url: '/dvd/editDvd'}
             })
         }
