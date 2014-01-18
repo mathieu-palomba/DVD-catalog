@@ -8,7 +8,7 @@ dvdCatServices.constant('GenresConstant', {
     adventure: 'Aventure',
     animation: 'Animation',
     comedy: 'Comédie',
-    crime: 'Policier',
+    crime: 'Crime',
     disaster: 'Catastrophique',
     documentary: 'Documentaire',
     drama: 'Drame',

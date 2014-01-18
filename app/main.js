@@ -45,7 +45,7 @@ walk( models_path );
 var app = express();
 
 // Express
-require( './config/express' )( app, passport );
+require( './config/express' )( app, passport, db );
 
 // Passport
 require( './config/passport' )( passport );
@@ -71,3 +71,4 @@ app.listen(port, function() {
 // Faire fichies de conf pour la langue et les constantes
 // Vérifier enregistrement DVD manuelement (pour le movie poster)
 // Pouvoir éditer un utilisateur (mail, username, password...)
+// Gestion collection de DVD (combien par categories...)

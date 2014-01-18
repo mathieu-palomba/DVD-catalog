@@ -16,12 +16,13 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
             if( $scope.dvdList.success )
             {
                 console.log('DVD got successfully');
-                console.log($scope.dvdList.dvdList);
-                $scope.dvdList = $scope.dvdList.dvdList;
+                console.log($scope.dvdList.dvdList[0].dvd);
+                $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
             }
             else
             {
                 console.log('Error when getting the DVD list');
+                $scope.dvdList = []
             }
         } );
 
@@ -75,7 +76,8 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$locat
             if( $scope.dvdSearch.success )
             {
                 console.log('DVD got successfully');
-                $scope.dvd = $scope.dvdSearch.dvd[0];
+                console.log($scope.dvdSearch.dvd.dvd[0]);
+                $scope.dvd = $scope.dvdSearch.dvd.dvd[0];
             }
             else
             {
@@ -117,6 +119,13 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                 hash = hash & hash; // Convert to 32bit integer
             }
             return hash;
+        };
+
+        var ID = function () {
+            // Math.random should be unique because of its seeding algorithm.
+            // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+            // after the decimal.
+            return '_' + Math.random().toString(36).substr(2, 9);
         };
 
 

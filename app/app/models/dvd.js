@@ -54,11 +54,11 @@ var ownerSchema = mongoose.Schema({
         unique: true
     },
     dvd: [dvdSchema]
-
 });
 
 /**
  * The DVD model which is used to persist DVD in the database.
  */
+
+var Owner = mongoose.model('Owner', ownerSchema);
 var Dvd = mongoose.model('Dvd', dvdSchema);
-//var Owner = mongoose.model('Owner', dvdSchema);

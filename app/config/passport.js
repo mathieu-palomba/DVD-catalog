@@ -66,6 +66,15 @@ module.exports = function( passport )
                     } );
                 }
                 return done( null, user );
+
+//                // I'm specifying the fields that I want to save into the user's session
+//                // *I don't want to save the password in the session
+//                return done(null, {
+//                    id: user._id,
+//                    name: user.name,
+//                    image: user.image,
+//                    email: user.email,
+//                });
             } );
         }
     ) );

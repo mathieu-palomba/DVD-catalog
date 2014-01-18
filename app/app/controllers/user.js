@@ -1,7 +1,7 @@
 /**
  * Module dependencies.
  */
-var passport = require('passport')
+var passport = require('passport'),
     mongoose = require('mongoose'),
     User = mongoose.model('User'); // The model we defined in the previous example
 
@@ -26,7 +26,7 @@ var AuthController = {
     login: passport.authenticate('local', {
         successRedirect: '/user/login/success',
         failureRedirect: '/user/login/failure',
-        failureFlash: true                          // You can set you're error message here if you don't want to user the "new LocalStrategy" error message in the return done function (else set to true)
+        failureFlash: "Nom d'utilisateur ou mot de passe incorrect"                          // You can set you're error message here if you don't want to user the "new LocalStrategy" error message in the return done function (else set to true)
     }),
 
     /**
@@ -51,14 +51,17 @@ var AuthController = {
      * @param res : The response
      */
     loginFailure: function(req, res){
-//        console.log('login failure');
+        console.log('login failure');
 
-//        console.log(req.message);
-
-//        User.create({username: 'mathieu', email: 'mathieu@mathieu.fr', password: 'root'}, function(err){
+        // We create an user
+//        User.create({'username': 'mathieu', 'email': 'mathieu@mathieu.fr', 'password': 'root'}, function(err){
 //            if (err) {
 //                console.log(err);
 //                return;
+//            }
+//
+//            else {
+//                console.log('User created');
 //            }
 //        });
 

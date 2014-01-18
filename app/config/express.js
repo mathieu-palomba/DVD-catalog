@@ -2,10 +2,11 @@
  * Module dependencies.
  */
 var express = require('express'),       // Routes module
+    mongoStore = require('connect-mongo')(express),
     flash = require('connect-flash'),   // Error message module
     path = require('path');             // To compute directory path
 
-module.exports = function( app, passport )
+module.exports = function( app, passport, db )
 {
     // Set views path, template engine and default layout
     var viewsPath = path.resolve(__dirname, '../app/views');
@@ -22,10 +23,17 @@ module.exports = function( app, passport )
         .use(express.urlencoded())      // Replace bodyParser
         .use(express.json())            // Replace bodyParser
         .use(express.cookieParser())    // CookieParser should be above session
-        .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
-            secret: "mylittlesecret",
-            cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
-            maxAge: new Date(Date.now() + 3600000)              // 3600000 = 1 hour
+//        .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
+//            secret: "mylittlesecret",
+//            cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
+//            maxAge: new Date(Date.now() + 3600000)              // 3600000 = 1 hour
+//        }))
+        .use(express.session({
+            secret: 'H8Q6n3n5PD5DDh6bEKl8Z80oy7LqTyk2GK3LdIgSB4266vp2zo',
+            store: new mongoStore({
+                db: db.connection.db,
+                collection: 'sessions'
+            })
         }))
         .use(flash())                   // Connect flash for flash messages
         .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
@@ -41,8 +49,7 @@ module.exports = function( app, passport )
 
         // Respond with html page
         if (req.accepts('html')) {
-            var errorPath = path.resolve(__dirname, '../public/img/dvd-catalog/404.jpg');
-            res.render('404', { url: req.url, errorPath: errorPath });
+            res.render('404', { url: req.url });
             return;
         }
 
@@ -58,16 +65,14 @@ module.exports = function( app, passport )
 
     // Assume "not found" in the error msgs is a 404. This is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
     app.use(function(err, req, res, next) {
-        //Treat as 404
+        // Treat as 404
         if (~err.message.indexOf('not found'))
             return next();
 
-        //Log it
+        // Log it
         console.error(err.stack);
 
-        //Error page
-        res.status(500).render('500', {
-            error: err.stack
-        });
+        // Error page
+        res.status(500).render('500', { error: err.stack });
     });
 };

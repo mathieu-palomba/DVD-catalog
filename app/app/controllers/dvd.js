@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose'),
     Dvd = mongoose.model('Dvd'),
+    Owner = mongoose.model('Owner'),
     fs = require('fs'),             // fs and request is used to download cross domain pictures
     path = require('path'),         // To save files
     http = require('http'),
@@ -15,7 +16,6 @@ var mongoose = require('mongoose'),
  */
 exports.create = function (req, res) {
     console.log("Create DVD in nodejs");
-    var isError = false;
 
     // We create the DVD model.
     var newDvd = new Dvd({
@@ -26,25 +26,73 @@ exports.create = function (req, res) {
         overview: req.body.dvd.overview,
         productionCompanies: req.body.dvd.productionCompanies,
         director: req.body.dvd.director,
-        actors: req.body.dvd.actors//actorsArray
+        actors: req.body.dvd.actors     // actorsArray
     });
 
-    // We save the DVD model in the database.
-    newDvd.save(function (err) {
+    // Find the current login user, else we create it
+    Owner.findOne({ userName: req.user.username }, function (err, owner) {
         if (err) {
-            console.log("Error during writing DVD");
-            //throw err;
-            isError = true;
+            return handleError(err);
         }
+
         else {
-            console.log("DVD recorded");
+            var isError = false;
+
+            // We save a new owner
+            if (owner == null) {
+                // We create a new owner
+                var owner = new Owner({
+                    userName: req.user.username,
+                    dvd: [newDvd]
+                });
+
+                // We save the new owner
+                owner.save(function (err) {
+                    if (err) {
+                        console.log("Error during recording Owner");
+                        isError = true;
+                    }
+                    else {
+                        console.log("Owner recorded");
+                    }
+                });
+            }
+
+            // We update the existing owner
+            else {
+                // We add the new DVD as a sub document
+                owner.dvd.unshift(newDvd);
+
+                // We update the owner
+                owner.save(function (err) {
+                    if (err) {
+                        console.log("Error during updating Owner");
+                        isError = true;
+                    }
+                    else {
+                        console.log("Owner updated");
+                    }
+                });
+            }
+
+            res.jsonp({"success": !isError});
         }
     });
+
+//    // We save the DVD model in the database.
+//    newDvd.save(function (err) {
+//        if (err) {
+//            console.log("Error during writing DVD");
+//            //throw err;
+//            isError = true;
+//        }
+//        else {
+//            console.log("DVD recorded");
+//        }
+//    });
 
 //    res.send();
-
-    // We return OK or KO
-    res.jsonp({"success": !isError});
+//    res.jsonp({"success": !isError});
 };
 
 /**
@@ -54,20 +102,65 @@ exports.create = function (req, res) {
  */
 exports.delete = function (req, res) {
     console.log("Delete DVD in nodejs");
-    var dvdToDelete = req.body.dvd;
+    var dvdToDelete = req.body.dvd.title;
 
-    // We delete the DVD from the database.
-    Dvd.remove({ title: dvdToDelete }, function (err) {
-        if(err) {
-            console.log("Error when deleting the DVD")
-            res.jsonp({"success": false});
+    // Find the current login user
+    Owner.findOne({ userName: req.user.username }, function (err, owner) {
+        if (err) {
+            return handleError(err);
         }
 
         else {
-            console.log("DVD successfully deleted")
-            res.jsonp({"success": true});
+            // We find the DVD to delete
+            Owner.findOne({'dvd.title': dvdToDelete}, {'dvd.$': 1}, function (err, dvd) {
+                if (err) {
+                    return handleError(err);
+                }
+
+                else {
+                    var isError = false;
+
+                    // If the DVD exist
+                    if (dvd) {
+                        // We delete the DVD
+                        owner.dvd.id(dvd.dvd[0]._id).remove();
+//                        owner.dvd.pull(dvd.dvd[0]);
+
+                        // We update the owner
+                        owner.save(function (err) {
+                            if (err) {
+                                console.log("Error during deleting DVD Owner");
+                                isError = true;
+                            }
+                            else {
+                                console.log("DVD deleted");
+                            }
+                        });
+                    }
+
+                    // The DVD doesn't exist
+                    else {
+                        isError = true;
+                    }
+
+                    res.jsonp({"success": !isError});
+                }
+            });
         }
     });
+
+//    // We delete the DVD from the database.
+//    Dvd.remove({ title: dvdToDelete }, function (err) {
+//        if(err) {
+//            console.log("Error when deleting the DVD")
+//            res.jsonp({"success": false});
+//        }
+//
+//        else {
+//            console.log("DVD successfully deleted")
+//            res.jsonp({"success": true});
+//        }
+//    });
 };
 
 /**
@@ -102,8 +195,8 @@ exports.edit = function (req, res) {
  * @param res : The response
  */
 exports.getAllDvd = function (req, res) {
-    Dvd.find(null)
-        .exec(function (err, data) {
+    Owner.find({userName: req.user.username})
+        .exec(function (err, dvd) {
             if (err == true) {
                 console.log("Error during reading the DVD list");
 
@@ -114,15 +207,38 @@ exports.getAllDvd = function (req, res) {
             else {
                 console.log("DVD list got");
 
-                if(data.length > 0) {
+                if(dvd.length > 0) {
                     // We return OK
-                    res.jsonp({"success": true, "dvdList": data});
+                    console.log(dvd);
+                    res.jsonp({"success": true, "dvdList": dvd});
                 }
                 else {
                     res.jsonp({"success": false});
                 }
             }
         })
+
+//    Dvd.find(null)
+//        .exec(function (err, data) {
+//            if (err == true) {
+//                console.log("Error during reading the DVD list");
+//
+//                // We return KO
+////                res.send('err');
+//                res.jsonp({"success": false});
+//            }
+//            else {
+//                console.log("DVD list got");
+//
+//                if(data.length > 0) {
+//                    // We return OK
+//                    res.jsonp({"success": true, "dvdList": data});
+//                }
+//                else {
+//                    res.jsonp({"success": false});
+//                }
+//            }
+//        })
 };
 
 /**
@@ -134,26 +250,44 @@ exports.getDvd = function (req, res) {
     var dvdRequested = req.params.dvd;
     console.log(dvdRequested);
 
-    Dvd.find({title: dvdRequested})
-        .exec(function (err, data) {
-            if (err == true) {
-                console.log("Error during reading the DVD");
+    Owner.findOne({'dvd.title': dvdRequested}, {'dvd.$': 1}, function (err, dvd) {
+        if (err) {
+            return handleError(err);
+        }
 
-                // We return KO
-                res.jsonp({"success": false});
+        else {
+            console.log("DVD got");
+
+            if(dvd.length > 0) {
+                // We return OK
+                res.jsonp({"success": true, "dvd": dvd});
             }
             else {
-                console.log("DVD got");
-
-                if(data.length > 0) {
-                    // We return OK
-                    res.jsonp({"success": true, "dvd": data});
-                }
-                else {
-                    res.jsonp({"success": false});
-                }
+                res.jsonp({"success": false});
             }
-        })
+        }
+    });
+
+//    Dvd.find({title: dvdRequested})
+//        .exec(function (err, data) {
+//            if (err == true) {
+//                console.log("Error during reading the DVD");
+//
+//                // We return KO
+//                res.jsonp({"success": false});
+//            }
+//            else {
+//                console.log("DVD got");
+//
+//                if(data.length > 0) {
+//                    // We return OK
+//                    res.jsonp({"success": true, "dvd": data});
+//                }
+//                else {
+//                    res.jsonp({"success": false});
+//                }
+//            }
+//        })
 };
 
 
