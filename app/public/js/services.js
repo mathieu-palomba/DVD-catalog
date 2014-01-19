@@ -59,6 +59,54 @@ dvdCatServices.factory('IdGenerator', function () {
 });
 
 /**
+ * Add or delete an Actor in the "add" and "edit" view.
+ */
+dvdCatServices.factory('Actors', function () {
+    return {
+        addInputActor: function ($scope) {
+            // The boolean which permit to check if an empty field exist
+            var isExist = false;
+
+            // We check if an empty field already exist
+            for (var actorID in $scope.dvd.actors) {
+                if ($scope.dvd.actors[actorID].name == '')
+                    isExist = true;
+            }
+
+            // If no field are empty, we add a new input field
+            if (!isExist) {
+                console.log('Add actor');
+                $scope.dvd.actors.push({name: ''});
+            }
+        },
+
+        deleteThisActor: function($scope, actor){
+            console.log('Delete actor');
+            // We decrement the length for the ng-repeat, and we delete the actor value
+//            $scope.dvd.actors.length -= 1;
+//            delete $scope.dvd.actors[actor];
+            $scope.dvd.actors.splice(actor, 1);
+        }
+    };
+});
+
+/**
+ * Rating service.
+ */
+dvdCatServices.factory('Rating', function () {
+    return {
+        rate: 0,
+        max: 5,
+        readOnly: true,
+        readWrite: false,
+        hoveringOver: function ($scope, value) {
+            $scope.overStar = value;
+            $scope.percent = 100 * (value / $scope.max);
+        }
+    };
+});
+
+/**
  * This service permit to create a RESTful client and avoid the $http lower method. The $ressource route must hve the same name in "app.js".
  */
 dvdCatServices.factory('Dvd', ['$resource',

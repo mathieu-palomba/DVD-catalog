@@ -13,7 +13,8 @@
             <div>Trier par :
                 <select ng-model="orderProp">
                     <option value="title">Alphabetique</option>
-                    <option value="rank">Préférence</option>
+                    <!-- Reverse the sort order by adding a - symbol before the sorting value -->
+                    <option value="-rate">Préférence</option>
                 </select>
             </div>
         </div>
@@ -35,6 +36,10 @@
                     <p><strong>Acteurs :</strong></p>
                     <p ng-repeat="actor in dvd.actors">
                         {{actor.name}}
+                    </p>
+                    <p>
+                        <strong>Préférence :</strong>
+                        <rating ng-model="dvd.rate" value="dvd.rate" max="max" readonly="isReadonly"></rating>
                     </p>
                     <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger deleteButton">Supprimer</button>
                 </li>

@@ -63,7 +63,7 @@ app.listen(config.port, function() {
 });
 
 // TODO
-// Gérer les utilisateurs
+// Vérifier si le titre du film exist avant de l'enregister dans la vue edit-dvd
 // Rajouter trié par rank (avec les petites étoiles)
 // Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
 // Rajouter message d'érreurs lors de la connection sur signin
@@ -74,3 +74,4 @@ app.listen(config.port, function() {
 // Vérifier enregistrement DVD manuelement (pour le movie poster)
 // Pouvoir éditer un utilisateur (mail, username, password...)
 // Gestion collection de DVD (combien par categories...)
+// Gestion mot de passe avec bcrypt

@@ -19,12 +19,20 @@
     <strong>Résumé :</strong></br>{{dvd.overview}}
 </p>
 
-<p>
+<div>
     <strong>Acteurs :</strong>
-</p>
-<p ng-repeat="actor in dvd.actors">
-    {{actor.name}}
-</p>
+    <p ng-repeat="actor in dvd.actors">
+        {{actor.name}}
+    </p>
+</div>
 
-<button type="button" id="editButton" ng-click="editDvd(dvd.title)" class="btn btn-success editButton">Editer</button>
-<button type="button" id="backButton" ng-click="back()" class="btn btn-danger backButton">Retour</button>
+<div>
+    </br>
+    <strong>Préférence :</strong>
+    <rating ng-model="dvd.rate" value="dvd.rate" max="max" readonly="isReadonly"></rating>
+</div>
+<div>
+    </br>
+    <button type="button" id="editButton" ng-click="editDvd(dvd.title)" class="btn btn-success editButton">Editer</button>
+    <button type="button" id="backButton" ng-click="back()" class="btn btn-danger backButton">Retour</button>
+</div>

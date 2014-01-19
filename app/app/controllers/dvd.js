@@ -54,7 +54,9 @@ exports.create = function (req, res) {
         overview: req.body.dvd.overview,
         productionCompanies: req.body.dvd.productionCompanies,
         director: req.body.dvd.director,
-        actors: req.body.dvd.actors     // actorsArray
+        actors: req.body.dvd.actors,     // actorsArray
+        rate: 0,
+        comments: ''
     });
 
     // Find the current login user, else we create it
@@ -211,11 +213,13 @@ exports.edit = function (req, res) {
         {$set: {"dvd.$.title": dvdToEdit.title, "dvd.$.moviePoster": dvdToEdit.moviePoster,
             "dvd.$.genre": dvdToEdit.genre, "dvd.$.releaseDate": dvdToEdit.releaseDate,
             "dvd.$.overview": dvdToEdit.overview, "dvd.$.productionCompanies": dvdToEdit.productionCompanies,
-            "dvd.$.director": dvdToEdit.director, "dvd.$.actors": dvdToEdit.actors } },
+            "dvd.$.director": dvdToEdit.director, "dvd.$.actors": dvdToEdit.actors,
+            "dvd.$.rate": dvdToEdit.rate} },
         function (err, numberAffected) {
             if (err) {
                 console.log("Error during updating the DVD");
                 res.jsonp({"success": false});
+                console.log(err);
             }
             else {
                 console.log("DVD updated " + numberAffected);

@@ -64,6 +64,17 @@ var AuthController = {
 //                console.log('User created');
 //            }
 //        });
+//
+//        User.create({'username': 'julie', 'email': 'julie@julie.fr', 'password': 'root'}, function(err){
+//            if (err) {
+//                console.log(err);
+//                return;
+//            }
+//
+//            else {
+//                console.log('User created');
+//            }
+//        });
 
 //        res.json({
 //            success:false,

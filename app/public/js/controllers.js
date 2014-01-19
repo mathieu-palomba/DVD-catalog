@@ -6,9 +6,13 @@ var dvdCatControllers = angular.module('dvdCatControllers', ['ui.bootstrap', 'ng
 /**
  * DVD List controllers.
  */
-dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'Dvd',
-    function ($scope, $location, $route, Dvd) {
+dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'Dvd', 'Rating',
+    function ($scope, $location, $route, Dvd, Rating) {
         console.log('Dvd List controller');
+
+        // Rating handle
+        $scope.max = Rating.max;
+        $scope.isReadonly = Rating.readOnly;
 
         // We get the current user
         $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
@@ -46,7 +50,7 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
          */
         $scope.deleteDvd = function(dvd) {
             // We ask user confirmation
-            bootbox.confirm('Are you sure to delete ' + dvd + '?', function(result) {
+            bootbox.confirm('Are you sure to delete ' + dvd.title + '?', function(result) {
                 // OK clicked
                 if(result) {
                     // We delete the DVD
@@ -68,9 +72,13 @@ dvdCatControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'D
 /**
  * DVD Details controllers.
  */
-dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$location', 'Dvd',
-    function ($scope, $routeParams, $location, Dvd) {
+dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$location', 'Dvd', 'Rating',
+    function ($scope, $routeParams, $location, Dvd, Rating) {
         console.log('Dvd Details controller');
+
+        // Rating handle
+        $scope.max = Rating.max;
+        $scope.isReadonly = Rating.readOnly;
 
         // We get the DVD
         $scope.dvdSearch = Dvd.DvdDetails.getDvd( {dvd: $routeParams.dvd}, function()
@@ -98,7 +106,7 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$locat
         /**
          * Redirection into the DVD list html page.
          */
-        $scope.back = function(dvdId) {
+        $scope.back = function() {
             $location.url('/dvd');
         };
     }
@@ -107,9 +115,10 @@ dvdCatControllers.controller('DvdDetailCtrl', ['$scope', '$routeParams', '$locat
 /**
  * Add DVD controllers.
  */
-dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB', 'GenresConstant', 'IdGenerator',
-    function ($scope, $location, $http, Dvd, MovieDB, GenresConstant, IdGenerator) {
+dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB', 'GenresConstant', 'IdGenerator', 'Actors',
+    function ($scope, $location, $http, Dvd, MovieDB, GenresConstant, IdGenerator, Actors) {
         console.log('Dvd Add controller');
+
 
 
         // The different movie genres.
@@ -158,30 +167,16 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         /**
          * Add a new Actor.
          */
-        $scope.addInputActor = function(actor){
-            // The boolean which permit to check if an empty field exist
-            var isExist = false;
-
-            // We check if an empty field alreayd exist
-            for (var actorID in $scope.dvd.actors) {
-                if($scope.dvd.actors[actorID].name == '')
-                    isExist = true;
-            }
-
-            // If no field are empty, we add a new input field
-            if(!isExist) {
-                $scope.dvd.actors.push( {name: ''} );
-            }
-        }
+        $scope.addInputActor = function() {
+            Actors.addInputActor($scope);
+        };
 
         /**
          * Delete the current Actor.
          * @param actor: The actor to delete
          */
-        $scope.deleteThisActor = function(actor){
-            // We decrement the length for the ng-repeat, and we delete the actor value
-            $scope.dvd.actors.length -= 1;
-            delete $scope.dvd.actors[actor];
+        $scope.deleteThisActor = function(actor) {
+            Actors.deleteThisActor($scope, actor);
         };
 
         /**
@@ -375,9 +370,16 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 /**
  * DVD Edit controllers.
  */
-dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'GenresConstant', 'IdGenerator',
-    function ($scope, $location, $routeParams, Dvd, GenresConstant, IdGenerator) {
+dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'GenresConstant', 'IdGenerator', 'Actors', 'Rating',
+    function ($scope, $location, $routeParams, Dvd, GenresConstant, IdGenerator, Actors, Rating) {
         console.log('Dvd Edit controller');
+
+        // Rating handle
+        $scope.max = Rating.max;
+        $scope.isReadonly = Rating.readWrite;
+        $scope.hoveringOver = function (value) {
+            Rating.hoveringOver($scope, value);
+        };
 
         // We get the current user
         $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
@@ -399,6 +401,9 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
 
                 // In the case if user change the title
                 $scope.dvd.oldTitle = $scope.dvd.title;
+
+                // We set the previous rate order
+                $scope.rate = $scope.dvd.rate;
             }
             else
             {
@@ -417,30 +422,16 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
         /**
          * Add a new Actor.
          */
-        $scope.addInputActor = function(actor){
-            // The boolean which permit to check if an empty field exist
-            var isExist = false;
-
-            // We check if an empty field already exist
-            for (var actorID in $scope.dvd.actors) {
-                if($scope.dvd.actors[actorID].name == '')
-                    isExist = true;
-            }
-
-            // If no field are empty, we add a new input field
-            if(!isExist) {
-                $scope.dvd.actors.push( {name: ''} );
-            }
+        $scope.addInputActor = function() {
+            Actors.addInputActor($scope);
         };
 
         /**
          * Delete the current Actor.
          * @param actor: The actor to delete
          */
-        $scope.deleteThisActor = function(actor){
-            // We decrement the length for the ng-repeat, and we delete the actor value
-            $scope.dvd.actors.length -= 1;
-            delete $scope.dvd.actors[actor];
+        $scope.deleteThisActor = function(actor) {
+            Actors.deleteThisActor($scope, actor);
         };
 
 
@@ -448,6 +439,11 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
          * Update the current DVD with new informations.
          */
         $scope.performUpdate = function () {
+            console.log('Update DVD');
+
+            // We get the current rate
+            $scope.dvd.rate = $scope.rate;
+
             // If the title has changed, we rename the movie poster file and movie poster path
             if($scope.dvd.oldTitle != $scope.dvd.title) {
                 $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID($scope.dvd.title);
@@ -475,16 +471,6 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
                     console.log('Error when deleting the DVD');
                 }
             });
-        };
-
-        // Rating handle
-        $scope.rate = 7;
-        $scope.max = 10;
-        $scope.isReadonly = false;
-
-        $scope.hoveringOver = function (value) {
-            $scope.overStar = value;
-            $scope.percent = 100 * (value / $scope.max);
         };
     }
 ]);

@@ -1,10 +1,5 @@
 <h1>Edition du film {{dvd.oldTitle}}</h1>
 
-<rating ng-model="rate" value="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
-<span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
-
-<pre style="margin:15px 0;">Rate: <b>{{rate}}</b> - Readonly is: <i>{{isReadonly}}</i> - Hovering over: <b>{{overStar || "none"}}</b></pre>
-
 <div class="row-fluid">
     <div class="span6">
         <!-- Form content -->
@@ -69,6 +64,13 @@
                                placeholder="Jean Dujardin (rôle)" required class="characterArea"></textarea>
                         <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" ng-show="($index==0)" class="btn btn-success btn-small">Add</button>
                         <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Préférence</label>
+                    <div class="controls">
+                        <rating ng-model="rate" value="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                        <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
                     </div>
                 </div>
                 <div class="controls">

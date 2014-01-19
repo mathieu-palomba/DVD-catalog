@@ -39,10 +39,13 @@ var dvdSchema = mongoose.Schema({
     director: {
         type: String
     },
-//    actors: {
-//        type: String
-//    }
-    actors: [actorSchema]
+    actors: [actorSchema],
+    comments: {
+        type: String
+    },
+    rate: {
+        type: Number
+    }
 });
 
 /**
