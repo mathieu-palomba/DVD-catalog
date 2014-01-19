@@ -63,7 +63,7 @@ app.listen(config.port, function() {
 });
 
 // TODO
-// Vérifier si le titre du film exist avant de l'enregister dans la vue edit-dvd
+// Vérifier si le titre du film existe avant de l'enregister dans la vue edit-dvd
 // Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
 // Rajouter message d'érreurs lors de la connection sur signin
 // Rajouter une case commentaire lors de l'ajout d'un film dans la vue add-dvd

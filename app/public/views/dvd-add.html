@@ -43,7 +43,7 @@
 
                     <div class="controls">
                         <textarea rows="10" id="inputDvdOverview" ng-model="dvd.overview" placeholder="Resumé du film"
-                                  required class="textArea"></textarea>
+                                  required class="text-area"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -52,7 +52,7 @@
                     <div class="controls">
                         <textarea rows="2" id="inputDvdProductionCompanies" ng-model="dvd.productionCompanies"
                                   placeholder="MGM, Pixar, ..." required
-                                  class="textArea"></textarea>
+                                  class="text-area"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -60,7 +60,7 @@
 
                     <div class="controls">
                         <input type="text" id="inputDvdDirector" ng-model="dvd.director"
-                               placeholder="James Cameron" required class="characterArea"></textarea>
+                               placeholder="James Cameron" required class="character-area"></textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -69,9 +69,9 @@
                     <div ng-repeat="actor in dvd.actors" class="controls">
                         <!--<textarea rows="2" id="inputDvdActors" ng-model="dvd.actors"-->
                         <!--placeholder="Acteurs (Jean Dujardin, Alexendra Lamy, ...)" required-->
-                        <!--class="textArea"></textarea>-->
+                        <!--class="text-area"></textarea>-->
                         <input type="text" id="inputDvdActors" ng-model="dvd.actors[$index].name"
-                               placeholder="Jean Dujardin (rôle)" required class="characterArea"></textarea>
+                               placeholder="Jean Dujardin (rôle)" required class="character-area"></textarea>
                         <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" ng-show="($index==0)" class="btn btn-success btn-small">Add</button>
                         <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
                     </div>
@@ -90,6 +90,6 @@
 
     <div class="span6">
         <img id="moviePoster" src={{moviePoster}} width="480" height="250"
-             class="{{moviePoster ? 'movie-poster' : ''}}">
+             class="{{moviePoster ? 'add-movie-poster' : ''}}">
     </div>
 </div>

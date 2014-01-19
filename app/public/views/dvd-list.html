@@ -24,7 +24,7 @@
             <ul class="dvd-list">
                 <li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">
                     <!-- We redirect to the correct view when the user click on the picture -->
-                    <a href="#/dvd/{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="moviePoster"></a>
+                    <a href="#/dvd/{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
                     <!-- We redirect to the correct view when the user click on the description -->
                     <a href="#/dvd/{{dvd.title}}" class="lead">{{dvd.title}}</a>
 
@@ -41,7 +41,7 @@
                         <strong>Préférence :</strong>
                         <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
                     </p>
-                    <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger deleteButton">Supprimer</button>
+                    <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
                 </li>
             </ul>
 

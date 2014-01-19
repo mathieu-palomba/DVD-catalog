@@ -5,9 +5,9 @@ body {
     background: url(../img/dvd-catalog/bg.png) repeat;
 }
 
-.myNavbar {
-    margin-top: -18px;
-}
+/*.my-navbar {*/
+    /*margin-top: -18px;*/
+/*}*/
 
 .informations-header {
     padding-bottom: 50px;
@@ -17,7 +17,7 @@ body {
     list-style: none;
 }
 
-.moviePoster {
+.movie-poster {
     float: left;
     margin: 0.5em 1em 1em 0em;
     height: 380px;
@@ -39,7 +39,7 @@ body {
     margin-bottom: 20px;
 }
 
-.deleteButton {
+.delete-button {
     float: right;
     margin-top: -30px;
 }
@@ -63,26 +63,26 @@ h1 {
     text-align: center;
 }
 
-.editButton {
+.edit-button {
     float: left;
     /*margin-top: -420px;*/
 }
 
-.backButton {
+.back-button {
     float: right;
 }
 
 /** Add DVD view **/
-.textArea {
+.text-area {
     width: 500px;
     resize: none;
 }
 
-.characterArea {
+.character-area {
     width: 250px;
     resize: none;
 }
 
-.movie-poster {
+.add-movie-poster {
     border: 2px inset black;
 }

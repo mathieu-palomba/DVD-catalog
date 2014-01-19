@@ -119,8 +119,6 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
     function ($scope, $location, $http, Dvd, MovieDB, GenresConstant, IdGenerator, Actors) {
         console.log('Dvd Add controller');
 
-
-
         // The different movie genres.
         $scope.genres = GenresConstant;
 
