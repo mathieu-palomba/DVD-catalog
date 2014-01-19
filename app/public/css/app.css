@@ -5,9 +5,9 @@ body {
     background: url(../img/dvd-catalog/bg.png) repeat;
 }
 
-/*.my-navbar {*/
-    /*margin-top: -18px;*/
-/*}*/
+.my-navbar {
+    margin-top: -18px;
+}
 
 .informations-header {
     padding-bottom: 50px;

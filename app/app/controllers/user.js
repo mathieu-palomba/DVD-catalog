@@ -54,7 +54,7 @@ var AuthController = {
         console.log('login failure');
 
         // We create an user
-//        User.create({'username': 'mathieu', 'email': 'mathieu@mathieu.fr', 'password': 'root'}, function(err){
+//        User.create({'username': 'mathieu', 'email': 'mathieu@mathieu.fr', 'password': 'root', 'isAdmin': true}, function(err){
 //            if (err) {
 //                console.log(err);
 //                return;
