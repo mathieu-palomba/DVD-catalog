@@ -52,7 +52,39 @@
     <script src="js/services.js"></script>
     <script src="js/animations.js"></script>
     <script src="js/app.js"></script>
+
+    <!-- Script that handle li active class -->
+    <script>
+        $(document).ready(function(){
+            <!-- li component -->
+            $('.nav li').click(function(event){
+                // Remove all pre-existing active classes
+                $('.active').removeClass('active');
+
+                // Add the active class to the link we clicked
+                $(this).addClass('active');
+
+                //Load the content
+                //e.g.
+                //load the page that the link was pointing to
+                //$('#content').load($(this).find(a).attr('href'));
+//                event.preventDefault();
+                // To prevent your event from reaching .clickable, you need to add the event parameter to your callback function and then call the stopPropagation method on it.
+                event.stopPropagation();
+            });
+
+            <!-- a component -->
+            $('.navbar-inner a').click(function(event){
+                // Remove all pre-existing active classes
+                $('.active').removeClass('active');
+
+                // We set an 'active' class to 'acceuil' ancre
+                $('#homeLink ').addClass('active');
+            });
+        });
+    </script>
 </head>
+
 <body>
 <!-- navbar -->
 <div class="navbar">
@@ -69,16 +101,16 @@
             <!-- User information -->
             <li class="navbar-text">Bonjour <%= user ? user.username : "unknown" %></li>
             <li class="divider-vertical"></li>
-            <li class="active"><a href="#">Acceuil</a></li>
+            <li id="homeLink" class="active"><a href="#">Acceuil</a></li>
         </ul>
 
         <!-- Space Divider with logout link -->
         <ul class="nav pull-right">
             <% if (user.isAdmin) { %>
-                <li><a href="#">Administration</a></li>
+                <li><a href="#/user/administration">Administration</a></li>
                 <li class="divider-vertical"></li>
             <% } %>
-            <li><a href="#">Compte</a></li>
+            <li><a href="#/user/account">Compte</a></li>
             <li class="divider-vertical"></li>
             <li><a href="/user/logout">Deconnexion</a></li>
         </ul>

@@ -32,6 +32,14 @@ dvdCatApp.config(['$routeProvider',
                 templateUrl: 'views/dvd-edit.html',
                 controller: 'DvdEditCtrl'
             }).
+            when('/user/account', {
+                templateUrl: 'views/user-account.html',
+                controller: 'UserAccountCtrl'
+            }).
+            when('/user/administration', {
+                templateUrl: 'views/users-administration.html',
+                controller: 'UserAdministrationCtrl'
+            }).
             otherwise({
                 redirectTo: '/dvd'   // The name which appear when loading index.html
             });

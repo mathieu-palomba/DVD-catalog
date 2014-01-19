@@ -120,6 +120,7 @@ dvdCatControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         console.log('Dvd Add controller');
 
 
+
         // The different movie genres.
         $scope.genres = GenresConstant;
 
@@ -471,5 +472,29 @@ dvdCatControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParam
                 }
             });
         };
+    }
+]);
+
+
+/**
+ * User account controllers.
+ */
+dvdCatControllers.controller('UserAccountCtrl', ['$scope', 'Dvd',
+    function ($scope, Dvd) {
+        // We get the current user
+        $scope.user = Dvd.DvdList.getCurrentUser(function() {
+            if($scope.user.success) {
+                console.log($scope.user);
+                $scope.user = $scope.user.user;
+            }
+        });
+    }
+]);
+
+/**
+ * User administration controllers.
+ */
+dvdCatControllers.controller('UserAdministrationCtrl', ['$scope',
+    function ($scope) {
     }
 ]);

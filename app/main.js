@@ -63,6 +63,7 @@ app.listen(config.port, function() {
 });
 
 // TODO
+// Supprimer l'image du moviePoster lors de la supprésion d'un film
 // Vérifier si le titre du film existe avant de l'enregister dans la vue edit-dvd
 // Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
 // Rajouter message d'érreurs lors de la connection sur signin

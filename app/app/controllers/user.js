@@ -26,7 +26,7 @@ var AuthController = {
     login: passport.authenticate('local', {
         successRedirect: '/user/login/success',
         failureRedirect: '/user/login/failure',
-        failureFlash: "Nom d'utilisateur ou mot de passe incorrect"                          // You can set you're error message here if you don't want to user the "new LocalStrategy" error message in the return done function (else set to true)
+        failureFlash: "Nom d'utilisateur ou mot de passe incorrect"     // You can set you're error message here if you don't want to user the "new LocalStrategy" error message in the return done function (else set to true)
     }),
 
     /**
@@ -37,11 +37,12 @@ var AuthController = {
     loginSuccess: function(req, res){
         console.log('login success');
 
-        res.json({
-            success: true,
-            user: req.session.passport.user
-        });
+//        res.json({
+//            success: true,
+//            user: req.session.passport.user
+//        });
 
+        // If the user it's log, we redirect it to the main page
         res.redirect( '/dvd' );
     },
 
@@ -81,6 +82,7 @@ var AuthController = {
 //            message: 'Invalid username or password.'
 //        });
 
+        // If the user isn't log, we redirect it to the sign in page
 //        res.redirect( '/' );
         res.render( 'login', {
             message: req.flash( 'error' )
@@ -112,6 +114,7 @@ var AuthController = {
             return next();
         }
 
+        // If the user isn't authenticated, we redirect it to '/'
         res.redirect( '/' );
     },
 
