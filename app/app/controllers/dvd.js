@@ -214,7 +214,7 @@ exports.edit = function (req, res) {
             "dvd.$.genre": dvdToEdit.genre, "dvd.$.releaseDate": dvdToEdit.releaseDate,
             "dvd.$.overview": dvdToEdit.overview, "dvd.$.productionCompanies": dvdToEdit.productionCompanies,
             "dvd.$.director": dvdToEdit.director, "dvd.$.actors": dvdToEdit.actors,
-            "dvd.$.rate": dvdToEdit.rate} },
+            "dvd.$.rate": dvdToEdit.rate, "dvd.$.comments": dvdToEdit.comments} },
         function (err, numberAffected) {
             if (err) {
                 console.log("Error during updating the DVD");

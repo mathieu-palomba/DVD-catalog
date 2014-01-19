@@ -112,8 +112,7 @@ var AuthController = {
             return next();
         }
 
-//        res.redirect( '/' );
-        res.render( 'login' );
+        res.redirect( '/' );
     },
 
     /**

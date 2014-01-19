@@ -20,7 +20,7 @@ body {
 .moviePoster {
     float: left;
     margin: 0.5em 1em 1em 0em;
-    height: 350px;
+    height: 380px;
     width: 250px;
 }
 
@@ -28,7 +28,7 @@ body {
     float: left;
     margin: -1em 1em 1.5em 0em;
     padding-bottom: 1em;
-    height: 350px;
+    height: 380px;
     width: 250px;
 }
 

@@ -36,7 +36,7 @@
 
                     <div class="controls">
                         <textarea rows="10" id="inputDvdOverview" ng-model="dvd.overview" placeholder="Resumé du film"
-                                  required class="textArea"></textarea>
+                                  class="textArea" required></textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -44,8 +44,8 @@
 
                     <div class="controls">
                         <textarea rows="2" id="inputDvdProductionCompanies" ng-model="dvd.productionCompanies"
-                                  placeholder="MGM, Pixar, ..." required
-                                  class="textArea"></textarea>
+                                  placeholder="MGM, Pixar, ..."
+                                  class="textArea" required></textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -53,7 +53,7 @@
 
                     <div class="controls">
                         <input type="text" id="inputDvdDirector" ng-model="dvd.director"
-                               placeholder="James Cameron" required class="characterArea"></textarea>
+                               placeholder="James Cameron" class="characterArea" required></textarea>
                     </div>
                 </div>
                 <div class="control-group">
@@ -61,7 +61,7 @@
 
                     <div ng-repeat="actor in dvd.actors" class="controls">
                         <input type="text" id="inputDvdActors" ng-model="dvd.actors[$index].name"
-                               placeholder="Jean Dujardin (rôle)" required class="characterArea"></textarea>
+                               placeholder="Jean Dujardin (rôle)" class="characterArea" required></textarea>
                         <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" ng-show="($index==0)" class="btn btn-success btn-small">Add</button>
                         <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
                     </div>
@@ -71,6 +71,14 @@
                     <div class="controls">
                         <rating ng-model="rate" value="rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
                         <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="inputDvdComments" class="control-label">Commentaires</label>
+
+                    <div class="controls">
+                        <textarea rows="10" id="inputDvdComments" ng-model="dvd.comments" placeholder="Commentaires"
+                                  class="textArea"></textarea>
                     </div>
                 </div>
                 <div class="controls">
