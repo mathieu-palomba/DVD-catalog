@@ -29,7 +29,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         $scope.genres = GenresConstant;
 
         // We get the DVD
-        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {dvd: $routeParams.dvdId}, function()
+        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvd': $routeParams.dvdId}, function()
         {
             if( $scope.dvdSearch.success )
             {
@@ -86,7 +86,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
                 $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID($scope.dvd.title);
 
                 // We rename the movie poster
-                var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: IdGenerator.moviePosterID($scope.dvd.oldTitle), filename: IdGenerator.moviePosterID($scope.dvd.title)}, function () {
+                var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': IdGenerator.moviePosterID($scope.dvd.oldTitle), 'filename': IdGenerator.moviePosterID($scope.dvd.title)}, function () {
                     if (renamedImage.success) {
                         console.log('Image successfully renamed');
                     }
@@ -97,7 +97,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
             }
 
             // We edit the DVD
-            $scope.dvdEdited = Dvd.DvdDetails.editDvd({dvd: $scope.dvd, owner: $scope.owner}, function () {
+            $scope.dvdEdited = Dvd.DvdDetails.editDvd({'dvd': $scope.dvd, 'owner': $scope.owner}, function () {
                 if ($scope.dvdEdited.success) {
                     console.log('DVD edited successfully');
 

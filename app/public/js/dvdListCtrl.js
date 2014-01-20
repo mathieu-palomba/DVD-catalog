@@ -14,7 +14,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
         $scope.max = Rating.max;
         $scope.isReadonly = Rating.readOnly;
 
-        // We get the current user
+        // We get the current owner
         $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
             if($scope.owner.success) {
                 console.log($scope.owner);
@@ -22,7 +22,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
         });
 
         // We get the DVD list
-        $scope.dvdList = Dvd.DvdList.getAllDvd( function()
+        $scope.dvdList = Dvd.DvdList.getAllDvd(function()
         {
             if( $scope.dvdList.success ) {
                 console.log('DVD got successfully');
@@ -54,7 +54,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
                 // OK clicked
                 if(result) {
                     // We delete the DVD
-                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {dvd: dvd, owner: $scope.owner}, function() {
+                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {'dvd': dvd, 'owner': $scope.owner}, function() {
                         if( $scope.dvdDeleted.success ) {
                             console.log('DVD deleted successfully');
                             $route.reload();

@@ -45,6 +45,7 @@ exports.getOwner = function(req, res) {
 exports.create = function (req, res) {
     console.log("Create DVD in nodejs");
     console.log(req.user.username);
+    var owner = req.body.owner.owner;
 
     // We create the DVD model.
     var newDvd = new Dvd({
@@ -135,7 +136,7 @@ exports.create = function (req, res) {
 exports.delete = function (req, res) {
     console.log("Delete DVD in nodejs");
     var dvdToDelete = req.body.dvd;
-//    var owner = req.body.owner;
+    var owner = req.body.owner.owner;
 //    console.log(owner);
 
 //    owner.dvd.id(dvdToDelete._id).remove();
@@ -207,11 +208,11 @@ exports.delete = function (req, res) {
 exports.edit = function (req, res) {
     console.log("Edit DVD in nodejs");
     var dvdToEdit = req.body.dvd;
-    var owner = req.body.owner;
-    console.log(owner.owner._id);
+    var owner = req.body.owner.owner;
+    console.log(owner._id);
     console.log(dvdToEdit._id);
 
-    Owner.update({"_id": owner.owner._id, "dvd._id": dvdToEdit._id},
+    Owner.update({"_id": owner._id, "dvd._id": dvdToEdit._id},
         {$set: {"dvd.$.title": dvdToEdit.title, "dvd.$.moviePoster": dvdToEdit.moviePoster,
             "dvd.$.genre": dvdToEdit.genre, "dvd.$.releaseDate": dvdToEdit.releaseDate,
             "dvd.$.overview": dvdToEdit.overview, "dvd.$.productionCompanies": dvdToEdit.productionCompanies,
@@ -253,6 +254,7 @@ exports.edit = function (req, res) {
  */
 exports.getAllDvd = function (req, res) {
     console.log('Get all DVD');
+//    var owner = req.params.owner.owner;
 
     Owner.find({"userName": req.user.username})
         .exec(function (err, dvd) {
@@ -310,6 +312,7 @@ exports.getAllDvd = function (req, res) {
 exports.getDvd = function (req, res) {
     console.log('Get DVD');
     var dvdRequested = req.params.dvd;
+//    var owner = req.params.owner.owner;
     console.log(dvdRequested);
 
     Owner.findOne({"userName": req.user.username, "dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
@@ -369,6 +372,7 @@ exports.getDvd = function (req, res) {
  */
 exports.isDvdExist = function (req, res) {
     var dvdRequested = req.params.dvd;
+//    var owner = req.params.owner.owner;
     var isExist = false;
     console.log('Is DVD exist');
     console.log(dvdRequested);

@@ -113,7 +113,7 @@ dvdCatServices.factory('Dvd', ['$resource',
     function ($resource) {
         return {
             DvdList: $resource('', {}, {
-                getAllDvd: {method: 'GET', url: '/getAllDvd/'},
+                getAllDvd: {method: 'GET', url: '/getAllDvd'},
                 deleteDvd: {method: 'POST', url: '/dvd/deleteDvd'},
                 getCurrentUser: {method: 'GET', url: '/user/currentUser'},
                 getCurrentOwner: {method: 'GET', url: '/owner'}

@@ -15,8 +15,15 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
         $scope.max = Rating.max;
         $scope.isReadonly = Rating.readOnly;
 
+        // We get the current owner
+        $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
+            if($scope.owner.success) {
+                console.log($scope.owner);
+            }
+        });
+
         // We get the DVD
-        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {dvd: $routeParams.dvd}, function()
+        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvd': $routeParams.dvd}, function()
         {
             if( $scope.dvdSearch.success )
             {

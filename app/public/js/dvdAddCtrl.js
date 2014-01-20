@@ -11,6 +11,8 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
     function ($scope, $location, $http, Dvd, MovieDB, GenresConstant, IdGenerator, Actors) {
         console.log('Dvd Add controller');
 
+
+
         // The different movie genres.
         $scope.genres = GenresConstant;
 
@@ -47,6 +49,13 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         $scope.dynamicSavePopoverPlacement = 'bottom';
         $scope.dynamicSavePopoverTrigger = 'focus';     // Primary it's "click"
 
+        // We get the current owner
+        $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
+            if($scope.owner.success) {
+                console.log($scope.owner);
+            }
+        });
+
         /**
          * Redirection into the index html page.
          */
@@ -76,7 +85,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             console.log('Checking movie data: ' + $scope.dvd.title);
 
             // We get the movie ID
-            var dvdID = MovieDB.GetMovieID.request({ apiKeyVar: $scope.requests.movieDBKey, queryVar: $scope.dvd.title, languageVar: 'fr' },
+            var dvdID = MovieDB.GetMovieID.request({ 'apiKeyVar': $scope.requests.movieDBKey, 'queryVar': $scope.dvd.title, 'languageVar': 'fr' },
                 function success() {
                     // This callback will be called asynchronously when the response is available
                     if(dvdID.results.length > 0) {
@@ -105,7 +114,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                         }
 
                         // If an ID is founded, we can get the movie details
-                        var dvdDetails = MovieDB.GetMovieDetails.request({ queryVar: dvdID.results[0].id, apiKeyVar: $scope.requests.movieDBKey, languageVar: 'fr' },
+                        var dvdDetails = MovieDB.GetMovieDetails.request({ 'queryVar': dvdID.results[0].id, 'apiKeyVar': $scope.requests.movieDBKey, 'languageVar': 'fr' },
                             function success() {
                                 // This callback will be called asynchronously when the response is available
                                 console.log('Movie details got from internet');
@@ -145,7 +154,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                             });
 
                         // If an ID is founded, we can get the movie cast
-                        var dvdCast = MovieDB.GetMovieCast.request({ queryVar: dvdID.results[0].id, apiKeyVar: $scope.requests.movieDBKey, languageVar: 'fr' },
+                        var dvdCast = MovieDB.GetMovieCast.request({ 'queryVar': dvdID.results[0].id, 'apiKeyVar': $scope.requests.movieDBKey, 'languageVar': 'fr' },
                             function success() {
                                 // This callback will be called asynchronously when the response is available
                                 console.log('Movie cast got from internet');
@@ -201,7 +210,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          */
         $scope.performSave = function () {
             // We check if a DVD already exist in the database
-            var check = Dvd.DvdAdd.isDvdExist({dvd: $scope.dvd.title}, function () {
+            var check = Dvd.DvdAdd.isDvdExist({'dvd': $scope.dvd.title}, function () {
                 if (check.success) {
                     console.log('DVD already exist');
 
@@ -210,12 +219,12 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                 }
                 else {
                     // We save the movie poster
-                    var renamedImage = Dvd.DvdAdd.renameImage({temporaryFilename: $scope.dvd.temporaryMoviePosterName, filename: IdGenerator.moviePosterID($scope.dvd.title)}, function () {
+                    var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': $scope.dvd.temporaryMoviePosterName, 'filename': IdGenerator.moviePosterID($scope.dvd.title)}, function () {
                         if (renamedImage.success) {
                             console.log('Image successfully renamed');
 
                             // We save the DVD in the database
-                            var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
+                            var dvd = Dvd.DvdAdd.saveDvd({'dvd': $scope.dvd, 'owner': $scope.owner}, function () {
                                 if (dvd.success) {
                                     console.log('DVD added successfully');
                                 }
