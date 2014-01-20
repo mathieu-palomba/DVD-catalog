@@ -5,6 +5,12 @@
 var dvdCatApp = angular.module('dvdCatApp', [
     'ngRoute',
     'dvdCatControllers',
+    'dvdListControllers',
+    'dvdAddControllers',
+    'dvdDetailsControllers',
+    'dvdEditControllers',
+    'userAccountControllers',
+    'userAdministrationControllers',
     'dvdCatFilter',
     'dvdCatServices',
     'dvdCatAnimations'
@@ -22,7 +28,7 @@ dvdCatApp.config(['$routeProvider',
             }).
             when('/dvd/:dvd', {
                 templateUrl: 'views/dvd-detail.html',
-                controller: 'DvdDetailCtrl'
+                controller: 'DvdDetailsCtrl'
             }).
             when('/addDvd', {
                 templateUrl: 'views/dvd-add.html',
