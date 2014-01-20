@@ -4,7 +4,6 @@
  */
 var dvdCatApp = angular.module('dvdCatApp', [
     'ngRoute',
-    'dvdCatControllers',
     'dvdListControllers',
     'dvdAddControllers',
     'dvdDetailsControllers',

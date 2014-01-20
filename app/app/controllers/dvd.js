@@ -44,6 +44,7 @@ exports.getOwner = function(req, res) {
  */
 exports.create = function (req, res) {
     console.log("Create DVD in nodejs");
+    console.log(req.user.username);
 
     // We create the DVD model.
     var newDvd = new Dvd({
@@ -97,6 +98,7 @@ exports.create = function (req, res) {
                 owner.save(function (err) {
                     if (err) {
                         console.log("Error during updating Owner");
+                        console.log(err);
                         isError = true;
                     }
                     else {
@@ -370,8 +372,9 @@ exports.isDvdExist = function (req, res) {
     var isExist = false;
     console.log('Is DVD exist');
     console.log(dvdRequested);
+    console.log(req.user.username);
 
-    Owner.findOne({"dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
+    Owner.findOne({"userName": req.user.username, "dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
         if (err) {
             return handleError(err);
         }

@@ -11,8 +11,6 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
     function ($scope, $location, $http, Dvd, MovieDB, GenresConstant, IdGenerator, Actors) {
         console.log('Dvd Add controller');
 
-
-
         // The different movie genres.
         $scope.genres = GenresConstant;
 
@@ -217,7 +215,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                             console.log('Image successfully renamed');
 
                             // We save the DVD in the database
-                            var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd, owner: $scope.owner}, function () {
+                            var dvd = Dvd.DvdAdd.saveDvd({dvd: $scope.dvd}, function () {
                                 if (dvd.success) {
                                     console.log('DVD added successfully');
                                 }

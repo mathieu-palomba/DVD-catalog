@@ -18,8 +18,8 @@ var actorSchema = mongoose.Schema({
  */
 var dvdSchema = mongoose.Schema({
     title: {
-        type: String,
-        unique: true
+        type: String
+//        unique: true
     },
     moviePoster: {
         type: String
