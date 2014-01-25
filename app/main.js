@@ -66,12 +66,16 @@ app.listen(config.port, function() {
 // Supprimer l'image du moviePoster lors de la supprésion d'un film
 // Vérifier si le titre du film existe avant de l'enregister dans la vue edit-dvd
 // Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
-// Rajouter message d'érreurs lors de la connection sur signin
-// Rajouter une case commentaire lors de l'ajout d'un film dans la vue add-dvd
 // Gérer zone adminisatrateur
 // Ajouter plusieurs genres
 // Faire fichies de conf pour la langue et les constantes
 // Vérifier enregistrement DVD manuelement (pour le movie poster)
 // Pouvoir éditer un utilisateur (mail, username, password...)
 // Gestion collection de DVD (combien par categories...)
+
+
+
+
+// Rajouter message d'érreurs lors de la connection sur signin
+// Rajouter une case commentaire lors de l'ajout d'un film dans la vue add-dvd
 // Gestion mot de passe avec bcrypt

@@ -13,7 +13,8 @@
         "request": "*",
 		"passport": "*",
 		"passport-local": "*",
-		"connect-flash": "*"
+		"connect-flash": "*",
+        "bcrypt-nodejs": "*"
     },
     "author": "Mathieu <perdodelamancha31@gmail.com>",
     "description": "DVD catalog"

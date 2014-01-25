@@ -57,21 +57,42 @@ module.exports = function( passport )
                         message: 'Unknown user'
                     } );
                 }
-                if( password != user.password )
-                {
-                    console.log("Invalid password");
-
-                    return done( null, false, {
-                        message: 'Invalid password'
-                    } );
-                }
-//                return done( null, user );
+                // No bcrypt usage
+//                if( password != user.password )
+//                {
+//                    console.log("Invalid password");
+//
+//                    return done( null, false, {
+//                        message: 'Invalid password'
+//                    } );
+//                }
 
                 // I'm specifying the fields that I want to save into the user's session. I don't want to save the password in the session
-                return done(null, {
-                    id: user._id,
-                    username: user.username,
-                    email: user.email
+//                return done(null, {
+//                    id: user._id,
+//                    username: user.username,
+//                    email: user.email
+//                });
+//                return done( null, user );
+
+                // bcrypt usage
+                user.comparePassword(password, function (err, isMatch) {
+                    if (err) {
+                        return done(err);
+                    }
+
+                    if (isMatch) {
+                        // I'm specifying the fields that I want to save into the user's session. I don't want to save the password in the session
+                        return done(null, {
+                            id: user._id,
+                            username: user.username,
+                            email: user.email
+                        });
+                    }
+
+                    else {
+                        return done(null, false, { message: 'Invalid password' });
+                    }
                 });
             } );
         }

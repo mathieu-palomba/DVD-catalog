@@ -3,10 +3,10 @@ module.exports = function( app )
     // Login routes
     var user = require( '../app/controllers/user' );
     app.get( '/', user.signIn );
-    app.post('/user/login', user.login);
+    app.post('/login', user.login);
     app.get('/user/logout', user.ensureAuthenticated, user.logout);
-    app.get('/user/login/success', user.loginSuccess);
-    app.get('/user/login/failure', user.loginFailure);
+    app.get('/login', user.loginFailure);
+    app.get('/login/success', user.loginSuccess);
     app.post('/user/register', user.register);
     app.get( '/user/currentUser', user.ensureAuthenticated, user.currentUser );
 

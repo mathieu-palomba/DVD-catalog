@@ -23,11 +23,29 @@ var AuthController = {
      * @param req : The request
      * @param res : The response
      */
-    login: passport.authenticate('local', {
-        successRedirect: '/user/login/success',
-        failureRedirect: '/user/login/failure',
-        failureFlash: "Nom d'utilisateur ou mot de passe incorrect"     // You can set you're error message here if you don't want to user the "new LocalStrategy" error message in the return done function (else set to true)
-    }),
+//    login: passport.authenticate('local', {
+//        successRedirect: '/user/login/success',
+//        failureRedirect: '/user/login/failure',
+//        failureFlash: "Nom d'utilisateur ou mot de passe incorrect"     // You can set you're error message here if you don't want to user the "new LocalStrategy" error message in the return done function (else set to true)
+//    }),
+    login: function(req, res, next) {
+        passport.authenticate('local', function(err, user, info) {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                req.session.messages =  [info.message];
+                return res.redirect('/login');
+            }
+
+            req.logIn(user, function(err) {
+                if (err) { return next(err); }
+                return res.redirect('/login/success');
+            });
+
+        })(req, res, next);
+    },
 
     /**
      * On Login Success callback.
@@ -83,9 +101,8 @@ var AuthController = {
 //        });
 
         // If the user isn't log, we redirect it to the sign in page
-//        res.redirect( '/' );
         res.render( 'login', {
-            message: req.flash( 'error' )
+            message: req.session.messages
         } );
     },
 
@@ -116,6 +133,26 @@ var AuthController = {
 
         // If the user isn't authenticated, we redirect it to '/'
         res.redirect( '/' );
+    },
+
+    /**
+     * Check for admin middleware, this is unrelated to passport.js.
+     * @param req : The request
+     * @param res : The response
+     * @param next: The next step
+     */
+    ensureAdmin: function ensureAdmin(req, res, next) {
+        return function(req, res, next) {
+            console.log(req.user);
+
+            if(req.user && req.user.isAdmin === true) {
+                next();
+            }
+
+            else {
+                res.redirect( '/' );
+            }
+        }
     },
 
     /**

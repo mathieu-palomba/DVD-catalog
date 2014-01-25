@@ -41,10 +41,6 @@
         <!--&lt;!&ndash;<button class="btn btn-primary" type="submit">Sign in</button>&ndash;&gt;-->
     <!--&lt;!&ndash;</form>&ndash;&gt;-->
 
-
-<% if( locals.message )  { %>
-<div class="alert alert-danger"><%= locals.message %></div>
-<%  } %>
     <!--<form action="/user/login" method="post" class="form-signin">-->
         <!--<h2>Identifiez vous s'il vous plait</h2>-->
         <!--<div>-->
@@ -63,14 +59,16 @@
 
 <!--WRAPPER-->
 <div id="wrapper">
-
+    <% if (message) { %>
+    <div class="alert alert-danger"><%= message %></div>
+    <% } %>
     <!--SLIDE-IN ICONS-->
     <div class="user-icon"></div>
     <div class="pass-icon"></div>
     <!--END SLIDE-IN ICONS-->
 
     <!--LOGIN FORM-->
-    <form name="login-form" action="/user/login" method="post" class="login-form">
+    <form name="login-form" action="/login" method="post" class="login-form">
 
         <!--HEADER-->
         <div class="header">
