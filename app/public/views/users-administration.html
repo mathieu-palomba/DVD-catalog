@@ -1,0 +1,14 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <h1>Utilisateurs</h1>
+        <ul>
+            <li ng-repeat="owner in owners">
+                <dl class="dl-horizontal">
+                    <dt>Nom d'utilisateur :</dt>
+                    <dd>{{owner.userName}}</dd>
+                </dl>
+                <!--<span class="badge badge-info">{{owner.dvd.length}}</span>-->
+            </li>
+        </ul>
+    </div>
+</div>

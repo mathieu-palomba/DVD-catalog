@@ -114,9 +114,9 @@ dvdCatServices.factory('Dvd', ['$resource',
         return {
             DvdList: $resource('', {}, {
                 getAllDvd: {method: 'GET', url: '/getAllDvd'},
-                deleteDvd: {method: 'POST', url: '/dvd/deleteDvd'},
-                getCurrentUser: {method: 'GET', url: '/user/currentUser'},
-                getCurrentOwner: {method: 'GET', url: '/owner'}
+                deleteDvd: {method: 'POST', url: '/dvd/deleteDvd'}
+//                getCurrentUser: {method: 'GET', url: '/user/currentUser'},
+//                getCurrentOwner: {method: 'GET', url: '/owner'}
             }),
             DvdAdd: $resource('', {}, {
                 saveDvd: {method: 'POST', url: '/addDvd/saveDvd'},
@@ -127,6 +127,23 @@ dvdCatServices.factory('Dvd', ['$resource',
             DvdDetails: $resource('', {}, {
                 getDvd: {method: 'GET', url: '/getDvd/:dvd'},
                 editDvd: {method: 'POST', url: '/dvd/editDvd'}
+            })
+        }
+    }]
+);
+
+/**
+ * This service permit to create a RESTful client and avoid the $http lower method. The $ressource route must hve the same name in "app.js".
+ */
+dvdCatServices.factory('User', ['$resource',
+    function ($resource) {
+        return {
+            UserAccount: $resource('', {}, {
+                getCurrentUser: {method: 'GET', url: '/user/currentUser'},
+                getCurrentOwner: {method: 'GET', url: '/owner'}
+            }),
+            Administration: $resource('', {}, {
+                getOwners: {method: 'GET', url: '/owners'}
             })
         }
     }]

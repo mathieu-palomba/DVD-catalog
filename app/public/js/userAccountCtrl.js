@@ -7,10 +7,10 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
 /**
  * User Account controllers.
  */
-userAccountControllers.controller('UserAccountCtrl', ['$scope', 'Dvd',
-    function ($scope, Dvd) {
+userAccountControllers.controller('UserAccountCtrl', ['$scope', 'User',
+    function ($scope, User) {
         // We get the current user
-        $scope.user = Dvd.DvdList.getCurrentUser(function() {
+        $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
                 console.log($scope.user);
                 $scope.user = $scope.user.user;

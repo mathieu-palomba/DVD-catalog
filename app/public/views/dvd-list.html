@@ -29,18 +29,31 @@
                     <a href="#/dvd/{{dvd.title}}" class="lead">{{dvd.title}}</a>
 
                     <p><strong>Genre :</strong> {{dvd.genre}}</p>
+
                     <p><strong>Date de sortie :</strong> {{dvd.releaseDate}}</p>
-                    <p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>
+
+                    <!--<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>-->
+                    <dl>
+                        <dt>Résumé :</dt>
+                        <dd>{{dvd.overview | overviewMaxLength}}</dd>
+                    </dl>
+
                     <p><strong>Producteur :</strong> {{dvd.director}}</p>
 
-                    <p><strong>Acteurs :</strong></p>
-                    <p ng-repeat="actor in dvd.actors">
-                        {{actor.name}}
-                    </p>
+                    <!--<p><strong>Acteurs :</strong></p>-->
+                    <!--<p ng-repeat="actor in dvd.actors">-->
+                        <!--{{actor.name}}-->
+                    <!--</p>-->
+                    <dl>
+                        <dt>Acteurs :</dt>
+                        <dd ng-repeat="actor in dvd.actors">{{actor.name}}</dd>
+                    </dl>
+
                     <p>
                         <strong>Préférence :</strong>
                         <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
                     </p>
+
                     <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
                 </li>
             </ul>

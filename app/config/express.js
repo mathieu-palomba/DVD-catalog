@@ -23,47 +23,25 @@ module.exports = function( app, passport, db )
         .use(express.urlencoded())      // Replace bodyParser
         .use(express.json())            // Replace bodyParser
         .use(express.cookieParser())    // CookieParser should be above session
-//        .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
-//            secret: "mylittlesecret",
-//            cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
-//            maxAge: new Date(Date.now() + 3600000)              // 3600000 = 1 hour
-//        }))
-        .use(express.session({
+        .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
             secret: '29ninJaTurtlePoWaaaaaaaaaa31',
             cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
-            maxAge: new Date(Date.now() + 3600000),              // 3600000 = 1 hour
-            store: new mongoStore({
-                db: db.connection.db,
-                collection: 'sessions'
-            })
+            maxAge: new Date(Date.now() + 3600000)              // 3600000 = 1 hour
         }))
+//        .use(express.session({
+//            secret: '29ninJaTurtlePoWaaaaaaaaaa31',
+//            cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
+//            maxAge: new Date(Date.now() + 3600000),              // 3600000 = 1 hour
+//            store: new mongoStore({
+//                db: db.connection.db,
+//                collection: 'sessions'
+//            })
+//        }))
         .use(flash())                   // Connect flash for flash messages
         .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
         .use(passport.session());       // The important part. Must go AFTER the express session is initialized
 
     app.use(app.router);
-
-    // Since this is the last non-error-handling middleware used, we assume 404, as nothing else responded.
-    app.use(function(req, res, next) {
-        res.status(404);
-
-        console.log('404');
-
-        // Respond with html page
-        if (req.accepts('html')) {
-            res.render('404', { url: req.url });
-            return;
-        }
-
-        // Respond with json
-        if (req.accepts('json')) {
-            res.send({ error: 'Not found' });
-            return;
-        }
-
-        // Default to plain-text. send()
-        res.type('txt').send('Not found');
-    });
 
     // Assume "not found" in the error msgs is a 404. This is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.
     app.use(function(err, req, res, next) {
@@ -76,5 +54,31 @@ module.exports = function( app, passport, db )
 
         // Error page
         res.status(500).render('500', { error: err.stack });
+    });
+
+    // Since this is the last non-error-handling middleware used, we assume 404, as nothing else responded.
+    app.use(function(req, res, next) {
+        res.status(404);
+
+        console.log('404 not found HTML');
+
+        // Respond with html page
+        if (req.accepts('html')) {
+            res.render('404', { url: req.url });
+            return;
+        }
+
+        console.log('404 not found JSON');
+
+        // Respond with json
+        if (req.accepts('json')) {
+            res.send({ error: 'Not found' });
+            return;
+        }
+
+        console.log('404 not found TEXT');
+
+        // Default to plain-text. send()
+        res.type('txt').send('Not found');
     });
 };

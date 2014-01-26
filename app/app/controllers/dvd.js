@@ -38,6 +38,42 @@ exports.getOwner = function(req, res) {
 };
 
 /**
+ * Get all of the Owners.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.getOwners = function(req, res) {
+    console.log("Find owners");
+
+    Owner.find(null, function (err, owners) {
+        if (err) {
+            return handleError(err);
+        }
+
+        else {
+            if(owners) {
+                console.log(owners);
+//                if(dvd.dvd.length > 0) {
+//
+//                    // We return OK
+                    res.jsonp({"success": true, "owners": owners});
+//                }
+//                else {
+//                    console.log("Error when getting the DVD");
+//                    res.jsonp({"success": false});
+//                }
+            }
+
+            else {
+                console.log("Error when getting all of the owners");
+                res.jsonp({"success": false});
+            }
+
+        }
+    });
+};
+
+/**
  * Create a new DVD in the database.
  * @param req : The request
  * @param res : The response
@@ -279,7 +315,7 @@ exports.getAllDvd = function (req, res) {
                     res.jsonp({"success": false});
                 }
             }
-        })
+        });
 
 //    Dvd.find(null)
 //        .exec(function (err, data) {

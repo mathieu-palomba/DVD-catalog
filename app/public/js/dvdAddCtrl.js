@@ -7,10 +7,9 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'MovieDB', 'GenresConstant', 'IdGenerator', 'Actors',
-    function ($scope, $location, $http, Dvd, MovieDB, GenresConstant, IdGenerator, Actors) {
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'Actors',
+    function ($scope, $location, $http, Dvd, User, MovieDB, GenresConstant, IdGenerator, Actors) {
         console.log('Dvd Add controller');
-
 
 
         // The different movie genres.
@@ -50,7 +49,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         $scope.dynamicSavePopoverTrigger = 'focus';     // Primary it's "click"
 
         // We get the current owner
-        $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
+        $scope.owner = User.UserAccount.getCurrentOwner(function() {
             if($scope.owner.success) {
                 console.log($scope.owner);
             }

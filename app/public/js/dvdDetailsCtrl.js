@@ -7,8 +7,8 @@ var dvdDetailsControllers = angular.module('dvdDetailsControllers', ['ngRoute'])
 /**
  * DVD Details controllers.
  */
-dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$location', 'Dvd', 'Rating',
-    function ($scope, $routeParams, $location, Dvd, Rating) {
+dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$location', 'Dvd', 'User', 'Rating',
+    function ($scope, $routeParams, $location, Dvd, User, Rating) {
         console.log('Dvd Details controller');
 
         // Rating handle
@@ -16,7 +16,7 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
         $scope.isReadonly = Rating.readOnly;
 
         // We get the current owner
-        $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
+        $scope.owner = User.UserAccount.getCurrentOwner(function() {
             if($scope.owner.success) {
                 console.log($scope.owner);
             }

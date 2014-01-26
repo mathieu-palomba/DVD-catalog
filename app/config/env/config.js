@@ -1,4 +1,4 @@
 module.exports = {
     dbPath: 'mongodb://localhost/dvd-catalog',
-    port: 3040
+    port: 9890
 }

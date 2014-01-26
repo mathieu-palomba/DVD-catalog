@@ -7,8 +7,8 @@ var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute']);
 /**
  * DVD Edit controllers.
  */
-dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'GenresConstant', 'IdGenerator', 'Actors', 'Rating',
-    function ($scope, $location, $routeParams, Dvd, GenresConstant, IdGenerator, Actors, Rating) {
+dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'IdGenerator', 'Actors', 'Rating',
+    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, IdGenerator, Actors, Rating) {
         console.log('Dvd Edit controller');
 
         // Rating handle
@@ -19,7 +19,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         };
 
         // We get the current user
-        $scope.owner = Dvd.DvdList.getCurrentOwner(function() {
+        $scope.owner = User.UserAccount.getCurrentOwner(function() {
             if($scope.owner.success) {
                 console.log($scope.owner);
             }

@@ -8,12 +8,13 @@ var mongoose = require( 'mongoose' ),
 
 module.exports = function( passport )
 {
-    //Serialize sessions
+    // Serialize sessions
     passport.serializeUser( function( user, done )
     {
         done( null, user.id );
     } );
 
+    // Deserialize sessions
     passport.deserializeUser( function( id, done )
     {
         User.findOne( {
@@ -24,15 +25,7 @@ module.exports = function( passport )
         } );
     } );
 
-//    passport.validPassword = function(password){
-//        if (this.password == password){
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
-    //Use local strategy
+    // Use local strategy
     passport.use( new LocalStrategy( {
             usernameField: 'username',
             passwordField: 'password'
@@ -57,23 +50,6 @@ module.exports = function( passport )
                         message: 'Unknown user'
                     } );
                 }
-                // No bcrypt usage
-//                if( password != user.password )
-//                {
-//                    console.log("Invalid password");
-//
-//                    return done( null, false, {
-//                        message: 'Invalid password'
-//                    } );
-//                }
-
-                // I'm specifying the fields that I want to save into the user's session. I don't want to save the password in the session
-//                return done(null, {
-//                    id: user._id,
-//                    username: user.username,
-//                    email: user.email
-//                });
-//                return done( null, user );
 
                 // bcrypt usage
                 user.comparePassword(password, function (err, isMatch) {

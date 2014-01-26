@@ -30,15 +30,18 @@ var AuthController = {
 //    }),
     login: function(req, res, next) {
         passport.authenticate('local', function(err, user, info) {
+            // Request error
             if (err) {
                 return next(err);
             }
 
+            // User isn't authenticated
             if (!user) {
                 req.session.messages =  [info.message];
                 return res.redirect('/login');
             }
 
+            // User successfully log
             req.logIn(user, function(err) {
                 if (err) { return next(err); }
                 return res.redirect('/login/success');
@@ -142,16 +145,17 @@ var AuthController = {
      * @param next: The next step
      */
     ensureAdmin: function ensureAdmin(req, res, next) {
-        return function(req, res, next) {
-            console.log(req.user);
+        console.log('Ensure admin');
+        console.log(req.user);
 
-            if(req.user && req.user.isAdmin === true) {
-                next();
-            }
+        // If the user it's an admin, we call the next method
+        if(req.user && req.user.isAdmin === true) {
+            next();
+        }
 
-            else {
-                res.redirect( '/' );
-            }
+        // Else, we redirect into the home page
+        else {
+            res.redirect( '/' );
         }
     },
 

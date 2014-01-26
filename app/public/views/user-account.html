@@ -1,17 +1,24 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <h1>Compte de {{user.username}}</h1>
-        <p>
-            <strong>Nom d'utilisateur :</strong> {{user.username}}
-        </p>
-        <p>
-            <strong>Emaik :</strong> {{user.email}}
-        </p>
-        <p>
-            <strong>Admin :</strong> {{user.isAdmin ? 'Oui' : 'Non'}}
-        </p>
-        <p>
-            <strong>Date de création :</strong> {{user.created}}
-        </p>
+        <dl class="dl-horizontal">
+            <dt>Nom d'utilisateur :</dt>
+            <dd>{{user.username}}</dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Email :</dt>
+            <dd>{{user.email}}</dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Admin :</dt>
+            <dd>{{user.isAdmin ? 'Oui' : 'Non'}}</dd>
+        </dl>
+
+        <dl class="dl-horizontal">
+            <dt>Date de création :</dt>
+            <dd>{{user.created}}</dd>
+        </dl>
     </div>
 </div>

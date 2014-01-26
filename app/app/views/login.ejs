@@ -32,35 +32,10 @@
     </script>
 </head>
 <body>
-
-<!--<div class="container">-->
-    <!--&lt;!&ndash;<form method="post" action="/user/login" class="form-signin">&ndash;&gt;-->
-        <!--&lt;!&ndash;<h2 class="form-signin-heading">Please sign in</h2>&ndash;&gt;-->
-        <!--&lt;!&ndash;<input type="text" name="username" class="form-control" placeholder="User name" required autofocus>&ndash;&gt;-->
-        <!--&lt;!&ndash;<input type="password" name="password" class="form-control" placeholder="Password" required>&ndash;&gt;-->
-        <!--&lt;!&ndash;<button class="btn btn-primary" type="submit">Sign in</button>&ndash;&gt;-->
-    <!--&lt;!&ndash;</form>&ndash;&gt;-->
-
-    <!--<form action="/user/login" method="post" class="form-signin">-->
-        <!--<h2>Identifiez vous s'il vous plait</h2>-->
-        <!--<div>-->
-            <!--<label>Nom d'utilisateur :</label>-->
-            <!--<input type="text" name="username" placeholder="Nom d'utilisateur" required autofocus/><br/>-->
-        <!--</div>-->
-        <!--<div>-->
-            <!--<label>Mot de passe :</label>-->
-            <!--<input type="password" name="password" placeholder="Mot de passe" required/>-->
-        <!--</div>-->
-        <!--<div>-->
-            <!--<button type="submit" class="btn btn-primary">Envoyer</button>-->
-        <!--</div>-->
-    <!--</form>-->
-<!--</div>-->
-
 <!--WRAPPER-->
 <div id="wrapper">
-    <% if (message) { %>
-    <div class="alert alert-danger"><%= message %></div>
+    <% if (locals.message) { %>
+    <div class="alert alert-danger"><%= locals.message %></div>
     <% } %>
     <!--SLIDE-IN ICONS-->
     <div class="user-icon"></div>

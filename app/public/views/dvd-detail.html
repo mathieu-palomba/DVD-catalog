@@ -15,17 +15,24 @@
 <p>
     <strong>Compagnies de production :</strong> {{dvd.productionCompanies}}
 </p>
+<!--<p>-->
+    <!--<strong>Résumé :</strong></br>{{dvd.overview}}-->
+<!--</p>-->
+<dl>
+    <dt>Résumé :</dt>
+    <dd>{{dvd.overview}}</dd>
+</dl>
+<!--<p>-->
+    <!--<strong>Acteurs :</strong>-->
+    <!--<p ng-repeat="actor in dvd.actors">-->
+        <!--{{actor.name}}-->
+    <!--</p>-->
+<!--</p>-->
+<dl>
+    <dt>Acteurs :</dt>
+    <dd ng-repeat="actor in dvd.actors">{{actor.name}}</dd>
+</dl>
 <p>
-    <strong>Résumé :</strong></br>{{dvd.overview}}
-</p>
-<p>
-    <strong>Acteurs :</strong>
-    <p ng-repeat="actor in dvd.actors">
-        {{actor.name}}
-    </p>
-</p>
-<p>
-    </br>
     <strong>Préférence :</strong>
     <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
 </p>
