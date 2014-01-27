@@ -74,6 +74,10 @@ app.listen(config.port, function() {
 // Gestion collection de DVD (combien par categories...)
 // Rajouter _ devant le nom du fichier temporaire de moviePoster
 // Faire zone register
+// Rajouter option choix couleur de body dans la section compte
+// Cacher la société de production
+// Regarder problème session qui expire et bugs
+// Traduire message de suppression en français
 
 
 
