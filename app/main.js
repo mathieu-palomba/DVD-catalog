@@ -72,6 +72,8 @@ app.listen(config.port, function() {
 // Vérifier enregistrement DVD manuelement (pour le movie poster)
 // Pouvoir éditer un utilisateur (mail, username, password...)
 // Gestion collection de DVD (combien par categories...)
+// Rajouter _ devant le nom du fichier temporaire de moviePoster
+// Faire zone register
 
 
 

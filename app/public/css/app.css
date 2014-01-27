@@ -72,9 +72,9 @@ h1 {
     float: right;
 }
 
-/** Add DVD view **/
+/** Add adn Edit DVD view **/
 .text-area {
-    width: 500px;
+    width: 450px;
     resize: none;
 }
 

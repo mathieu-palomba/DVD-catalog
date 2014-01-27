@@ -14,11 +14,40 @@ var mongoose = require('mongoose'),
  * @param req : The request
  * @param res : The response
  */
-exports.getOwner = function(req, res) {
+exports.getCurrentOwner = function(req, res) {
     console.log("Find Owner");
 
     // Find the current login user
     Owner.findOne({ "userName": req.user.username }, function (err, owner) {
+        if (err) {
+            return handleError(err);
+        }
+
+        else {
+            if(owner) {
+                console.log('Owner found');
+                res.jsonp({"success": true, owner: owner});
+            }
+
+            else {
+                console.log('Owner not found');
+                res.jsonp({"success": false});
+            }
+        }
+    });
+};
+
+/**
+ * Get the Owner in relation with the user name.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.getOwner = function(req, res) {
+    console.log("Find Owner with user name");
+    var userName = req.params.userName;
+
+    // Find the current login user
+    Owner.findOne({ "userName": userName }, function (err, owner) {
         if (err) {
             return handleError(err);
         }
@@ -52,7 +81,7 @@ exports.getOwners = function(req, res) {
 
         else {
             if(owners) {
-                console.log(owners);
+//                console.log(owners);
 //                if(dvd.dvd.length > 0) {
 //
 //                    // We return OK

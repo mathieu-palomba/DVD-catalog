@@ -12,6 +12,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         console.log('Dvd Add controller');
 
 
+
         // The different movie genres.
         $scope.genres = GenresConstant;
 

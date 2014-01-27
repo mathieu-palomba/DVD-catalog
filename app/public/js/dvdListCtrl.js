@@ -6,34 +6,53 @@ var dvdListControllers = angular.module('dvdListControllers', ['ngRoute']);
 /**
  * DVD List controllers.
  */
-dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', 'Dvd', 'User', 'Rating',
-    function ($scope, $location, $route, Dvd, User, Rating) {
+dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '$routeParams', 'Dvd', 'User', 'Rating',
+    function ($scope, $location, $route, $routeParams, Dvd, User, Rating) {
         console.log('Dvd List controller');
 
         // Rating handle
         $scope.max = Rating.max;
         $scope.isReadonly = Rating.readOnly;
 
-        // We get the current owner
-        $scope.owner = User.UserAccount.getCurrentOwner(function() {
-            if($scope.owner.success) {
-                console.log($scope.owner);
-            }
-        });
+        // If the DVD list it's call with the administration route, we get the owner in relation
+        if($routeParams.userName) {
+            console.log("plop");
+            // We get the current owner
+            $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
+                if($scope.owner.success) {
+                    // We get the owner in relation with the url parameter
+                    $scope.owner = $scope.owner.owner;
 
-        // We get the DVD list
-        $scope.dvdList = Dvd.DvdList.getAllDvd(function()
-        {
-            if( $scope.dvdList.success ) {
-                console.log('DVD got successfully');
-                console.log($scope.dvdList.dvdList[0].dvd);
-                $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
-            }
-            else {
-                console.log('Error when getting the DVD list');
-                $scope.dvdList = []
-            }
-        } );
+                    // We get the DVD list in relation with this owner
+                    $scope.dvdList = $scope.owner.dvd;
+
+                }
+            });
+        }
+
+        // Else, we display the current owner in relation with the user logged
+        else {
+            // We get the current owner
+            $scope.owner = User.UserAccount.getCurrentOwner(function() {
+                if($scope.owner.success) {
+                    $scope.owner = $scope.owner.owner;
+                }
+            });
+
+            // We get the DVD list (NOT NECESSARY because we have the owner, but it's a seconf method)
+            $scope.dvdList = Dvd.DvdList.getAllDvd(function()
+            {
+                if( $scope.dvdList.success ) {
+                    console.log('DVD got successfully');
+                    console.log($scope.dvdList.dvdList[0].dvd);
+                    $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
+                }
+                else {
+                    console.log('Error when getting the DVD list');
+                    $scope.dvdList = []
+                }
+            } );
+        }
 
         // This value must have the same name in the html view to set the default filter
         $scope.orderProp = 'title';
