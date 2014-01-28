@@ -16,8 +16,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
 
         // If the DVD list it's call with the administration route, we get the owner in relation
         if($routeParams.userName) {
-            console.log("plop");
-            // We get the current owner
+            // We get owner chosen in the administration view
             $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
                 if($scope.owner.success) {
                     // We get the owner in relation with the url parameter
@@ -25,6 +24,9 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
 
                     // We get the DVD list in relation with this owner
                     $scope.dvdList = $scope.owner.dvd;
+
+                    // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
+                    $scope.href = "#/user/";
 
                 }
             });
@@ -45,7 +47,12 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
                 if( $scope.dvdList.success ) {
                     console.log('DVD got successfully');
                     console.log($scope.dvdList.dvdList[0].dvd);
+
+                    // We get the DVD list in relation with this owner
                     $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
+
+                    // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
+                    $scope.href = "#/dvd/";
                 }
                 else {
                     console.log('Error when getting the DVD list');

@@ -60,7 +60,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          * Redirection into the index html page.
          */
         $scope.cancelAddDvd = function () {
-            $location.url('/dvd');
+            $location.url('/dvd-list');
         };
 
         /**
@@ -237,7 +237,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                             $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
 
                             // We redirect to the index view
-                            $location.url('/dvd');
+                            $location.url('/dvd-list');
                         }
                         else {
                             console.log("Error when renamed the image");

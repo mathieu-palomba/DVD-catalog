@@ -29,7 +29,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         $scope.genres = GenresConstant;
 
         // We get the DVD
-        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvd': $routeParams.dvdId}, function()
+        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvd': $routeParams.dvdTitle}, function()
         {
             if( $scope.dvdSearch.success )
             {
@@ -45,7 +45,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
             else
             {
                 console.log('Error when loading the DVD');
-                $location.url('/dvd');
+                $location.url('/dvd-list');
             }
         } );
 

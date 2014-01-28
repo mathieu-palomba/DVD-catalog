@@ -21,11 +21,11 @@ var dvdCatApp = angular.module('dvdCatApp', [
 dvdCatApp.config(['$routeProvider',
     function ($routeProvider) {
         $routeProvider.
-            when('/dvd', {           // When index.html is loaded, we display the new template url
+            when('/dvd-list/:userName?', {           // When index.html is loaded, we display the new template url
                 templateUrl: 'views/dvd-list.html',
                 controller: 'DvdListCtrl'
             }).
-            when('/dvd/:dvd', {
+            when('/dvd/:dvdTitle', {
                 templateUrl: 'views/dvd-detail.html',
                 controller: 'DvdDetailsCtrl'
             }).
@@ -33,7 +33,7 @@ dvdCatApp.config(['$routeProvider',
                 templateUrl: 'views/dvd-add.html',
                 controller: 'DvdAddCtrl'
             }).
-            when('/editDvd/:dvdId', {
+            when('/editDvd/:dvdTitle', {
                 templateUrl: 'views/dvd-edit.html',
                 controller: 'DvdEditCtrl'
             }).
@@ -45,12 +45,8 @@ dvdCatApp.config(['$routeProvider',
                 templateUrl: 'views/users-administration.html',
                 controller: 'UserAdministrationCtrl'
             }).
-            when('/user/dvd/:userName', {
-                templateUrl: 'views/dvd-list.html',
-                controller: 'DvdListCtrl'
-            }).
             otherwise({
-                redirectTo: '/dvd'   // The name which appear when loading index.html
+                redirectTo: '/dvd-list'   // The name which appear when loading index.html
             });
     }
 ]);

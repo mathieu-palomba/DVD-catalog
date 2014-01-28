@@ -23,7 +23,7 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
         });
 
         // We get the DVD
-        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvd': $routeParams.dvd}, function()
+        $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvd': $routeParams.dvdTitle}, function()
         {
             if( $scope.dvdSearch.success )
             {
@@ -34,22 +34,22 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
             else
             {
                 console.log('Error when getting the DVD');
-                $location.url('/dvd');
+                $location.url('/dvd-list');
             }
         } );
 
         /**
          * Redirection into the edit DVD html page.
          */
-        $scope.editDvd = function(dvdId) {
-            $location.url('/editDvd/' + dvdId);
+        $scope.editDvd = function(dvdName) {
+            $location.url('/editDvd/' + dvdName);
         };
 
         /**
          * Redirection into the DVD list html page.
          */
         $scope.back = function() {
-            $location.url('/dvd');
+            $location.url('/dvd-list');
         };
     }
 ]);
