@@ -63,21 +63,20 @@ app.listen(config.port, function() {
 });
 
 // TODO
-// Supprimer l'image du moviePoster lors de la supprésion d'un film
+// Supprimer l'image du moviePoster lors de la supprésion d'un film ???
+// Rajouter _ devant le nom du fichier temporaire de moviePoster ???
+
 // Vérifier si le titre du film existe avant de l'enregister dans la vue edit-dvd
 // Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
-// Gérer zone adminisatrateur
 // Ajouter plusieurs genres
 // Faire fichies de conf pour la langue et les constantes
 // Vérifier enregistrement DVD manuelement (pour le movie poster)
 // Pouvoir éditer un utilisateur (mail, username, password...)
 // Gestion collection de DVD (combien par categories...)
-// Rajouter _ devant le nom du fichier temporaire de moviePoster
 // Faire zone register
 // Rajouter option choix couleur de body dans la section compte
 // Cacher la société de production
 // Regarder problème session qui expire et bugs
-// Traduire message de suppression en français
 
 
 
@@ -85,3 +84,5 @@ app.listen(config.port, function() {
 // Rajouter message d'érreurs lors de la connection sur signin
 // Rajouter une case commentaire lors de l'ajout d'un film dans la vue add-dvd
 // Gestion mot de passe avec bcrypt
+// Gérer zone adminisatrateur
+// Traduire message de suppression en français

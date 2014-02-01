@@ -76,7 +76,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
          */
         $scope.deleteDvd = function(dvd) {
             // We ask user confirmation
-            bootbox.confirm('Are you sure to delete ' + dvd.title + '?', function(result) {
+            bootbox.confirm('Voulez-vous vraiment supprimer <b><i>' + dvd.title + '</i></b> de vôtre collection?', function(result) {
                 // OK clicked
                 if(result) {
                     // We delete the DVD
