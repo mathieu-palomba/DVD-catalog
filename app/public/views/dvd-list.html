@@ -8,15 +8,43 @@
                 <button type="button" ng-click="addDvd()" class="btn btn-primary">Ajouter un film</button>
             </div>
 
-            <div>Rechercher : <input type="text" ng-model="query"></div>
+            <ul class="inline">
+                <li>
+                    Rechercher :
+                </li>
+                <li>
+                    <!--<div class="input-group">-->
+                        <!--<span class="input-group-addon">@</span>-->
+                        <!--<input type="text" ng-model="query" class="form-control" placeholder="Username">-->
+                    <!--</div>-->
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-search"></i></span>
+                        <input type="text" ng-model="query" class="span12" placeholder="Filtre">
+                    </div>
 
-            <div>Trier par :
-                <select ng-model="orderProp">
-                    <option value="title">Alphabetique</option>
-                    <!-- Reverse the sort order by adding a - symbol before the sorting value -->
-                    <option value="-rate">Préférence</option>
-                </select>
-            </div>
+                </li>
+            </ul>
+            <!--<div>Rechercher : <input type="text" ng-model="query"></div>-->
+
+            <ul class="inline">
+                <li>
+                    Trier par :
+                </li>
+                <li>
+                    <select ng-model="orderProp">
+                        <option value="title">Alphabetique</option>
+                        <!-- Reverse the sort order by adding a - symbol before the sorting value -->
+                        <option value="-rate">Préférence</option>
+                    </select>
+                </li>
+            </ul>
+            <!--<div>Trier par :-->
+                <!--<select ng-model="orderProp">-->
+                    <!--<option value="title">Alphabetique</option>-->
+                    <!--&lt;!&ndash; Reverse the sort order by adding a - symbol before the sorting value &ndash;&gt;-->
+                    <!--<option value="-rate">Préférence</option>-->
+                <!--</select>-->
+            <!--</div>-->
         </div>
 
         <!--Body content-->
@@ -24,12 +52,12 @@
             <ul class="dvd-list">
                 <li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">
                     <!-- We redirect to the correct view when the user click on the picture -->
-                    <!--<div class="span4">-->
+                    <div class="span3">
                         <a href="{{href}}{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
-                    <!--</div>-->
+                    </div>
 
                     <!-- We redirect to the correct view when the user click on the description -->
-                    <!--<div class="span4">-->
+                    <div class="span9">
                         <a href="{{href}}{{dvd.title}}" class="lead">{{dvd.title}}</a>
 
                         <p><strong>Genre :</strong> {{dvd.genre}}</p>
@@ -59,7 +87,7 @@
                         </p>
 
                         <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
-                    <!--</div>-->
+                    </div>
                 </li>
             </ul>
 

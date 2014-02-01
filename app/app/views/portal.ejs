@@ -99,7 +99,9 @@
 <!-- navbar -->
 <div class="navbar">
     <div class="navbar-inner my-navbar">
-        <a href="#" class="brand glyphicon glyphicon-home">Accueil</a>
+        <a href="#" class="brand">
+            <span>Acceuil</span>
+        </a>
 
         <!-- Space Divider -->
         <ul class="nav">
@@ -111,18 +113,38 @@
             <!-- User information -->
             <li class="navbar-text">Bonjour <%= user ? user.username : "unknown" %></li>
             <li class="divider-vertical"></li>
-            <li id="homeLink" class="active"><a href="#">Acceuil</a></li>
+            <li id="homeLink" class="active">
+                <a href="#">
+                    <i class="icon-home"></i>
+                    <span>Acceuil</span>
+                </a>
+            </li>
         </ul>
 
         <!-- Space Divider with logout link -->
         <ul class="nav pull-right">
             <% if (user.isAdmin) { %>
-                <li><a href="#/user/administration">Administration</a></li>
+                <li>
+                    <a href="#/user/administration">
+                        <i class="icon-wrench"></i>
+                        <span>Administration</span>
+                    </a>
+                </li>
                 <li class="divider-vertical"></li>
             <% } %>
-            <li><a href="#/user/account">Compte</a></li>
+            <li>
+                <a href="#/user/account">
+                    <i class="icon-user"></i>
+                    <span>Compte</span>
+                </a>
+            </li>
             <li class="divider-vertical"></li>
-            <li><a href="/user/logout">Deconnexion</a></li>
+            <li>
+                <a href="/user/logout">
+                    <i class="icon-chevron-right"></i>
+                    <span>Deconnexion</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
