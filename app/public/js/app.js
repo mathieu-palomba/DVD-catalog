@@ -25,7 +25,7 @@ dvdCatApp.config(['$routeProvider',
                 templateUrl: 'views/dvd-list.html',
                 controller: 'DvdListCtrl'
             }).
-            when('/dvd/:dvdTitle', {
+            when('/dvd/:userName?/:dvdTitle', {
                 templateUrl: 'views/dvd-detail.html',
                 controller: 'DvdDetailsCtrl'
             }).
@@ -33,7 +33,7 @@ dvdCatApp.config(['$routeProvider',
                 templateUrl: 'views/dvd-add.html',
                 controller: 'DvdAddCtrl'
             }).
-            when('/editDvd/:dvdTitle', {
+            when('/editDvd/:userName?/:dvdTitle', {
                 templateUrl: 'views/dvd-edit.html',
                 controller: 'DvdEditCtrl'
             }).

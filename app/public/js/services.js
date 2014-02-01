@@ -122,10 +122,10 @@ dvdCatServices.factory('Dvd', ['$resource',
                 saveDvd: {method: 'POST', url: '/addDvd/saveDvd'},
                 saveImage: {method: 'POST', url: '/addDvd/saveImage'},
                 renameImage: {method: 'POST', url: '/addDvd/renameImage'},
-                isDvdExist: {method: 'GET', url: '/isDvdExist/:dvd'}
+                isDvdExist: {method: 'GET', url: '/isDvdExist/:dvdTitle'}
             }),
             DvdDetails: $resource('', {}, {
-                getDvd: {method: 'GET', url: '/getDvd/:dvd'},
+                getDvd: {method: 'GET', url: '/getDvd/:dvdTitle&:userName'},
                 editDvd: {method: 'POST', url: '/dvd/editDvd'}
             })
         }

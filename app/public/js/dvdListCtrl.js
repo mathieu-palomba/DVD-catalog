@@ -26,7 +26,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
                     $scope.dvdList = $scope.owner.dvd;
 
                     // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
-                    $scope.href = "#/user/";
+                    $scope.href = "#/dvd/" + $scope.owner.userName + "/";
 
                 }
             });
@@ -80,7 +80,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
                 // OK clicked
                 if(result) {
                     // We delete the DVD
-                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {'dvd': dvd, 'owner': $scope.owner}, function() {
+                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {'dvdTitle': dvd.title, 'userName': $scope.owner.userName}, function() {
                         if( $scope.dvdDeleted.success ) {
                             console.log('DVD deleted successfully');
                             $route.reload();

@@ -12,7 +12,6 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         console.log('Dvd Add controller');
 
 
-
         // The different movie genres.
         $scope.genres = GenresConstant;
 
@@ -210,7 +209,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          */
         $scope.performSave = function () {
             // We check if a DVD already exist in the database
-            var check = Dvd.DvdAdd.isDvdExist({'dvd': $scope.dvd.title}, function () {
+            var check = Dvd.DvdAdd.isDvdExist({'dvdTitle': $scope.dvd.title}, function () {
                 if (check.success) {
                     console.log('DVD already exist');
 

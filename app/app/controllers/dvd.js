@@ -200,21 +200,20 @@ exports.create = function (req, res) {
  */
 exports.delete = function (req, res) {
     console.log("Delete DVD in nodejs");
-    var dvdToDelete = req.body.dvd;
-    var owner = req.body.owner.owner;
-//    console.log(owner);
+    var dvdToDelete = req.body.dvdTitle;
+    var userName = req.body.userName;
 
 //    owner.dvd.id(dvdToDelete._id).remove();
 
     // Find the current login user
-    Owner.findOne({ "userName": req.user.username }, function (err, owner) {
+    Owner.findOne({ "userName": userName }, function (err, owner) {
         if (err) {
             return handleError(err);
         }
 
         else {
             // We find the DVD to delete
-            Owner.findOne({"dvd.title": dvdToDelete.title}, {"dvd.$": 1}, function (err, dvd) {
+            Owner.findOne({"dvd.title": dvdToDelete}, {"dvd.$": 1}, function (err, dvd) {
                 if (err) {
                     return handleError(err);
                 }
@@ -273,7 +272,7 @@ exports.delete = function (req, res) {
 exports.edit = function (req, res) {
     console.log("Edit DVD in nodejs");
     var dvdToEdit = req.body.dvd;
-    var owner = req.body.owner.owner;
+    var owner = req.body.owner;
     console.log(owner._id);
     console.log(dvdToEdit._id);
 
@@ -376,11 +375,12 @@ exports.getAllDvd = function (req, res) {
  */
 exports.getDvd = function (req, res) {
     console.log('Get DVD');
-    var dvdRequested = req.params.dvd;
-//    var owner = req.params.owner.owner;
+    var dvdRequested = req.params.dvdTitle;
+    var userName = req.params.userName;
     console.log(dvdRequested);
+    console.log(userName);
 
-    Owner.findOne({"userName": req.user.username, "dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
+    Owner.findOne({"userName": userName, "dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
         if (err) {
             return handleError(err);
         }
@@ -436,7 +436,7 @@ exports.getDvd = function (req, res) {
  * @param res : The response
  */
 exports.isDvdExist = function (req, res) {
-    var dvdRequested = req.params.dvd;
+    var dvdRequested = req.params.dvdTitle;
 //    var owner = req.params.owner.owner;
     var isExist = false;
     console.log('Is DVD exist');
