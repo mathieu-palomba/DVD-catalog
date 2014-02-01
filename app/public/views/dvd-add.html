@@ -22,12 +22,18 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label for="inputDvdGenre" class="control-label">Genre</label>
+                    <label for="inputDvdGenres" class="control-label">Genre</label>
 
                     <div class="controls">
-                        <select id="inputDvdGenre" ng-model="dvd.genre">
+                        <select id="inputDvdGenres" ng-model="dvd.genre">
                             <option ng-repeat="genre in genres">{{genre}}</option>
                         </select>
+
+                        <div ng-repeat="genre in genres">
+                            <input type="text" id="inputDvdGenre" ng-model="dvd.actors[$index].name"
+                                   placeholder="Jean Dujardin (rôle)" required class="character-area"></textarea>
+
+                        </div>
                     </div>
                 </div>
                 <div class="control-group">

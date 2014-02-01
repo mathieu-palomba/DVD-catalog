@@ -77,6 +77,7 @@ app.listen(config.port, function() {
 // Rajouter option choix couleur de body dans la section compte
 // Cacher la société de production
 // Regarder problème session qui expire et bugs
+// Pour utiliser le champ rechercher uniquement sur des acteurs, titre ou producteurs
 
 
 

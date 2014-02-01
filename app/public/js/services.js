@@ -22,7 +22,7 @@ dvdCatServices.constant('GenresConstant', {
     horror: 'Horreur',
     musical: 'Musical',
     romance: 'Romantique',
-    scienceFiction: 'Science fiction',
+    scienceFiction: 'Science-fiction',
     thriller: 'Thriller',
     war: 'Guerre',
     western: 'Western'
