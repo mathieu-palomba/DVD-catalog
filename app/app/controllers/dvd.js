@@ -213,7 +213,7 @@ exports.delete = function (req, res) {
 
         else {
             // We find the DVD to delete
-            Owner.findOne({"dvd.title": dvdToDelete}, {"dvd.$": 1}, function (err, dvd) {
+            Owner.findOne({"_id": owner._id, "dvd.title": dvdToDelete}, {"dvd.$": 1}, function (err, dvd) {
                 if (err) {
                     return handleError(err);
                 }
