@@ -7,9 +7,10 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'Actors',
-    function ($scope, $location, $http, Dvd, User, MovieDB, GenresConstant, IdGenerator, Actors) {
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'MultiField',
+    function ($scope, $location, $http, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField) {
         console.log('Dvd Add controller');
+
 
 
         // The different movie genres.
@@ -63,10 +64,25 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         };
 
         /**
+         * Add a new genre.
+         */
+        $scope.addInputGenre = function() {
+//            MultiField.addInputField($scope.dvd.actors);
+        };
+
+        /**
+         * Delete the current genre.
+         * @param actor: The genre to delete
+         */
+        $scope.deleteThisGenre = function(genre) {
+//            MultiField.deleteThisField($scope.dvd.actors, actor);
+        };
+
+        /**
          * Add a new Actor.
          */
         $scope.addInputActor = function() {
-            Actors.addInputActor($scope);
+            MultiField.addInputField($scope.dvd.actors);
         };
 
         /**
@@ -74,7 +90,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          * @param actor: The actor to delete
          */
         $scope.deleteThisActor = function(actor) {
-            Actors.deleteThisActor($scope, actor);
+            MultiField.deleteThisField($scope.dvd.actors, actor);
         };
 
         /**

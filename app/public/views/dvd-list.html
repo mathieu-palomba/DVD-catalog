@@ -48,49 +48,49 @@
         </div>
 
         <!--Body content-->
-        <div class="span8 offset1">
+        <div class="span9 offset1">
             <ul class="dvd-list">
                 <li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">
-                    <!-- We redirect to the correct view when the user click on the picture -->
-                    <div class="span3">
-                        <a href="{{href}}{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
+                    <div class="row-fluid">
+                        <!-- We redirect to the correct view when the user click on the picture -->
+                        <div class="span3">
+                            <a href="{{href}}{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
+                        </div>
+
+                        <!-- We redirect to the correct view when the user click on the description -->
+                        <div class="span9">
+                            <a href="{{href}}{{dvd.title}}" class="lead">{{dvd.title}}</a>
+
+                            <p><strong>Genre :</strong> {{dvd.genre}}</p>
+
+                            <p><strong>Date de sortie :</strong> {{dvd.releaseDate}}</p>
+
+                            <!--<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>-->
+                            <dl>
+                                <dt>Résumé :</dt>
+                                <dd>{{dvd.overview | overviewMaxLength}}</dd>
+                            </dl>
+
+                            <p><strong>Producteur :</strong> {{dvd.director}}</p>
+
+                            <!--<p><strong>Acteurs :</strong></p>-->
+                            <!--<p ng-repeat="actor in dvd.actors">-->
+                                <!--{{actor.name}}-->
+                            <!--</p>-->
+                            <dl>
+                                <dt>Acteurs :</dt>
+                                <dd ng-repeat="actor in dvd.actors">{{actor.name}}</dd>
+                            </dl>
+
+                            <p>
+                                <strong>Préférence :</strong>
+                                <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
+                            </p>
+                        </div>
                     </div>
-
-                    <!-- We redirect to the correct view when the user click on the description -->
-                    <div class="span9">
-                        <a href="{{href}}{{dvd.title}}" class="lead">{{dvd.title}}</a>
-
-                        <p><strong>Genre :</strong> {{dvd.genre}}</p>
-
-                        <p><strong>Date de sortie :</strong> {{dvd.releaseDate}}</p>
-
-                        <!--<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>-->
-                        <dl>
-                            <dt>Résumé :</dt>
-                            <dd>{{dvd.overview | overviewMaxLength}}</dd>
-                        </dl>
-
-                        <p><strong>Producteur :</strong> {{dvd.director}}</p>
-
-                        <!--<p><strong>Acteurs :</strong></p>-->
-                        <!--<p ng-repeat="actor in dvd.actors">-->
-                            <!--{{actor.name}}-->
-                        <!--</p>-->
-                        <dl>
-                            <dt>Acteurs :</dt>
-                            <dd ng-repeat="actor in dvd.actors">{{actor.name}}</dd>
-                        </dl>
-
-                        <p>
-                            <strong>Préférence :</strong>
-                            <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
-                        </p>
-
-                        <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
-                    </div>
+                    <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
                 </li>
             </ul>
-
         </div>
     </div>
 </div>

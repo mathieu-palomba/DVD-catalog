@@ -59,33 +59,33 @@ dvdCatServices.factory('IdGenerator', function () {
 });
 
 /**
- * Add or delete an Actor in the "add" and "edit" view.
+ * Add or delete a field in the "add" and "edit" view.
  */
-dvdCatServices.factory('Actors', function () {
+dvdCatServices.factory('MultiField', function () {
     return {
-        addInputActor: function ($scope) {
+        addInputField: function (fields) {
             // The boolean which permit to check if an empty field exist
             var isExist = false;
 
             // We check if an empty field already exist
-            for (var actorID in $scope.dvd.actors) {
-                if ($scope.dvd.actors[actorID].name == '')
+            for (var fieldID in fields) {
+                if (fields[fieldID].name == '')
                     isExist = true;
             }
 
             // If no field are empty, we add a new input field
             if (!isExist) {
-                console.log('Add actor');
-                $scope.dvd.actors.push({name: ''});
+                console.log('Add field');
+                fields.push({name: ''});
             }
         },
 
-        deleteThisActor: function($scope, actor){
+        deleteThisField: function(fields, field){
             console.log('Delete actor');
-            // We decrement the length for the ng-repeat, and we delete the actor value
+            // We decrement the length for the ng-repeat, and we delete the field value
 //            $scope.dvd.actors.length -= 1;
 //            delete $scope.dvd.actors[actor];
-            $scope.dvd.actors.splice(actor, 1);
+            fields.splice(field, 1);
         }
     };
 });

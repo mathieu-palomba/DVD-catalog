@@ -23,23 +23,26 @@ module.exports = function( app, passport, db )
         .use(express.urlencoded())      // Replace bodyParser
         .use(express.json())            // Replace bodyParser
         .use(express.cookieParser())    // CookieParser should be above session
-        .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
-            secret: '29ninJaTurtlePoWaaaaaaaaaa31',
-            cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
-            maxAge: new Date(Date.now() + 3600000)              // 3600000 = 1 hour
-        }))
-//        .use(express.session({
+//        .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
 //            secret: '29ninJaTurtlePoWaaaaaaaaaa31',
 //            cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
-//            maxAge: new Date(Date.now() + 3600000),              // 3600000 = 1 hour
-//            store: new mongoStore({
-//                db: db.connection.db,
-//                collection: 'sessions'
-//            })
+//            maxAge: new Date(Date.now() + 3600000)              // 3600000 = 1 hour
 //        }))
-        .use(flash())                   // Connect flash for flash messages
+        .use(express.session({
+            secret: '29ninJaTurtlePoWaaaaaaaaaa31',
+//            cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
+            cookie: { maxAge: 60 * 60 * 1000 },                   // 24 * 60 * 60 * 1000 = 1 day
+//            maxAge: new Date(Date.now() + 3600000),             // 3600000 = 1 hour
+//            expires: new Date(Date.now() + 36000),
+            store: new mongoStore({
+                db: db.connection.db,
+                clear_interval: 36, // 36 seconds
+                collection: 'sessions'
+            })
+        }))
         .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
-        .use(passport.session());       // The important part. Must go AFTER the express session is initialized
+        .use(passport.session())        // The important part. Must go AFTER the express session is initialized
+        .use(flash());                  // Connect flash for flash messages
 
     app.use(app.router);
 

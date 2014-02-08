@@ -7,8 +7,8 @@ var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute']);
 /**
  * DVD Edit controllers.
  */
-dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'IdGenerator', 'Actors', 'Rating',
-    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, IdGenerator, Actors, Rating) {
+dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'IdGenerator', 'MultiField', 'Rating',
+    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, IdGenerator, MultiField, Rating) {
         console.log('Dvd Edit controller');
 
         // Rating handle
@@ -84,7 +84,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
          * Add a new Actor.
          */
         $scope.addInputActor = function() {
-            Actors.addInputActor($scope);
+            MultiField.addInputField($scope.dvd.actors);
         };
 
         /**
@@ -92,7 +92,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
          * @param actor: The actor to delete
          */
         $scope.deleteThisActor = function(actor) {
-            Actors.deleteThisActor($scope, actor);
+            MultiField.deleteThisField($scope.dvd.actors, actor);
         };
 
 

@@ -64,7 +64,7 @@ var AuthController = {
 //        });
 
         // If the user it's log, we redirect it to the main page
-        res.redirect( '/dvd' );
+        res.redirect('/dvd');
     },
 
     /**
@@ -114,12 +114,12 @@ var AuthController = {
      * @param req : The request
      * @param res : The response
      */
-    logout: function(req, res){
+    logout: function(req, res) {
         console.log('Logout');
 
         req.logout();
         res.end();
-        res.redirect( '/' );
+        res.redirect('/');
     },
 
     /**
@@ -134,8 +134,9 @@ var AuthController = {
             return next();
         }
 
+        console.log('Not authenticated');
         // If the user isn't authenticated, we redirect it to '/'
-        res.redirect( '/' );
+        res.redirect('/');
     },
 
     /**
@@ -150,13 +151,11 @@ var AuthController = {
 
         // If the user it's an admin, we call the next method
         if(req.user && req.user.isAdmin === true) {
-            next();
+            return next();
         }
 
         // Else, we redirect into the home page
-        else {
-            res.redirect( '/' );
-        }
+        res.redirect('/');
     },
 
     /**

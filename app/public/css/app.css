@@ -30,8 +30,8 @@ body {
 .movie-poster {
     float: left;
     margin: 0.5em 1em 0em 0em;
-    height: 380px;
-    width: 260px;
+    /*height: 380px;*/
+    /*width: 260px;*/
 }
 
 .thumb {
