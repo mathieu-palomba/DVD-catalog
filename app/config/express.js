@@ -36,7 +36,7 @@ module.exports = function( app, passport, db )
 //            expires: new Date(Date.now() + 36000),
             store: new mongoStore({
                 db: db.connection.db,
-                clear_interval: 36, // 36 seconds
+                clear_interval: 3600, // 3600 seconds
                 collection: 'sessions'
             })
         }))

@@ -75,7 +75,6 @@ app.listen(config.port, function() {
 // Gestion collection de DVD (combien par categories...)
 // Faire zone register
 // Rajouter option choix couleur de body dans la section compte
-// Cacher la société de production
 // Regarder problème session qui expire et bugs
 // Pour utiliser le champ rechercher uniquement sur des acteurs, titre ou producteurs
 
@@ -87,3 +86,4 @@ app.listen(config.port, function() {
 // Gestion mot de passe avec bcrypt
 // Gérer zone adminisatrateur
 // Traduire message de suppression en français
+// Ne pas rendre required la société de production

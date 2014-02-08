@@ -63,20 +63,21 @@ dvdCatServices.factory('IdGenerator', function () {
  */
 dvdCatServices.factory('MultiField', function () {
     return {
-        addInputField: function (fields) {
+        addInputField: function (fields, field) {
             // The boolean which permit to check if an empty field exist
             var isExist = false;
 
             // We check if an empty field already exist
             for (var fieldID in fields) {
-                if (fields[fieldID].name == '')
+                if (fields[fieldID].name == '') {
                     isExist = true;
+                }
             }
 
             // If no field are empty, we add a new input field
             if (!isExist) {
                 console.log('Add field');
-                fields.push({name: ''});
+                fields.push({name: field});
             }
         },
 

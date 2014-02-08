@@ -10,6 +10,27 @@ var actorSchema = mongoose.Schema({
 //    firstName: {type: String},
     name: {
         type: String
+    },
+    birthdate: {
+        type: String,
+        default: ''
+    },
+    bibliography : {
+        type: String,
+        default: ''
+    }
+});
+
+/**
+ * The genre schema needed in the DVD schema.
+ */
+var genreSchema = mongoose.Schema({
+    name: {
+        type: String
+    },
+    description: {
+        type: String,
+        default: ''
     }
 });
 

@@ -84,7 +84,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
          * Add a new Actor.
          */
         $scope.addInputActor = function() {
-            MultiField.addInputField($scope.dvd.actors);
+            MultiField.addInputField($scope.dvd.actors, '');
         };
 
         /**

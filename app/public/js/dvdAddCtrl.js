@@ -15,6 +15,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
         // The different movie genres.
         $scope.genres = GenresConstant;
+        $scope.defaultGenre = $scope.genres.default;
 
         // Initialize the DVD form.
         $scope.dvd = {
@@ -22,12 +23,13 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             temporaryMoviePosterName: 'temporaryImg.jpg',
             title: '',
             moviePoster: '',
-            genre: $scope.genres.action,
+            genre: '',
+            genres: [],
             releaseDate: '',
             overview: '',
             productionCompanies: '',
             director: '',
-            actors: [ {name: ''}]
+            actors: [ {name: ''} ]
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.
@@ -63,11 +65,30 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             $location.url('/dvd-list');
         };
 
+        $scope.inArray = function(array, name) {
+            for(var i=0;i<array.length;i++) {
+                if(array[i].name == name) {
+                    return true
+                }
+            }
+            return false;
+        }
+
+        $scope.genreChange = function () {
+            console.log($scope.dvd.genre);
+
+            if(!$scope.inArray($scope.dvd.genres, $scope.dvd.genre)) {
+                $scope.addInputGenre($scope.dvd.genre);
+            }
+
+            $scope.dvd.genre = $scope.defaultGenre;
+        };
+
         /**
          * Add a new genre.
          */
-        $scope.addInputGenre = function() {
-//            MultiField.addInputField($scope.dvd.actors);
+        $scope.addInputGenre = function(genre) {
+            MultiField.addInputField($scope.dvd.genres, genre);
         };
 
         /**
@@ -75,14 +96,14 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
          * @param actor: The genre to delete
          */
         $scope.deleteThisGenre = function(genre) {
-//            MultiField.deleteThisField($scope.dvd.actors, actor);
+            MultiField.deleteThisField($scope.dvd.genres, genre);
         };
 
         /**
          * Add a new Actor.
          */
         $scope.addInputActor = function() {
-            MultiField.addInputField($scope.dvd.actors);
+            MultiField.addInputField($scope.dvd.actors, '');
         };
 
         /**

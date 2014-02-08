@@ -25,16 +25,17 @@
                     <label for="inputDvdGenres" class="control-label">Genre</label>
 
                     <div class="controls">
-                        <select id="inputDvdGenres" ng-model="dvd.genre">
+                        <select id="inputDvdGenres" ng-model="dvd.genre" ng-change="genreChange()">
+                            <option value="" disabled>-- Select a genre --</option>
                             <option ng-repeat="genre in genres">{{genre}}</option>
                         </select>
 
-                        <!--<div ng-repeat="genre in genres">-->
-                            <!--<input type="text" id="inputDvdGenre" ng-model="dvd.actors[$index].name"-->
-                                   <!--placeholder="Jean Dujardin (rôle)" required class="character-area"></textarea>-->
+                        <div ng-repeat="genre in dvd.genres">
+                            <input type="text" id="inputDvdGenre" ng-model="dvd.genres[$index].name"
+                                   placeholder="Action" required></textarea>
                             <!--<button type="button" id="addGenre_{{$index}}" ng-click="addInputGenre()" ng-show="($index==0)" class="btn btn-success btn-small">Add</button>-->
-                            <!--<button type="button" id="deleteGenre_{{$index}}" ng-click="deleteThisGenre($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>-->
-                        <!--</div>-->
+                            <button type="button" id="deleteGenre_{{$index}}" ng-click="deleteThisGenre($index)" ng-hide="!(dvd.genres.length>0)" class="btn btn-danger btn-small">Delete</button>
+                        </div>
                     </div>
                 </div>
                 <div class="control-group">
