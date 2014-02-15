@@ -1,14 +1,45 @@
 /** App css stylesheet **/
 
+html, body {
+    height: 100%;
+}
+
 body {
     padding-top: 20px;
     background: url(../img/dvd-catalog/bg.png) repeat;
+}
+
+.footer {
+    /*width:100%;*/
+    text-align: center;
+    padding: 5px 0px;
+    margin-top: 70px;
+    border-top: 1px solid rgb(229, 229, 229);
+    background-color: rgb(196, 208, 212);
+}
+
+.footer-links {
+    list-style-type: none;
+    /*margin: 10px 0px;*/
+}
+
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -60px; /* the bottom margin is the negative value of the footer's height */
+}
+
+footer, .push {
+    clear: both;
+    height: 60px; /* '.push' must be the same height as 'footer' */
 }
 
 .my-navbar {
     margin-top: -18px;
 }
 
+/** Detail List **/
 .informations-header {
     padding-bottom: 50px;
 }
@@ -42,7 +73,7 @@ body {
 
 .delete-button {
     float: right;
-    margin-top: -30px;
+    /*margin-top: -30px;*/
 }
 
 /** Detail View **/
@@ -86,4 +117,8 @@ h1 {
 
 .add-movie-poster {
     border: 2px inset black;
+}
+
+.dvdGenre {
+    margin-bottom: 20px;
 }

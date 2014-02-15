@@ -111,6 +111,7 @@ exports.create = function (req, res) {
     console.log("Create DVD in nodejs");
     console.log(req.user.username);
     var owner = req.body.owner.owner;
+    console.log(req.body.dvd.genres);
 
     // We create the DVD model.
     var newDvd = new Dvd({

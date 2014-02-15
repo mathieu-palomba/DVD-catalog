@@ -11,7 +11,7 @@ var actorSchema = mongoose.Schema({
     name: {
         type: String
     },
-    birthdate: {
+    birthDate: {
         type: String,
         default: ''
     },
@@ -48,6 +48,7 @@ var dvdSchema = mongoose.Schema({
     genre: {
         type: String
     },
+    genres: [genreSchema],
     releaseDate: {
         type: String
     },

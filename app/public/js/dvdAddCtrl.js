@@ -7,8 +7,8 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'MultiField',
-    function ($scope, $location, $http, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField) {
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'MultiField', 'Array',
+    function ($scope, $location, $http, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField, Array) {
         console.log('Dvd Add controller');
 
 
@@ -65,27 +65,19 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             $location.url('/dvd-list');
         };
 
-        $scope.inArray = function(array, name) {
-            for(var i=0;i<array.length;i++) {
-                if(array[i].name == name) {
-                    return true
-                }
-            }
-            return false;
-        }
-
+        // TODO genre
         $scope.genreChange = function () {
-            console.log($scope.dvd.genre);
-
-            if(!$scope.inArray($scope.dvd.genres, $scope.dvd.genre)) {
+            if(!Array.inArray($scope.dvd.genres, $scope.dvd.genre)) {
                 $scope.addInputGenre($scope.dvd.genre);
             }
 
+            // We reset the genre name in the combo box
             $scope.dvd.genre = $scope.defaultGenre;
         };
 
         /**
          * Add a new genre.
+         * @param actor: The genre to add
          */
         $scope.addInputGenre = function(genre) {
             MultiField.addInputField($scope.dvd.genres, genre);
@@ -169,9 +161,14 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
                                     // If the genre exist, we display it, else we set '' to disable "save" button in "add-dvd" view
                                     genreExist ? $scope.dvd.genre = dvdDetails.genres[0].name : $scope.dvd.genre = '';
+
+                                    // TODO genre
+                                    // We add all of the DVD genres
+                                    for(var genreID in dvdDetails.genres) {
+                                        $scope.dvd.genres.push({name: dvdDetails.genres[genreID].name});
+                                    }
                                 }
 
-                                console.log($scope.dvd.genre);
                                 $scope.dvd.releaseDate = dvdDetails.release_date;
                                 $scope.dvd.overview = dvdDetails.overview;
                                 $scope.dvd.productionCompanies = '';

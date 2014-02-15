@@ -40,7 +40,7 @@
 
     <!-- Bootstrap library for popover tooltips (require by bootstrap-ui) -->
     <!--<script src="lib/Bootstrap/bootstrap-2.3.1.js"></script>-->
-    <script src="lib/Bootstrap/bootstrap.min-2.3.2.js"></script>
+    <script src="lib/Bootstrap/modal.js"></script>
     <script src="lib/Bootstrap/tooltip.js"></script>
     <script src="lib/Bootstrap/popover.js"></script>
 
@@ -96,63 +96,103 @@
 </head>
 
 <body>
-<!-- navbar -->
+<!-- Navbar -->
 <div class="navbar">
     <div class="navbar-inner my-navbar">
-        <a href="#" class="brand">
-            <span>Acceuil</span>
-        </a>
+        <div class="container">
+            <!-- Home -->
+            <a href="#" class="brand">
+                <span>Acceuil</span>
+            </a>
 
-        <!-- Space Divider -->
-        <ul class="nav">
-            <li class="divider-vertical"></li>
-        </ul>
+            <!-- Space Divider -->
+            <ul class="nav">
+                <li class="divider-vertical"></li>
+            </ul>
 
-        <!-- User information and TODO -->
-        <ul class="nav">
-            <!-- User information -->
-            <li class="navbar-text">Bonjour <%= user ? user.username : "unknown" %></li>
-            <li class="divider-vertical"></li>
-            <li id="homeLink" class="active">
-                <a href="#">
-                    <i class="icon-home"></i>
-                    <span>Acceuil</span>
-                </a>
-            </li>
-        </ul>
+            <!-- User information and Home -->
+            <ul class="nav">
+                <!-- User information -->
+                <li class="navbar-text">Bonjour <%= user ? user.username : "unknown" %></li>
+                <li class="divider-vertical"></li>
+                <li id="homeLink" class="active">
+                    <a href="#">
+                        <i class="icon-home"></i>
+                        <span>Acceuil</span>
+                    </a>
+                </li>
+            </ul>
 
-        <!-- Space Divider with logout link -->
-        <ul class="nav pull-right">
-            <% if (user.isAdmin) { %>
+            <!-- Space Divider with logout link -->
+            <ul class="nav pull-right">
+                <% if (user.isAdmin) { %>
+                    <li>
+                        <a href="#/user/administration">
+                            <i class="icon-wrench"></i>
+                            <span>Administration</span>
+                        </a>
+                    </li>
+                    <li class="divider-vertical"></li>
+                <% } %>
                 <li>
-                    <a href="#/user/administration">
-                        <i class="icon-wrench"></i>
-                        <span>Administration</span>
+                    <a href="#/user/account">
+                        <i class="icon-user"></i>
+                        <span>Compte</span>
                     </a>
                 </li>
                 <li class="divider-vertical"></li>
-            <% } %>
-            <li>
-                <a href="#/user/account">
-                    <i class="icon-user"></i>
-                    <span>Compte</span>
-                </a>
-            </li>
-            <li class="divider-vertical"></li>
-            <li>
-                <a href="/user/logout">
-                    <i class="icon-chevron-right"></i>
-                    <span>Deconnexion</span>
-                </a>
-            </li>
-        </ul>
+                <li>
+                    <a href="/user/logout">
+                        <i class="icon-chevron-right"></i>
+                        <span>Deconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!--End container-->
     </div>
+    <!--End navbar-inner-->
 </div>
 <!-- end navbar -->
 
-<div class="view-container">
-    <div ng-view class="view-frame"></div>
+<!-- Content -->
+<div class="wrapper">
+    <div class="view-container">
+        <div ng-view class="view-frame"></div>
+    </div>
+    <div class="push"></div>
 </div>
 
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>Copyright &copy; - Mathieu PALOMBA - 2014</p>
+        <ul class="footer-links">
+            <li>
+                <a href="http://mathieu31.jimdo.com/">Jimdo</a>
+            </li>
+        </ul>
+    </div>
+</footer>
+
+<!--<a class="btn btn-primary btn-sm" data-toggle="modal" data-target=".bs-modal-sm">-->
+    <!--<span>Small modal</span>-->
+<!--</a>-->
+<!--<div class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">-->
+    <!--<div class="modal-dialog modal-sm">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>-->
+                <!--<h4 class="modal-title" id="myModalLabel">Modal title</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body">-->
+                <!--...-->
+            <!--</div>-->
+            <!--<div class="modal-footer">-->
+                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 </body>
 </html>

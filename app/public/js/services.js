@@ -91,6 +91,24 @@ dvdCatServices.factory('MultiField', function () {
     };
 });
 
+
+/**
+ * Array service.
+ */
+dvdCatServices.factory('Array', function () {
+    return {
+        inArray: function(array, id) {
+            for(var i=0;i<array.length;i++) {
+                if(array[i].name == id) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    };
+});
+
+
 /**
  * Rating service.
  */
