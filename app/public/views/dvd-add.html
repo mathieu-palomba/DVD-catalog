@@ -22,10 +22,10 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label for="inputDvdGenres" class="control-label">Genre</label>
+                    <label for="inputDvdGenres" class="control-label">Genres</label>
 
                     <div class="controls dvdGenre">
-                        <div><select id="inputDvdGenres" ng-model="dvd.genre" ng-change="genreChange()">
+                        <div><select id="inputDvdGenres" ng-model="currentGenre" ng-change="genreChange()">
                             <option value="" disabled>-- Select a genre --</option>
                             <option ng-repeat="genre in genres">{{genre}}</option>
                         </select>

@@ -117,7 +117,7 @@ exports.create = function (req, res) {
     var newDvd = new Dvd({
         title: req.body.dvd.title,
         moviePoster: req.body.dvd.moviePoster,
-        genre: req.body.dvd.genre,
+        genres: req.body.dvd.genres,
         releaseDate: req.body.dvd.releaseDate,
         overview: req.body.dvd.overview,
         productionCompanies: req.body.dvd.productionCompanies,
@@ -279,7 +279,7 @@ exports.edit = function (req, res) {
 
     Owner.update({"_id": owner._id, "dvd._id": dvdToEdit._id},
         {$set: {"dvd.$.title": dvdToEdit.title, "dvd.$.moviePoster": dvdToEdit.moviePoster,
-            "dvd.$.genre": dvdToEdit.genre, "dvd.$.releaseDate": dvdToEdit.releaseDate,
+            "dvd.$.genres": dvdToEdit.genres, "dvd.$.releaseDate": dvdToEdit.releaseDate,
             "dvd.$.overview": dvdToEdit.overview, "dvd.$.productionCompanies": dvdToEdit.productionCompanies,
             "dvd.$.director": dvdToEdit.director, "dvd.$.actors": dvdToEdit.actors,
             "dvd.$.rate": dvdToEdit.rate, "dvd.$.comments": dvdToEdit.comments} },

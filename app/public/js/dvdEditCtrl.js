@@ -7,8 +7,8 @@ var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute']);
 /**
  * DVD Edit controllers.
  */
-dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'IdGenerator', 'MultiField', 'Rating',
-    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, IdGenerator, MultiField, Rating) {
+dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
+    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Edit controller');
 
         // Rating handle
@@ -20,7 +20,10 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
 
         // We get the genres list
         $scope.genres = GenresConstant;
+        $scope.defaultGenre = $scope.genres.default;
+        $scope.currentGenre = $scope.defaultGenre;
 
+        // Administration case
         if($routeParams.userName) {
             // We get owner chosen in the administration view
             $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
@@ -78,6 +81,32 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
          */
         $scope.cancelEditDvd = function () {
             $location.url('/dvd/' + $scope.dvd.oldTitle);
+        };
+
+        // TODO genre
+        $scope.genreChange = function () {
+            if(!Array.inArray($scope.dvd.genres, $scope.currentGenre)) {
+                $scope.addInputGenre($scope.currentGenre);
+            }
+
+            // We reset the genre name in the combo box
+            $scope.currentGenre = $scope.defaultGenre;
+        };
+
+        /**
+         * Add a new genre.
+         * @param actor: The genre to add
+         */
+        $scope.addInputGenre = function(genre) {
+            MultiField.addInputField($scope.dvd.genres, genre);
+        };
+
+        /**
+         * Delete the current genre.
+         * @param actor: The genre to delete
+         */
+        $scope.deleteThisGenre = function(genre) {
+            MultiField.deleteThisField($scope.dvd.genres, genre);
         };
 
         /**

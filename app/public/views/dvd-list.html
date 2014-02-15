@@ -59,11 +59,17 @@
 
                         <!-- We redirect to the correct view when the user click on the description -->
                         <div class="span9">
+                            <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
+
                             <a href="{{href}}{{dvd.title}}" class="lead">{{dvd.title}}</a>
 
-                            <p><strong>Genre :</strong> {{dvd.genre}}</p>
+                            <p>
+                                <strong>Genres :</strong> {{dvd.genres | dvdGenreInline}}
+                            </p>
 
-                            <p><strong>Date de sortie :</strong> {{dvd.releaseDate}}</p>
+                            <p>
+                                <strong>Date de sortie :</strong> {{dvd.releaseDate}}
+                            </p>
 
                             <!--<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>-->
                             <dl>
@@ -71,7 +77,9 @@
                                 <dd>{{dvd.overview | overviewMaxLength}}</dd>
                             </dl>
 
-                            <p><strong>Producteur :</strong> {{dvd.director}}</p>
+                            <p>
+                                <strong>Producteur :</strong> {{dvd.director}}
+                            </p>
 
                             <!--<p><strong>Acteurs :</strong></p>-->
                             <!--<p ng-repeat="actor in dvd.actors">-->
@@ -88,7 +96,6 @@
                             </p>
                         </div>
                     </div>
-                    <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
                 </li>
             </ul>
         </div>

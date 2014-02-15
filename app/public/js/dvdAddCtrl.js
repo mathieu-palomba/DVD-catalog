@@ -16,6 +16,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         // The different movie genres.
         $scope.genres = GenresConstant;
         $scope.defaultGenre = $scope.genres.default;
+        $scope.currentGenre = $scope.defaultGenre;
 
         // Initialize the DVD form.
         $scope.dvd = {
@@ -23,7 +24,6 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             temporaryMoviePosterName: 'temporaryImg.jpg',
             title: '',
             moviePoster: '',
-            genre: '',
             genres: [],
             releaseDate: '',
             overview: '',
@@ -67,12 +67,12 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
         // TODO genre
         $scope.genreChange = function () {
-            if(!Array.inArray($scope.dvd.genres, $scope.dvd.genre)) {
-                $scope.addInputGenre($scope.dvd.genre);
+            if(!Array.inArray($scope.dvd.genres, $scope.currentGenre)) {
+                $scope.addInputGenre($scope.currentGenre);
             }
 
             // We reset the genre name in the combo box
-            $scope.dvd.genre = $scope.defaultGenre;
+            $scope.currentGenre = $scope.defaultGenre;
         };
 
         /**
@@ -153,14 +153,14 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                                     var genreExist = false;
 
                                     // We check if the genre exist in our list
-                                    for(var genreID in $scope.genres) {
-                                        if($scope.genres[genreID] == dvdDetails.genres[0].name) {
-                                            genreExist = true;
-                                        }
-                                    }
-
-                                    // If the genre exist, we display it, else we set '' to disable "save" button in "add-dvd" view
-                                    genreExist ? $scope.dvd.genre = dvdDetails.genres[0].name : $scope.dvd.genre = '';
+//                                    for(var genreID in $scope.genres) {
+//                                        if($scope.genres[genreID] == dvdDetails.genres[0].name) {
+//                                            genreExist = true;
+//                                        }
+//                                    }
+//
+//                                    // If the genre exist, we display it, else we set '' to disable "save" button in "add-dvd" view
+//                                    genreExist ? $scope.dvd.genre = dvdDetails.genres[0].name : $scope.dvd.genre = '';
 
                                     // TODO genre
                                     // We add all of the DVD genres
