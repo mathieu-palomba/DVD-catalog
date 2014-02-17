@@ -44,7 +44,7 @@ module.exports = function( passport )
                 }
                 if( !user )
                 {
-                    console.log("User not found");
+                    console.log("Utilisateur inconnu");
 
                     return done( null, false, {
                         message: 'Unknown user'
@@ -67,7 +67,7 @@ module.exports = function( passport )
                     }
 
                     else {
-                        return done(null, false, { message: 'Invalid password' });
+                        return done(null, false, { message: 'Mot de passe incorrect' });
                     }
                 });
             } );

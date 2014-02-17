@@ -13,6 +13,10 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
 
 
+        // The default movie poster
+        $scope.defaultMoviePoster = "img/inconnu.jpg";
+        $scope.moviePoster = $scope.defaultMoviePoster;
+
         // The different movie genres.
         $scope.genres = GenresConstant;
         $scope.defaultGenre = $scope.genres.default;
@@ -23,7 +27,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             searchError: false,
             temporaryMoviePosterName: 'temporaryImg.jpg',
             title: '',
-            moviePoster: '',
+            moviePoster: $scope.defaultMoviePoster,
             genres: [],
             releaseDate: '',
             overview: '',
@@ -38,7 +42,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             success: 'Le film à été trouvé'
         };
         $scope.dynamicFindPopover = $scope.dynamicFindPopoverStatus.success;
-        $scope.dynamicFindPopoverPlacement = 'right';
+        $scope.dynamicFindPopoverPlacement = 'up';
         $scope.dynamicFindPopoverTrigger = 'focus';
 
         // Initialize the dynamic popover when the user save a movie already recorder in the database.
@@ -65,7 +69,26 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             $location.url('/dvd-list');
         };
 
-        // TODO genre
+        // TODO multi choices
+        $scope.otherChoice = function(item) {
+            // We set the nex dvd title selected by the user
+            $scope.dvd.title = item;
+
+            // We recall the check movie information method to get the new information
+            $scope.checkMovieInformation();
+        };
+
+        $scope.dvdTitleChanged = function(title) {
+            // If the dvd title has no length, we set the default movie poster image to avoid poster problem (the poster isn't the poster in relation with the dvd title)
+            if(!title) {
+                $scope.moviePoster = $scope.defaultMoviePoster;
+            }
+        };
+
+        /**
+         * This function it's call when the user select a genre in the combo box.
+         * She add a new genre with the 'addInputGenre' method call.
+         */
         $scope.genreChange = function () {
             if(!Array.inArray($scope.dvd.genres, $scope.currentGenre)) {
                 $scope.addInputGenre($scope.currentGenre);
@@ -124,6 +147,9 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                         $scope.dvd.searchError = false;
                         $scope.dynamicFindPopover = $scope.dynamicFindPopoverStatus.success;
 
+                        // We get all of the results
+                        $scope.dvdIdResults = dvdID.results;
+
                         // Set the movie poster url and the movie title.
                         $scope.dvd.title = dvdID.results[0].title;
                         if(dvdID.results[0].poster_path != undefined && dvdID.results[0].poster_path != null) {
@@ -163,6 +189,8 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 //                                    genreExist ? $scope.dvd.genre = dvdDetails.genres[0].name : $scope.dvd.genre = '';
 
                                     // TODO genre
+                                    $scope.dvd.genres = []
+
                                     // We add all of the DVD genres
                                     for(var genreID in dvdDetails.genres) {
                                         $scope.dvd.genres.push({name: dvdDetails.genres[genreID].name});
@@ -253,7 +281,8 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
                 else {
                     // We save the movie poster
                     var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': $scope.dvd.temporaryMoviePosterName, 'filename': IdGenerator.moviePosterID($scope.dvd.title)}, function () {
-                        if (renamedImage.success) {
+                        // If the image is successfully renamed (because the user use the find movie button), or if the moviePoster has the default name (inconnu.jpg picture), we save the dvd
+                        if (renamedImage.success || $scope.moviePoster == $scope.dvd.moviePoster) {
                             console.log('Image successfully renamed');
 
                             // We save the DVD in the database

@@ -10,7 +10,7 @@
 
                     <div class="controls">
                         <div class="input-append">
-                            <input type="text" id="inputDvdName" ng-model="dvd.title" placeholder="Nom du film" required autofocus>
+                            <input type="text" id="inputDvdName" ng-model="dvd.title" ng-change="dvdTitleChanged(dvd.title)" placeholder="Nom du film" required autofocus>
                             <button type="button"
                                     title="Pré-remplissage des champs si le film est répertorié"
                                     ng-click="checkMovieInformation()" ng-disabled="!(dvd.title.length>0)"
@@ -18,6 +18,17 @@
                                     popover-title="{{dynamicFindPopoverTitle}}" popover-trigger="{{dynamicFindPopoverTrigger}}"
                                     class="{{dvd.searchError ? 'btn btn-danger' : 'btn'}}">Rechercher
                             </button>
+                            <div class="btn-group">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" ng-disabled=" !(dvdIdResults.length>0) || !(dvd.title.length>0)">
+                                    Autres choix
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a tabindex="-1" ng-click="otherChoice(dvdID.title)" ng-repeat="dvdID in dvdIdResults">{{dvdID.title}}</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -25,10 +36,11 @@
                     <label for="inputDvdGenres" class="control-label">Genres</label>
 
                     <div class="controls dvdGenre">
-                        <div><select id="inputDvdGenres" ng-model="currentGenre" ng-change="genreChange()">
-                            <option value="" disabled>-- Select a genre --</option>
-                            <option ng-repeat="genre in genres">{{genre}}</option>
-                        </select>
+                        <div>
+                            <select id="inputDvdGenres" ng-model="currentGenre" ng-change="genreChange()">
+                                <option value="" disabled>-- Select a genre --</option>
+                                <option ng-repeat="genre in genres">{{genre}}</option>
+                            </select>
                         </div>
                         <div ng-repeat="genre in dvd.genres">
                             <input type="text" id="inputDvdGenre" ng-model="dvd.genres[$index].name"
