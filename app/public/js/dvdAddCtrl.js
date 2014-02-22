@@ -14,7 +14,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 
 
         // The default movie poster
-        $scope.defaultMoviePoster = "img/inconnu.jpg";
+        $scope.defaultMoviePoster = "img/unknown.jpg";
         $scope.moviePoster = $scope.defaultMoviePoster;
 
         // The different movie genres.
@@ -70,7 +70,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         };
 
         // TODO multi choices
-        $scope.otherChoice = function(item) {
+        $scope.otherDvdTitleChoice = function(item) {
             // We set the nex dvd title selected by the user
             $scope.dvd.title = item;
 
@@ -83,6 +83,15 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             if(!title) {
                 $scope.moviePoster = $scope.defaultMoviePoster;
             }
+        };
+
+        /**
+         * This function it's call when the user select an other poster image with the file browser.
+         */
+        $scope.imagePosterChange = function(element) {
+            console.log(element.files[0]);
+            var path = document.getElementById("fileUpload").value;
+            alert(path);
         };
 
         /**
@@ -325,5 +334,4 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
 //        };
 //        imageObj.src = 'http://image.tmdb.org/t/p/w500/nzN40Eck9q6YbdaNQs4pZbMKsfP.jpg';
 
-    }]
-);
+}]);

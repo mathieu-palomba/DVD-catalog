@@ -11,21 +11,20 @@
                     <div class="controls">
                         <div class="input-append">
                             <input type="text" id="inputDvdName" ng-model="dvd.title" ng-change="dvdTitleChanged(dvd.title)" placeholder="Nom du film" required autofocus>
-                            <button type="button"
-                                    title="Pré-remplissage des champs si le film est répertorié"
-                                    ng-click="checkMovieInformation()" ng-disabled="!(dvd.title.length>0)"
-                                    popover-placement="{{dynamicFindPopoverPlacement}}" popover="{{dynamicFindPopover}}"
-                                    popover-title="{{dynamicFindPopoverTitle}}" popover-trigger="{{dynamicFindPopoverTrigger}}"
-                                    class="{{dvd.searchError ? 'btn btn-danger' : 'btn'}}">Rechercher
-                            </button>
                             <div class="btn-group">
-                                <button class="btn dropdown-toggle" data-toggle="dropdown" ng-disabled=" !(dvdIdResults.length>0) || !(dvd.title.length>0)">
-                                    Autres choix
+                                <button type="button"
+                                        title="Pré-remplissage des champs si le film est répertorié"
+                                        ng-click="checkMovieInformation()" ng-disabled="!(dvd.title.length>0)"
+                                        popover-placement="{{dynamicFindPopoverPlacement}}" popover="{{dynamicFindPopover}}"
+                                        popover-title="{{dynamicFindPopoverTitle}}" popover-trigger="{{dynamicFindPopoverTrigger}}"
+                                        class="{{dvd.searchError ? 'btn btn-danger' : 'btn'}}">Rechercher
+                                </button>
+                                <button title="Autres films se rapprochant de la recherche" class="btn dropdown-toggle" data-toggle="dropdown" ng-disabled=" !(dvdIdResults.length>0) || !(dvd.title.length>0)">
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a tabindex="-1" ng-click="otherChoice(dvdID.title)" ng-repeat="dvdID in dvdIdResults">{{dvdID.title}}</a>
+                                        <a tabindex="-1" ng-click="otherDvdTitleChoice(dvdID.title)" ng-repeat="dvdID in dvdIdResults">{{dvdID.title}}</a>
                                     </li>
                                 </ul>
                             </div>
@@ -110,5 +109,13 @@
     <div class="span4 offset4">
         <img id="moviePoster" src={{moviePoster}} width="480" height="250"
              class="{{moviePoster ? 'add-movie-poster' : ''}}">
+
+        <form name="imagePosterForm">
+            <span class="btn btn-default btn-file">
+                Browse <input id="fileUpload" type="file"
+                                          onchange="angular.element(this).scope().imagePosterChange(this)">
+            </span>
+            <input type="submit" value="Submit" class="btn">
+        </form>
     </div>
 </div>
