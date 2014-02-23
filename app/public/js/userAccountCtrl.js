@@ -12,7 +12,7 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', 'User',
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
-                console.log($scope.user);
+//                console.log($scope.user);
                 $scope.user = $scope.user.user;
 
                 // We format the created date

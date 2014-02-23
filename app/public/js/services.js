@@ -163,7 +163,8 @@ dvdCatServices.factory('User', ['$resource',
                 getOwner: {method: 'GET', url: '/owner/:userName'}
             }),
             Administration: $resource('', {}, {
-                getOwners: {method: 'GET', url: '/owners'}
+                getOwners: {method: 'GET', url: '/owners'},
+                getUsers: {method: 'GET', url: '/user/users'}
             })
         }
     }]

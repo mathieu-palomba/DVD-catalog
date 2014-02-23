@@ -14,7 +14,8 @@
 		"passport": "*",
 		"passport-local": "*",
 		"connect-flash": "*",
-        "bcrypt-nodejs": "*"
+        "bcrypt-nodejs": "*",
+		"underscore": "*"
     },
     "author": "Mathieu <perdodelamancha31@gmail.com>",
     "description": "DVD catalog"

@@ -67,15 +67,14 @@ app.listen(config.port, function() {
 // Rajouter _ devant le nom du fichier temporaire de moviePoster ???
 
 // Vérifier si le titre du film existe avant de l'enregister dans la vue edit-dvd
-// Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
 // Faire fichies de conf pour la langue et les constantes
 // Vérifier enregistrement DVD manuelement (pour le movie poster)
 // Pouvoir éditer un utilisateur (mail, username, password...)
 // Gestion collection de DVD (combien par categories...)
 // Faire zone register
 // Rajouter option choix couleur de body dans la section compte
-// Regarder problème session qui expire et bugs
 // Pour utiliser le champ rechercher uniquement sur des acteurs, titre ou producteurs
+// Rajouter option 'Dvd preter'
 
 
 
@@ -86,4 +85,6 @@ app.listen(config.port, function() {
 // Gérer zone adminisatrateur
 // Traduire message de suppression en français
 // Ne pas rendre required la société de production
+// Regarder problème session qui expire et bugs
 // Ajouter plusieurs genres
+// Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd

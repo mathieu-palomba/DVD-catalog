@@ -16,10 +16,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="owner in owners">
+            <tr ng-repeat="owner in owners" class="{{owner.isAdmin ? 'warning' : ''}}">
                 <td><a href="#/dvd-list/{{owner.userName}}" class="lead">{{owner.userName}}</a></td>
                 <td><span class="badge badge-info">{{owner.dvd.length}}</span></td>
-                <td>TODO</td>
+                <td>
+                    <i class="{{owner.isAdmin ? 'icon-ok' : ' icon-remove'}}"></i>
+                </td>
             </tr>
             </tbody>
         </table>

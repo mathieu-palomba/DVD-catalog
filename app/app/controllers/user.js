@@ -97,6 +97,16 @@ var AuthController = {
 //                console.log('User created');
 //            }
 //        });
+//        User.create({'username': 'sylvain', 'email': 'sylvain@sylvain.fr', 'password': '12345'}, function(err){
+//            if (err) {
+//                console.log(err);
+//                return;
+//            }
+//
+//            else {
+//                console.log('User created');
+//            }
+//        });
 
 //        res.json({
 //            success:false,
@@ -178,13 +188,42 @@ var AuthController = {
     },
 
     /**
-     * Send the current user.
+     * Get the current user.
      * @param req : The request
      * @param res : The response
      */
     currentUser: function( req, res )
     {
         res.jsonp({"success": true, "user": req.user || null});
+    },
+
+    /**
+     * Get all of the users registered.
+     * @param req : The request
+     * @param res : The response
+     */
+    getUsers: function(req, res)
+    {
+        console.log("Find users");
+
+        // Find the users
+        User.find(null, function (err, users) {
+            if (err) {
+                return handleError(err);
+            }
+
+            else {
+                if(users) {
+                    console.log('Users found');
+                    res.jsonp({"success": true, users: users});
+                }
+
+                else {
+                    console.log('Users not found');
+                    res.jsonp({"success": false});
+                }
+            }
+        });
     }
 
 };
