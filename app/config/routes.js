@@ -27,5 +27,6 @@ module.exports = function (app) {
     app.get('/owner', user.ensureAuthenticated, dvd.getCurrentOwner);
     app.get('/owner/:userName', user.ensureAuthenticated, dvd.getOwner);
     app.get('/owners', user.ensureAdmin, dvd.getOwners);
+    app.post('/upload', user.ensureAuthenticated, dvd.uploadImage);
 
 };

@@ -37,7 +37,7 @@
                     <div class="controls dvdGenre">
                         <div>
                             <select id="inputDvdGenres" ng-model="currentGenre" ng-change="genreChange()">
-                                <option value="" disabled>-- Select a genre --</option>
+                                <option value="" disabled>-- Sélectionner un genre --</option>
                                 <option ng-repeat="genre in genres">{{genre}}</option>
                             </select>
                         </div>
@@ -110,12 +110,19 @@
         <img id="moviePoster" src={{moviePoster}} width="480" height="250"
              class="{{moviePoster ? 'add-movie-poster' : ''}}">
 
-        <form name="imagePosterForm">
-            <span class="btn btn-default btn-file">
-                Browse <input id="fileUpload" type="file"
-                                          onchange="angular.element(this).scope().imagePosterChange(this)">
-            </span>
-            <input type="submit" value="Submit" class="btn">
-        </form>
+        <!--<form name="imagePosterForm">-->
+            <!--<span class="btn btn-default btn-file">-->
+                <!--Browse <input id="fileUpload" type="file"-->
+                                          <!--onchange="angular.element(this).scope().imagePosterChange(this)">-->
+            <!--</span>-->
+            <!--<input type="submit" value="Submit" class="btn">-->
+        <!--</form>-->
+
+        <!--<form method="post" enctype="multipart/form-data" action="/upload">-->
+            <!--<input type="file" name="file">-->
+            <!--<input type="submit" value="Submit">-->
+        <!--</form>-->
+
+        <input type="file" enctype="multipart/form-data" ng-file-select="onFileSelect($files)" multiple>
     </div>
 </div>

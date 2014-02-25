@@ -22,7 +22,7 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', 'U
                         console.log('Users successfully found');
                         $scope.users = $scope.users.users;
 
-                        // For all owner, we add the isAdmin properties
+                        // For all owner, we add the isAdmin property
                         for(var ownerID in $scope.owners) {
                             var owner = $scope.owners[ownerID];
                             var ownerName = owner.userName;

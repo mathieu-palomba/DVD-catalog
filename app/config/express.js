@@ -20,6 +20,7 @@ module.exports = function( app, passport, db )
         .use(express.static(publicPath))
         .use(express.favicon(faviconPath))
 //        .use(express.bodyParser());   // Deprecated, replace by the following two lines
+        .use(express.bodyParser( { keepExtensions: true, uploadDir: __dirname + '/uploads' } ))
         .use(express.urlencoded())      // Replace bodyParser
         .use(express.json())            // Replace bodyParser
         .use(express.cookieParser())    // CookieParser should be above session

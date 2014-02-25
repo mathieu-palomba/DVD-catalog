@@ -1,14 +1,14 @@
 /**
  * Controllers.
  */
-var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ngRoute']);
+var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ngRoute', 'angularFileUpload']);
 
 
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'MultiField', 'Array',
-    function ($scope, $location, $http, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField, Array) {
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'MultiField', 'Array', '$upload',
+    function ($scope, $location, $http, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField, Array, $upload) {
         console.log('Dvd Add controller');
 
 
@@ -93,6 +93,25 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             var path = document.getElementById("fileUpload").value;
             alert(path);
         };
+
+        $scope.onFileSelect = function($files) {
+            //$files: an array of files selected, each file has name, size, and type.
+            for (var i = 0; i < $files.length; i++) {
+                var $file = $files[i];
+                console.log($file);
+                $upload.upload({
+                    url: '/upload',
+                    method: 'POST',
+                    headers: {'headerKey': $file},
+                    withCredentials: true,
+                    file: $file,
+                    progress: function(e){}
+                }).then(function(data, status, headers, config) {
+                        // file is uploaded successfully
+                        console.log(data);
+                    });
+            }
+        }
 
         /**
          * This function it's call when the user select a genre in the combo box.
