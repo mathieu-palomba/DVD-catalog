@@ -7,9 +7,10 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'MultiField', 'Array', '$upload',
-    function ($scope, $location, $http, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField, Array, $upload) {
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'MultiField', 'Array',
+    function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField, Array) {
         console.log('Dvd Add controller');
+
 
 
         // The default movie poster
@@ -68,7 +69,10 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             $location.url('/dvd-list');
         };
 
-        // TODO multi choices
+        /**
+         * This function permit to select an other DVD title that are display in the combo box.
+         * @param item : The selected DVD title
+         */
         $scope.otherDvdTitleChoice = function(item) {
             // We set the nex dvd title selected by the user
             $scope.dvd.title = item;
@@ -77,6 +81,10 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
             $scope.checkMovieInformation();
         };
 
+        /**
+         * This function permit to reset the movie poster image when the DVD title it's null.
+         * @param title : The DVD title
+         */
         $scope.dvdTitleChanged = function(title) {
             // If the dvd title has no length, we set the default movie poster image to avoid poster problem (the poster isn't the poster in relation with the dvd title)
             if(!title) {
@@ -87,29 +95,36 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', 'Dvd
         /**
          * This function it's call when the user select an other poster image with the file browser.
          */
-        $scope.imagePosterChange = function(element) {
-            console.log(element.files[0]);
-            var path = document.getElementById("fileUpload").value;
-            alert(path);
-        };
-
         $scope.onFileSelect = function($files) {
-            //$files: an array of files selected, each file has name, size, and type.
-            for (var i = 0; i < $files.length; i++) {
-                var $file = $files[i];
-                console.log($file);
-                $upload.upload({
-                    url: '/upload',
-                    method: 'POST',
-                    headers: {'headerKey': $file},
-                    withCredentials: true,
-                    file: $file,
-                    progress: function(e){}
-                }).then(function(data, status, headers, config) {
-                        // file is uploaded successfully
-                        console.log(data);
+            // $files: an array of files selected, each file has name, size, and type.
+//            for (var i = 0; i < $files.length; i++) {
+            var $file = $files[0];
+            $upload.upload({
+                url: '/upload',
+                method: 'POST',
+                file: $file,
+                progress: function(e){}
+            }).progress(function(evt) {
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+            }).then(function(data, status, headers, config) {
+                    // File is uploaded successfully
+                    console.log('File successfully uploaded');
+                    var uploadedImageName = data.data.uploadedImageName;
+                    var newImageName = data.data.newImageName;
+
+                    // We save the movie poster
+                    var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': uploadedImageName, 'filename': IdGenerator.moviePosterID(newImageName)}, function () {
+                        // If the image is successfully renamed, we set the new movie poster path
+                        if(renamedImage.success) {
+                            console.log('Image uploaded successfully renamed');
+
+                            // We set the new movie poster path
+                            $scope.moviePoster = 'img/' + IdGenerator.moviePosterID(newImageName);
+                            $scope.dvd.moviePoster = $scope.moviePoster;
+                        }
                     });
-            }
+             });
+//            }
         }
 
         /**

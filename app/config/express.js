@@ -20,11 +20,8 @@ module.exports = function( app, passport, db )
         .use(express.static(publicPath))
         .use(express.favicon(faviconPath))
 //        .use(express.bodyParser());   // Deprecated, replace by the following two lines
-//        .use(express.bodyParser( { keepExtensions: true, uploadDir: __dirname + '/uploads' } ))
         .use(express.urlencoded())      // Replace bodyParser
         .use(express.json())            // Replace bodyParser
-//        .use(express.multipart({keepExtensions: true, uploadDir: __dirname + '/uploads'}))
-//        .use(express.multipart())
         .use(express.cookieParser())    // CookieParser should be above session
 //        .use(express.session({          // Default session handling. Won't explain it as there are a lot of resources out there
 //            secret: '29ninJaTurtlePoWaaaaaaaaaa31',
@@ -46,6 +43,7 @@ module.exports = function( app, passport, db )
         .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
         .use(passport.session())        // The important part. Must go AFTER the express session is initialized
         .use(flash());                  // Connect flash for flash messages
+
     app.use(app.router);
 
     // Assume "not found" in the error msgs is a 404. This is somewhat silly, but valid, you can do whatever you like, set properties, use instanceof etc.

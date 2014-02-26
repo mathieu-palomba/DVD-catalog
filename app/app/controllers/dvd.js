@@ -554,7 +554,7 @@ exports.renameImage = function(req, res){
             console.log("Rename");
 
             // We return OK
-            res.jsonp({"success": true});
+            res.jsonp({"success": true, "newImagePath": imagePath});
         }
     })
 };
@@ -563,40 +563,22 @@ exports.uploadImage = function(req, res){
     console.log('Upload image');
 
     // We compute the good path
-    var temporaryImagePath = path.resolve(__dirname, '../../public/img/', temporaryFilename)
+    var temporaryImagePath = path.resolve(__dirname, '../../public/img/')
 
-    var form = new multipart.Form({ autoFiles: true, uploadDir: __dirname + "/uploads/" });
+    // We create the form which permit to get the uploaded image
+    var form = new multipart.Form({autoFiles: true, uploadDir: temporaryImagePath});
 
+    // We parse the request to find the uploaded image (parse an incoming multipart/form-data request)
     form.parse(req, function(err, fields, files) {
-//        res.writeHead(200, {'content-type': 'text/plain'});
-//        res.write('received upload:\n\n');
-//        res.end(util.inspect({fields: fields, files: files}));
-//       console.log(files);
+        if(err) throw err;
 
-//        fs.rename(__dirname + "uploads/image.png", __dirname + "uploads/image.png", function(err) {
-//            if (err) throw err;
-//            console.log("Upload completed!");
-//        });
+        console.log("Upload completed!");
+
+        // We get the image names
+        var uploadedImageName = path.basename(files.file[0].path);
+        var newImageName = files.file[0].originalFilename;
+
+        // We return OK
+        res.jsonp({"success": true, "uploadedImageName": uploadedImageName, "newImageName": newImageName});
     });
-
-
-//    console.log(req.files.file.path);
-//    console.log(req.files.file.name);
-//    var tempPath = req.files.file.path,
-//        targetPath = path.resolve('image.png');
-//
-//    if (path.extname(req.files.file.name).toLowerCase() === '.png') {
-//        fs.rename(tempPath, targetPath, function(err) {
-//            if (err) throw err;
-//            console.log("Upload completed!");
-//        });
-//
-//    }
-//
-//    else {
-//        fs.unlink(tempPath, function () {
-//            if (err) throw err;
-//            console.error("Only .png files are allowed!");
-//        });
-//    }
 };
