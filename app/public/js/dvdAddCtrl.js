@@ -12,7 +12,6 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
         console.log('Dvd Add controller');
 
 
-
         // The default movie poster
         $scope.defaultMoviePoster = "img/unknown.jpg";
         $scope.moviePoster = $scope.defaultMoviePoster;
