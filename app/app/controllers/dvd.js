@@ -9,6 +9,8 @@ var mongoose = require('mongoose'),
     http = require('http'),
     request = require('request');
 
+var multipart = require('multiparty');
+
 /**
  * Get the Owner in relation with the user login.
  * @param req : The request
@@ -559,10 +561,29 @@ exports.renameImage = function(req, res){
 
 exports.uploadImage = function(req, res){
     console.log('Upload image');
-    console.log(req);
-    console.log(req.files);
+
+    // We compute the good path
+    var temporaryImagePath = path.resolve(__dirname, '../../public/img/', temporaryFilename)
+
+    var form = new multipart.Form({ autoFiles: true, uploadDir: __dirname + "/uploads/" });
+
+    form.parse(req, function(err, fields, files) {
+//        res.writeHead(200, {'content-type': 'text/plain'});
+//        res.write('received upload:\n\n');
+//        res.end(util.inspect({fields: fields, files: files}));
+//       console.log(files);
+
+//        fs.rename(__dirname + "uploads/image.png", __dirname + "uploads/image.png", function(err) {
+//            if (err) throw err;
+//            console.log("Upload completed!");
+//        });
+    });
+
+
+//    console.log(req.files.file.path);
+//    console.log(req.files.file.name);
 //    var tempPath = req.files.file.path,
-//        targetPath = path.resolve('./uploads/image.png');
+//        targetPath = path.resolve('image.png');
 //
 //    if (path.extname(req.files.file.name).toLowerCase() === '.png') {
 //        fs.rename(tempPath, targetPath, function(err) {
