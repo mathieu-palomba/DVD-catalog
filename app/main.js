@@ -75,6 +75,9 @@ app.listen(config.port, function() {
 // Rajouter option choix couleur de body dans la section compte
 // Pour utiliser le champ rechercher uniquement sur des acteurs, titre ou producteurs
 // Rajouter option 'Dvd preter'
+// Rajouter option 'emplacement Dvd'
+// Rajouter date de sortie du film à coté du nom du film dans les autres choix de recherche de la vue 'add-dvd'
+// Rajouter ranking dans la vue 'add-dvd'
 
 
 

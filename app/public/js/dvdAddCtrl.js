@@ -113,14 +113,17 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                     var newImageName = data.data.newImageName;
 
                     // We save the movie poster
-                    var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': uploadedImageName, 'filename': IdGenerator.moviePosterID(newImageName)}, function () {
+                    var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': uploadedImageName, 'filename': $scope.dvd.temporaryMoviePosterName}, function () {
                         // If the image is successfully renamed, we set the new movie poster path
                         if(renamedImage.success) {
                             console.log('Image uploaded successfully renamed');
 
                             // We set the new movie poster path
-                            $scope.moviePoster = 'img/' + IdGenerator.moviePosterID(newImageName);
-                            $scope.dvd.moviePoster = $scope.moviePoster;
+                            $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID($scope.dvd.title);
+
+                            // We use the date to generate a random string which it's used to reload the ng-src <img> tag
+                            var random = (new Date()).toString();
+                            $scope.moviePoster = 'img/' + $scope.dvd.temporaryMoviePosterName + "?cb=" + random;;
                         }
                     });
              });
@@ -230,7 +233,6 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
 //                                    // If the genre exist, we display it, else we set '' to disable "save" button in "add-dvd" view
 //                                    genreExist ? $scope.dvd.genre = dvdDetails.genres[0].name : $scope.dvd.genre = '';
 
-                                    // TODO genre
                                     $scope.dvd.genres = []
 
                                     // We add all of the DVD genres
@@ -326,6 +328,10 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                         // If the image is successfully renamed (because the user use the find movie button), or if the moviePoster has the default name (inconnu.jpg picture), we save the dvd
                         if (renamedImage.success || $scope.moviePoster == $scope.dvd.moviePoster) {
                             console.log('Image successfully renamed');
+
+                            if($scope.moviePoster != $scope.dvd.moviePoster) {
+                                $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID($scope.dvd.title);
+                            }
 
                             // We save the DVD in the database
                             var dvd = Dvd.DvdAdd.saveDvd({'dvd': $scope.dvd, 'owner': $scope.owner}, function () {
