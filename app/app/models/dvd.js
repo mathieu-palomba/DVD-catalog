@@ -11,11 +11,19 @@ var actorSchema = mongoose.Schema({
     name: {
         type: String
     },
+    character: {
+        type: String,
+        default: ''
+    },
     birthDate: {
         type: String,
         default: ''
     },
     bibliography : {
+        type: String,
+        default: ''
+    },
+    posterPath : {
         type: String,
         default: ''
     }
@@ -29,6 +37,22 @@ var genreSchema = mongoose.Schema({
         type: String
     },
     description: {
+        type: String,
+        default: ''
+    }
+});
+
+/**
+ * The borrower schema needed in the DVD schema.
+ */
+var borrowerSchema = mongoose.Schema({
+    firstName: {
+        type: String
+    },
+    lastName: {
+        type: String
+    },
+    address: {
         type: String,
         default: ''
     }
@@ -60,11 +84,18 @@ var dvdSchema = mongoose.Schema({
     },
     actors: [actorSchema],
     comments: {
-        type: String
+        type: String,
+        default: ''
     },
     rate: {
-        type: Number
-    }
+        type: Number,
+        default: 0
+    },
+    location: {
+        type: String,
+        default: ''
+    },
+    borrower: [borrowerSchema]
 });
 
 /**

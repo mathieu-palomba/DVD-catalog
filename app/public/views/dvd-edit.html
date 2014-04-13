@@ -30,7 +30,7 @@
                         </div>
                         <div ng-repeat="genre in dvd.genres">
                             <input type="text" id="inputDvdGenre" ng-model="dvd.genres[$index].name"
-                                   placeholder="Action" required></textarea>
+                                   placeholder="Action" required>
                             <button type="button" id="deleteGenre_{{$index}}" ng-click="deleteThisGenre($index)" ng-hide="!(dvd.genres.length>0)" class="btn btn-danger btn-small">Delete</button>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
 
                     <div class="controls">
                         <input type="text" id="inputDvdReleaseData" ng-model="dvd.releaseDate"
-                               placeholder="2014-01-31" required></textarea>
+                               placeholder="2014-01-31" required>
                     </div>
                 </div>
                 <div class="control-group">
@@ -65,15 +65,17 @@
 
                     <div class="controls">
                         <input type="text" id="inputDvdDirector" ng-model="dvd.director"
-                               placeholder="James Cameron" class="character-area" required></textarea>
+                               placeholder="James Cameron" class="character-area" required>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="inputDvdActors" class="control-label">Acteurs</label>
 
-                    <div ng-repeat="actor in dvd.actors" class="controls">
+                    <div ng-repeat="actor in dvd.actors" class="controls actor-block">
                         <input type="text" id="inputDvdActors" ng-model="dvd.actors[$index].name"
-                               placeholder="Jean Dujardin (rôle)" class="character-area" required></textarea>
+                               placeholder="Jean Dujardin (nom)" class="character-area" required>
+                        <input type="text" ng-model="dvd.actors[$index].character"
+                               placeholder="Brice de nice (rôle)" required class="character-area">
                         <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" ng-show="($index==0)" class="btn btn-success btn-small">Add</button>
                         <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
                     </div>

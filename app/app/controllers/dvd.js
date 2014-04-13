@@ -124,9 +124,7 @@ exports.create = function (req, res) {
         overview: req.body.dvd.overview,
         productionCompanies: req.body.dvd.productionCompanies,
         director: req.body.dvd.director,
-        actors: req.body.dvd.actors,     // actorsArray
-        rate: 0,
-        comments: ''
+        actors: req.body.dvd.actors     // actorsArray
     });
 
     // Find the current login user, else we create it

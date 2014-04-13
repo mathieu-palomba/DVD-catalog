@@ -62,7 +62,7 @@ app.listen(config.port, function() {
     console.log('Server start on port: ' + config.port);
 });
 
-// TODO
+//**** TODO ****//
 // Supprimer l'image du moviePoster lors de la supprésion d'un film ???
 // Rajouter _ devant le nom du fichier temporaire de moviePoster ???
 
@@ -76,12 +76,13 @@ app.listen(config.port, function() {
 // Pour utiliser le champ rechercher uniquement sur des acteurs, titre ou producteurs
 // Rajouter option 'Dvd preter'
 // Rajouter option 'emplacement Dvd'
-// Rajouter date de sortie du film à coté du nom du film dans les autres choix de recherche de la vue 'add-dvd'
 // Rajouter ranking dans la vue 'add-dvd'
+// Rajouter image acteurs
+// Rajouter fonction collapse pour éviter de tout afficher dans la vue 'dvd-list'
 
 
 
-
+//**** OK ****//
 // Rajouter message d'érreurs lors de la connection sur signin
 // Rajouter une case commentaire lors de l'ajout d'un film dans la vue add-dvd
 // Gestion mot de passe avec bcrypt
@@ -91,3 +92,6 @@ app.listen(config.port, function() {
 // Regarder problème session qui expire et bugs
 // Ajouter plusieurs genres
 // Rajouter les choix multiple lors de l'appuie sur rechercher dans la vue add-dvd
+// Rajouter date de sortie du film à coté du nom du film dans les autres choix de recherche de la vue 'add-dvd'
+// Séparer role de l'acteur de son nom (pour faire recherche google)
+// Corriger bug plusieurs films avec le même nom dans la vue 'add-dvd', rechercher par ID et pas par nom

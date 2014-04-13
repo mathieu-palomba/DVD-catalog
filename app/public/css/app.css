@@ -115,6 +115,10 @@ h1 {
     resize: none;
 }
 
+.actor-block {
+    margin-bottom: 10px;
+}
+
 .add-movie-poster {
     border: 2px inset black;
 }

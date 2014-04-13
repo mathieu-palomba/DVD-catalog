@@ -30,7 +30,9 @@
 <!--</p>-->
 <dl>
     <dt>Acteurs :</dt>
-    <dd ng-repeat="actor in dvd.actors">{{actor.name}}</dd>
+    <dd ng-repeat="actor in dvd.actors">
+        <a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a> ({{actor.character}})
+    </dd>
 </dl>
 <p>
     <strong>Préférence :</strong>
