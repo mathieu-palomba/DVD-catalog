@@ -4,16 +4,20 @@
 
 <h1>{{dvd.title}}</h1>
 <p>
-    <strong>Genres :</strong> {{dvd.genres | dvdGenreInline}}
+    <strong>Genres :</strong>
+    {{dvd.genres | dvdGenreInline}}
 </p>
 <p>
-    <strong>Date de sortie :</strong> {{dvd.releaseDate}}
+    <strong>Date de sortie :</strong>
+    {{dvd.releaseDate}}
 </p>
 <p>
-    <strong>Producteur :</strong> {{dvd.director}}
+    <strong>Producteur :</strong>
+    {{dvd.director}}
 </p>
 <p>
-    <strong>Compagnies de production :</strong> {{dvd.productionCompanies}}
+    <strong>Compagnies de production :</strong>
+    {{dvd.productionCompanies}}
 </p>
 <!--<p>-->
     <!--<strong>Résumé :</strong></br>{{dvd.overview}}-->
@@ -31,7 +35,8 @@
 <dl>
     <dt>Acteurs :</dt>
     <dd ng-repeat="actor in dvd.actors">
-        <a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a> ({{actor.character}})
+        <a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a>
+        ({{actor.character}})
     </dd>
 </dl>
 <p>
@@ -39,7 +44,12 @@
     <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
 </p>
 <p>
-    <strong>Commentaires :</strong></br>{{dvd.comments}}
+    <strong>Type :</strong>
+    {{dvd.isBlueray ? 'Blueray' : 'Dvd'}}
+</p>
+<p>
+    <strong>Commentaires :</strong></br>
+    {{dvd.comments}}
 </p>
 <div>
     </br>

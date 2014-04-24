@@ -124,7 +124,8 @@ exports.create = function (req, res) {
         overview: req.body.dvd.overview,
         productionCompanies: req.body.dvd.productionCompanies,
         director: req.body.dvd.director,
-        actors: req.body.dvd.actors     // actorsArray
+        actors: req.body.dvd.actors,     // actorsArray
+        isBlueray: req.body.dvd.isBlueray
     });
 
     // Find the current login user, else we create it
@@ -282,7 +283,8 @@ exports.edit = function (req, res) {
             "dvd.$.genres": dvdToEdit.genres, "dvd.$.releaseDate": dvdToEdit.releaseDate,
             "dvd.$.overview": dvdToEdit.overview, "dvd.$.productionCompanies": dvdToEdit.productionCompanies,
             "dvd.$.director": dvdToEdit.director, "dvd.$.actors": dvdToEdit.actors,
-            "dvd.$.rate": dvdToEdit.rate, "dvd.$.comments": dvdToEdit.comments} },
+            "dvd.$.rate": dvdToEdit.rate, "dvd.$.comments": dvdToEdit.comments,
+            "dvd.$.isBlueray": dvdToEdit.isBlueray} },
         function (err, numberAffected) {
             if (err) {
                 console.log("Error during updating the DVD");

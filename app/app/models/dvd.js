@@ -87,6 +87,10 @@ var dvdSchema = mongoose.Schema({
         type: String,
         default: ''
     },
+    isBlueray: {
+        type: Boolean,
+        default: false
+    },
     rate: {
         type: Number,
         default: 0

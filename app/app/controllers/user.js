@@ -107,6 +107,16 @@ var AuthController = {
 //                console.log('User created');
 //            }
 //        });
+//        User.create({'username': 'kevin', 'email': 'kevin@kevin.fr', 'password': '12345', 'isAdmin': true}, function(err){
+//            if (err) {
+//                console.log(err);
+//                return;
+//            }
+//
+//            else {
+//                console.log('User created');
+//            }
+//        });
 
 //        res.json({
 //            success:false,

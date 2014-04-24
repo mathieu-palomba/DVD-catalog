@@ -12,6 +12,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
         console.log('Dvd Add controller');
 
 
+
         // The default movie poster
         $scope.imagesFolder = 'img/';
         $scope.defaultMoviePoster = $scope.imagesFolder + 'unknown.jpg';
@@ -33,7 +34,8 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
             overview: '',
             productionCompanies: '',
             director: '',
-            actors: [ {name: '', character: ''} ]
+            actors: [ {name: '', character: ''} ],
+            isBlueray: false
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.

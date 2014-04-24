@@ -64,37 +64,45 @@
                             <a href="{{href}}{{dvd.title}}" class="lead">{{dvd.title}}</a>
 
                             <p>
-                                <strong>Genres :</strong> {{dvd.genres | dvdGenreInline}}
+                                <strong>Genres :</strong>
+                                {{dvd.genres | dvdGenreInline}}
                             </p>
 
                             <p>
-                                <strong>Date de sortie :</strong> {{dvd.releaseDate}}
+                                <strong>Date de sortie :</strong>
+                                {{dvd.releaseDate}}
                             </p>
 
-                            <!--<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>-->
-                            <dl>
-                                <dt>Résumé :</dt>
-                                <dd>{{dvd.overview | overviewMaxLength}}</dd>
-                            </dl>
+                            <!--&lt;!&ndash;<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>&ndash;&gt;-->
+                            <!--<dl>-->
+                                <!--<dt>Résumé :</dt>-->
+                                <!--<dd>{{dvd.overview | overviewMaxLength}}</dd>-->
+                            <!--</dl>-->
 
-                            <p>
-                                <strong>Producteur :</strong> {{dvd.director}}
-                            </p>
-
-                            <!--<p><strong>Acteurs :</strong></p>-->
-                            <!--<p ng-repeat="actor in dvd.actors">-->
-                                <!--{{actor.name}}-->
+                            <!--<p>-->
+                                <!--<strong>Producteur :</strong>-->
+                                <!--{{dvd.director}}-->
                             <!--</p>-->
-                            <dl>
-                                <dt>Acteurs :</dt>
-                                <dd ng-repeat="actor in dvd.actors">
-                                    <a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a> ({{actor.character}})
-                                </dd>
-                            </dl>
+
+                            <!--&lt;!&ndash;<p><strong>Acteurs :</strong></p>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<p ng-repeat="actor in dvd.actors">&ndash;&gt;-->
+                                <!--&lt;!&ndash;{{actor.name}}&ndash;&gt;-->
+                            <!--&lt;!&ndash;</p>&ndash;&gt;-->
+                            <!--<dl>-->
+                                <!--<dt>Acteurs :</dt>-->
+                                <!--<dd ng-repeat="actor in dvd.actors">-->
+                                    <!--<a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a>-->
+                                    <!--({{actor.character}})-->
+                                <!--</dd>-->
+                            <!--</dl>-->
 
                             <p>
                                 <strong>Préférence :</strong>
                                 <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
+                            </p>
+                            <p>
+                                <strong>Type :</strong>
+                                {{dvd.isBlueray ? 'Blueray' : 'Dvd'}}
                             </p>
                         </div>
                     </div>

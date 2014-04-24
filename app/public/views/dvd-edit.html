@@ -95,6 +95,14 @@
                                   class="text-area"></textarea>
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label">Blue-ray</label>
+                    <div class="controls">
+                        <div class="checkbox">
+                            <input type="checkbox" ng-model="dvd.isBlueray">
+                        </div>
+                    </div>
+                </div>
                 <div class="controls">
                     <button type="submit" id="updateButton" ng-click="performUpdate()" ng-disabled="!dvdForm.$valid || dvd.genre==''"
                             class="btn btn-primary">Mettre à jour

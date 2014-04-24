@@ -96,6 +96,15 @@
                         <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
                     </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label">Blue-ray</label>
+                    <div class="controls">
+                        <div class="checkbox">
+                            <input type="checkbox" ng-model="dvd.isBlueray">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="controls">
                     <button type="submit" id="saveButton" ng-click="performSave()" ng-disabled="!dvdForm.$valid || dvd.genre==''"
                             popover-placement="{{dynamicSavePopoverPlacement}}" popover="{{dynamicSavePopover}}"
