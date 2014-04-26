@@ -440,13 +440,14 @@ exports.getDvd = function (req, res) {
  */
 exports.isDvdExist = function (req, res) {
     var dvdRequested = req.params.dvdTitle;
+    var releaseDate = req.params.releaseDate;
 //    var owner = req.params.owner.owner;
     var isExist = false;
     console.log('Is DVD exist');
     console.log(dvdRequested);
     console.log(req.user.username);
 
-    Owner.findOne({"userName": req.user.username, "dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
+    Owner.findOne({"userName": req.user.username, "dvd.title": dvdRequested, "dvd.releaseDate": releaseDate}, {"dvd.$": 1}, function (err, dvd) {
         if (err) {
             return handleError(err);
         }

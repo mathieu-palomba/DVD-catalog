@@ -23,7 +23,7 @@ module.exports = function (app) {
     app.post('/addDvd/renameImage', user.ensureAuthenticated, dvd.renameImage);
     app.get('/getDvd/:dvdTitle&:userName', user.ensureAuthenticated, dvd.getDvd);
     app.get('/getAllDvd', user.ensureAuthenticated, dvd.getAllDvd);
-    app.get('/isDvdExist/:dvdTitle', user.ensureAuthenticated, dvd.isDvdExist);
+    app.get('/isDvdExist/:dvdTitle&:releaseDate', user.ensureAuthenticated, dvd.isDvdExist);
     app.get('/owner', user.ensureAuthenticated, dvd.getCurrentOwner);
     app.get('/owner/:userName', user.ensureAuthenticated, dvd.getOwner);
     app.get('/owners', user.ensureAdmin, dvd.getOwners);

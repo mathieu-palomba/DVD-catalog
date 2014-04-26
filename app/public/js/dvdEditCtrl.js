@@ -136,10 +136,14 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
 
             // If the title has changed, we rename the movie poster file and movie poster path
             if($scope.dvd.oldTitle != $scope.dvd.title) {
-                $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID($scope.dvd.title);
+                // We compute the string to hash (title + date to build unique key)
+                var titleHash = $scope.dvd.title + $scope.dvd.releaseDate;
+                var oldTitleHash = $scope.dvd.oldTitle + $scope.dvd.releaseDate;
+
+                $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID(titleHash);
 
                 // We rename the movie poster
-                var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': IdGenerator.moviePosterID($scope.dvd.oldTitle), 'filename': IdGenerator.moviePosterID($scope.dvd.title)}, function () {
+                var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': IdGenerator.moviePosterID(oldTitleHash), 'filename': IdGenerator.moviePosterID(titleHash)}, function () {
                     if (renamedImage.success) {
                         console.log('Image successfully renamed');
                     }

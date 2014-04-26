@@ -11,7 +11,15 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
     function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField, Array) {
         console.log('Dvd Add controller');
 
-
+        // The MovieDB request to get movie information.
+        $scope.requests = {
+            movieDBKey: '37c2294ca3753bd14d165eda4b3f9314',
+            movieImagesPath: 'https://api.themoviedb.org/3/movie/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleID: 'https://api.themoviedb.org/3/search/person?api_key=VAR_API_KEY&query=VAR_QUERY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleDetails: 'https://api.themoviedb.org/3/person/VAR_QUERY?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleImagesPath: 'https://api.themoviedb.org/3/person/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            images: 'http://image.tmdb.org/t/p/w500VAR_QUERY'
+        };
 
         // The default movie poster
         $scope.imagesFolder = 'img/';
@@ -120,8 +128,11 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                         if(renamedImage.success) {
                             console.log('Image uploaded successfully renamed');
 
+                            // We compute the string to hash (title + date to build unique key)
+                            var titleHash = $scope.dvd.title + $scope.dvd.releaseDate;
+
                             // We set the new movie poster path
-                            $scope.dvd.moviePoster = $scope.imagesFolder + IdGenerator.moviePosterID($scope.dvd.title);
+                            $scope.dvd.moviePoster = $scope.imagesFolder + IdGenerator.moviePosterID(titleHash);
 
                             // We use the date to generate a random string which it's used to reload the ng-src <img> tag
                             var random = (new Date()).toString();
@@ -233,7 +244,10 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                     $scope.dvd.title = dvdDetails.title;
 
                     if(dvdDetails.poster_path != undefined && dvdDetails.poster_path != null) {
-                        $scope.dvd.moviePoster = $scope.imagesFolder + IdGenerator.moviePosterID($scope.dvd.title);
+                        // We compute the string to hash (title + date to build unique key)
+                        var titleHash = $scope.dvd.title + $scope.dvd.releaseDate;
+
+                        $scope.dvd.moviePoster = $scope.imagesFolder + IdGenerator.moviePosterID(titleHash);
                         $scope.moviePoster = $scope.requests.images.replace('VAR_QUERY', dvdDetails.poster_path);
 
                         // We pre-saved the movie poster to win time (avoid time problem when the user saved it's DVD and it's relocated in the "/dvd" route)
@@ -314,7 +328,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
          */
         $scope.performSave = function () {
             // We check if a DVD already exist in the database
-            var check = Dvd.DvdAdd.isDvdExist({'dvdTitle': $scope.dvd.title}, function () {
+            var check = Dvd.DvdAdd.isDvdExist({'dvdTitle': $scope.dvd.title, 'releaseDate': $scope.dvd.releaseDate}, function () {
                 if (check.success) {
                     console.log('DVD already exist');
 
@@ -322,14 +336,18 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                     $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.error;
                 }
                 else {
+                    // We compute the string to hash (title + date to build unique key)
+                    var titleHash = $scope.dvd.title + $scope.dvd.releaseDate;
+
                     // We save the movie poster
-                    var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': $scope.dvd.temporaryMoviePosterName, 'filename': IdGenerator.moviePosterID($scope.dvd.title)}, function () {
+                    var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': $scope.dvd.temporaryMoviePosterName, 'filename': IdGenerator.moviePosterID(titleHash)}, function () {
                         // If the image is successfully renamed (because the user use the find movie button), or if the moviePoster has the default name (inconnu.jpg picture), we save the dvd
                         if (renamedImage.success || $scope.moviePoster == $scope.dvd.moviePoster) {
                             console.log('Image successfully renamed');
 
                             if($scope.moviePoster != $scope.dvd.moviePoster) {
-                                $scope.dvd.moviePoster = $scope.imagesFolder + IdGenerator.moviePosterID($scope.dvd.title);
+                                console.log('Movie Poster ID changed');
+                                $scope.dvd.moviePoster = $scope.imagesFolder + IdGenerator.moviePosterID(titleHash);
                             }
 
                             // We save the DVD in the database

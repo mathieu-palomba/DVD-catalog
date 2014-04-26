@@ -79,6 +79,7 @@ app.listen(config.port, function() {
 // Rajouter ranking dans la vue 'add-dvd'
 // Rajouter image acteurs
 // Rajouter fonction collapse pour éviter de tout afficher dans la vue 'dvd-list'
+// Change date String en date pour le model de DVD
 
 
 

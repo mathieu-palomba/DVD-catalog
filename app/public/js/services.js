@@ -43,6 +43,7 @@ dvdCatServices.factory('IdGenerator', function () {
                     hash = ((hash << 5) - hash) + char;
                     hash = hash & hash; // Convert to 32bit integer
                 }
+
                 return hash;
             };
 
@@ -53,7 +54,8 @@ dvdCatServices.factory('IdGenerator', function () {
 //    return '_' + Math.random().toString(36).substr(2, 9);
 //};
             // We return the movie poster ID
-            return Math.abs(moviePosterName.hashCode()) + '.jpg';
+            var hashCode = Math.abs(moviePosterName.hashCode());
+            return hashCode + '.jpg';
         }
     };
 });
@@ -139,7 +141,7 @@ dvdCatServices.factory('Dvd', ['$resource',
                 saveDvd: {method: 'POST', url: '/addDvd/saveDvd'},
                 saveImage: {method: 'POST', url: '/addDvd/saveImage'},
                 renameImage: {method: 'POST', url: '/addDvd/renameImage'},
-                isDvdExist: {method: 'GET', url: '/isDvdExist/:dvdTitle'}
+                isDvdExist: {method: 'GET', url: '/isDvdExist/:dvdTitle&:releaseDate'}
             }),
             DvdDetails: $resource('', {}, {
                 getDvd: {method: 'GET', url: '/getDvd/:dvdTitle&:userName'},
