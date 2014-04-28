@@ -1,14 +1,14 @@
 /**
  * Controllers.
  */
-var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute']);
+var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute', 'ui.bootstrap']);
 
 
 /**
  * DVD Edit controllers.
  */
-dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
-    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, IdGenerator, MultiField, Array, Rating) {
+dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'DvdGenresConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
+    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, DvdGenresConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Edit controller');
 
         // Rating handle
@@ -18,10 +18,37 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
             Rating.hoveringOver($scope, value);
         };
 
+        // Initialize Date picker
+        // Disable weekend selection
+        $scope.disabled = function(date, mode) {
+            console.log("Date disable");
+            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        $scope.open = function($event) {
+            console.log("Date open");
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            'year-format': "'yyyy'",
+            'starting-day': 1
+        };
+
+        // We select the first date format
+        $scope.formats = ['dd/MMMM/yyyy', 'yyyy-MM-dd', 'shortDate'];
+        $scope.format = $scope.formats[0];
+
         // We get the genres list
         $scope.genres = GenresConstant;
         $scope.defaultGenre = $scope.genres.default;
         $scope.currentGenre = $scope.defaultGenre;
+
+        // The movie format list
+        $scope.movieFormat = DvdGenresConstant;
 
         // Administration case
         if($routeParams.userName) {

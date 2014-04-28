@@ -70,7 +70,7 @@
 
                             <p>
                                 <strong>Date de sortie :</strong>
-                                {{dvd.releaseDate}}
+                                {{dvd.releaseDate | date:'dd/MM/yyyy'}}
                             </p>
 
                             <!--&lt;!&ndash;<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>&ndash;&gt;-->
@@ -102,7 +102,7 @@
                             </p>
                             <p>
                                 <strong>Type :</strong>
-                                {{dvd.isBlueray ? 'Blueray' : 'Dvd'}}
+                                {{dvd.movieFormat}}
                             </p>
                         </div>
                     </div>

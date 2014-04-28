@@ -71,7 +71,7 @@ var dvdSchema = mongoose.Schema({
     },
     genres: [genreSchema],
     releaseDate: {
-        type: String
+        type: Date
     },
     overview: {
         type: String
@@ -87,9 +87,9 @@ var dvdSchema = mongoose.Schema({
         type: String,
         default: ''
     },
-    isBlueray: {
-        type: Boolean,
-        default: false
+    movieFormat: {
+        type: String,
+        default: ''
     },
     rate: {
         type: Number,

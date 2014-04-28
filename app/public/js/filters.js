@@ -41,3 +41,12 @@ dvdCatFilter.filter('dvdGenreInline', function() {
         };
     }
 );
+
+/**
+ * This filter display the date with a french format.
+ */
+dvdCatFilter.filter('dateFormat', function() {
+    return function(date) {
+        return date.toDateString();
+    };
+});

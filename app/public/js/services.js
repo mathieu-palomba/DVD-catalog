@@ -29,6 +29,16 @@ dvdCatServices.constant('GenresConstant', {
 });
 
 /**
+ * The DVD genres.
+ */
+dvdCatServices.constant('DvdGenresConstant', {
+    dvd: 'Dvd',
+    blueray: 'Blue-ray',
+    divx: 'Divx',
+    dvdrip: 'Dvd-Rip'
+});
+
+/**
  * This services permit to generate jpg ID with string name.
  */
 dvdCatServices.factory('IdGenerator', function () {

@@ -9,7 +9,7 @@
 </p>
 <p>
     <strong>Date de sortie :</strong>
-    {{dvd.releaseDate}}
+    {{dvd.releaseDate | date:'dd/MM/yyyy'}}
 </p>
 <p>
     <strong>Producteur :</strong>
@@ -45,7 +45,7 @@
 </p>
 <p>
     <strong>Type :</strong>
-    {{dvd.isBlueray ? 'Blueray' : 'Dvd'}}
+    {{dvd.movieFormat}}
 </p>
 <p>
     <strong>Commentaires :</strong></br>

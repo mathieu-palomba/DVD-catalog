@@ -7,21 +7,13 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'IdGenerator', 'MultiField', 'Array',
-    function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, IdGenerator, MultiField, Array) {
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'DvdGenresConstant', 'IdGenerator', 'MultiField', 'Array',
+    function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdGenresConstant, IdGenerator, MultiField, Array) {
         console.log('Dvd Add controller');
 
-        // The MovieDB request to get movie information.
-        $scope.requests = {
-            movieDBKey: '37c2294ca3753bd14d165eda4b3f9314',
-            movieImagesPath: 'https://api.themoviedb.org/3/movie/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            peopleID: 'https://api.themoviedb.org/3/search/person?api_key=VAR_API_KEY&query=VAR_QUERY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            peopleDetails: 'https://api.themoviedb.org/3/person/VAR_QUERY?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            peopleImagesPath: 'https://api.themoviedb.org/3/person/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
-            images: 'http://image.tmdb.org/t/p/w500VAR_QUERY'
-        };
 
-        // The default movie poster
+
+        // The default movie poster.
         $scope.imagesFolder = 'img/';
         $scope.defaultMoviePoster = $scope.imagesFolder + 'unknown.jpg';
         $scope.moviePoster = $scope.defaultMoviePoster;
@@ -30,6 +22,9 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
         $scope.genres = GenresConstant;
         $scope.defaultGenre = $scope.genres.default;
         $scope.currentGenre = $scope.defaultGenre;
+
+        // The movie format list.
+        $scope.movieFormat = DvdGenresConstant;
 
         // Initialize the DVD form.
         $scope.dvd = {
@@ -43,7 +38,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
             productionCompanies: '',
             director: '',
             actors: [ {name: '', character: ''} ],
-            isBlueray: false
+            movieFormat: $scope.movieFormat.dvd
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.
@@ -64,6 +59,30 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
         $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
         $scope.dynamicSavePopoverPlacement = 'bottom';
         $scope.dynamicSavePopoverTrigger = 'focus';     // Primary it's "click"
+
+        // Initialize Date picker
+        // Disable weekend selection
+        $scope.disabled = function(date, mode) {
+            console.log("Date disable");
+            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        $scope.open = function($event) {
+            console.log("Date open");
+            $event.preventDefault();
+            $event.stopPropagation();
+
+            $scope.opened = true;
+        };
+
+        $scope.dateOptions = {
+            'year-format': "'yyyy'",
+            'starting-day': 1
+        };
+
+        // We select the first date format
+        $scope.formats = ['dd/MMMM/yyyy', 'yyyy-MM-dd', 'shortDate'];
+        $scope.format = $scope.formats[0];
 
         // We get the current owner
         $scope.owner = User.UserAccount.getCurrentOwner(function() {

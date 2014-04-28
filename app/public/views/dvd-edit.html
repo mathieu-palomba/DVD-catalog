@@ -31,7 +31,7 @@
                         <div ng-repeat="genre in dvd.genres">
                             <input type="text" id="inputDvdGenre" ng-model="dvd.genres[$index].name"
                                    placeholder="Action" required>
-                            <button type="button" id="deleteGenre_{{$index}}" ng-click="deleteThisGenre($index)" ng-hide="!(dvd.genres.length>0)" class="btn btn-danger btn-small">Delete</button>
+                            <button type="button" id="deleteGenre_{{$index}}" ng-click="deleteThisGenre($index)" ng-hide="!(dvd.genres.length>0)" class="btn btn-danger btn-small">Supprimer</button>
                         </div>
                     </div>
                 </div>
@@ -39,8 +39,17 @@
                     <label for="inputDvdReleaseData" class="control-label">Date de sortie</label>
 
                     <div class="controls">
-                        <input type="text" id="inputDvdReleaseData" ng-model="dvd.releaseDate"
-                               placeholder="2014-01-31" required>
+                        <!--Date picker-->
+                        <div class="input-append">
+                            <input type="text" id="inputDvdReleaseData" class="form-control" datepicker-popup="{{format}}" ng-model="dvd.releaseDate"
+                                   is-open="opened" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Fermer"
+                                   current-text="Aujourd'hui" toggle-weeks-text="Week-end" clear-text="Supprimer" readonly/>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="open($event)">
+                                    <i class="icon-calendar"></i>
+                                </button>
+                             </span>
+                        </div>
                     </div>
                 </div>
                 <div class="control-group">
@@ -76,8 +85,8 @@
                                placeholder="Jean Dujardin (nom)" class="character-area" required>
                         <input type="text" ng-model="dvd.actors[$index].character"
                                placeholder="Brice de nice (rôle)" required class="character-area">
-                        <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" ng-show="($index==0)" class="btn btn-success btn-small">Add</button>
-                        <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Delete</button>
+                        <button type="button" id="addActor_{{$index}}" ng-click="addInputActor()" ng-show="($index==0)" class="btn btn-success btn-small">Ajouter</button>
+                        <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Supprimer</button>
                     </div>
                 </div>
                 <div class="control-group">
@@ -96,10 +105,13 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <label class="control-label">Blue-ray</label>
+                    <label class="control-label">Type</label>
                     <div class="controls">
-                        <div class="checkbox">
-                            <input type="checkbox" ng-model="dvd.isBlueray">
+                        <div>
+                            <select id="inputMovieFormat" ng-model="dvd.movieFormat">
+                                <option value="" disabled>-- Sélectionner un format --</option>
+                                <option ng-repeat="format in movieFormat">{{format}}</option>
+                            </select>
                         </div>
                     </div>
                 </div>
