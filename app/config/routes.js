@@ -21,7 +21,7 @@ module.exports = function (app) {
     app.post('/dvd/editDvd', user.ensureAuthenticated, dvd.edit);
     app.post('/addDvd/saveImage', user.ensureAuthenticated, dvd.saveImage);
     app.post('/addDvd/renameImage', user.ensureAuthenticated, dvd.renameImage);
-    app.get('/getDvd/:dvdTitle&:userName', user.ensureAuthenticated, dvd.getDvd);
+    app.get('/getDvd/:dvdID&:userName', user.ensureAuthenticated, dvd.getDvd);
     app.get('/getAllDvd', user.ensureAuthenticated, dvd.getAllDvd);
     app.get('/isDvdExist/:dvdTitle&:releaseDate', user.ensureAuthenticated, dvd.isDvdExist);
     app.get('/owner', user.ensureAuthenticated, dvd.getCurrentOwner);

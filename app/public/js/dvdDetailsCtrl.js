@@ -46,7 +46,7 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
         // We get the DVD
         getDvd = function() {
             // We use '$scope.owner.userName' and not '$routeParams.userName' because if we are in the normal route (not from the administration), the '$routeParams.userName' doesn't exist
-            $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvdTitle': $routeParams.dvdTitle, 'userName': $scope.owner.userName}, function() {
+            $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvdID': $routeParams.dvdID, 'userName': $scope.owner.userName}, function() {
                 if( $scope.dvdSearch.success )
                 {
                     console.log('DVD got successfully');
@@ -64,15 +64,15 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
         /**
          * Redirection into the edit DVD html page.
          */
-        $scope.editDvd = function(dvdName) {
+        $scope.editDvd = function(dvdID) {
             // If the editDvd route it's call from the DVD details administration, we call the administration edit view
             if($routeParams.userName) {
-                $location.url('/editDvd/' + $scope.owner.userName + '/' + dvdName);
+                $location.url('/editDvd/' + $scope.owner.userName + '/' + dvdID);
             }
 
             // Else, we call the standard editDvd route
             else {
-                $location.url('/editDvd/' + dvdName);
+                $location.url('/editDvd/' + dvdID);
             }
         };
 

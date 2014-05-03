@@ -82,7 +82,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         // We get the DVD
         getDvd = function() {
             // We use '$scope.owner.userName' and not '$routeParams.userName' because if we are in the normal route (not from the administration), the '$routeParams.userName' doesn't exist
-            $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvdTitle': $routeParams.dvdTitle, 'userName': $scope.owner.userName}, function()
+            $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvdID': $routeParams.dvdID, 'userName': $scope.owner.userName}, function()
             {
                 if( $scope.dvdSearch.success )
                 {

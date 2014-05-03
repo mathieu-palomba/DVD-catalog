@@ -110,7 +110,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
                 // OK clicked
                 if(result) {
                     // We delete the DVD
-                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {'dvdTitle': dvd.title, 'userName': $scope.owner.userName}, function() {
+                    $scope.dvdDeleted = Dvd.DvdList.deleteDvd( {'dvdID': dvd._id, 'userName': $scope.owner.userName}, function() {
                         if( $scope.dvdDeleted.success ) {
                             console.log('DVD deleted successfully');
                             $route.reload();

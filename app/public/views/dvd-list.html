@@ -85,13 +85,13 @@
                             <div class="row-fluid">
                                 <!-- We redirect to the correct view when the user click on the picture -->
                                 <div class="span3">
-                                    <a href="{{href}}{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
+                                    <a href="{{href}}{{dvd._id}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
                                 </div>
 
                                 <!-- We redirect to the correct view when the user click on the description -->
                                 <div class="span9">
                                     <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
-                                    <a href="{{href}}{{dvd.title}}" class="lead">{{dvd.title}}</a>
+                                    <a href="{{href}}{{dvd._id}}" class="lead">{{dvd.title}}</a>
                                     <p>
                                         <strong>Genres :</strong>
                                         {{dvd.genres | dvdGenreInline}}

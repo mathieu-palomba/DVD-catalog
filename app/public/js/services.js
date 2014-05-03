@@ -154,7 +154,7 @@ dvdCatServices.factory('Dvd', ['$resource',
                 isDvdExist: {method: 'GET', url: '/isDvdExist/:dvdTitle&:releaseDate'}
             }),
             DvdDetails: $resource('', {}, {
-                getDvd: {method: 'GET', url: '/getDvd/:dvdTitle&:userName'},
+                getDvd: {method: 'GET', url: '/getDvd/:dvdID&:userName'},
                 editDvd: {method: 'POST', url: '/dvd/editDvd'}
             })
         }

@@ -202,7 +202,7 @@ exports.create = function (req, res) {
  */
 exports.delete = function (req, res) {
     console.log("Delete DVD in nodejs");
-    var dvdToDelete = req.body.dvdTitle;
+    var dvdToDelete = req.body.dvdID;
     var userName = req.body.userName;
 
 //    owner.dvd.id(dvdToDelete._id).remove();
@@ -215,7 +215,7 @@ exports.delete = function (req, res) {
 
         else {
             // We find the DVD to delete
-            Owner.findOne({"_id": owner._id, "dvd.title": dvdToDelete}, {"dvd.$": 1}, function (err, dvd) {
+            Owner.findOne({"_id": owner._id, "dvd._id": dvdToDelete}, {"dvd.$": 1}, function (err, dvd) {
                 if (err) {
                     return handleError(err);
                 }
@@ -378,12 +378,12 @@ exports.getAllDvd = function (req, res) {
  */
 exports.getDvd = function (req, res) {
     console.log('Get DVD');
-    var dvdRequested = req.params.dvdTitle;
+    var dvdRequested = req.params.dvdID;
     var userName = req.params.userName;
     console.log(dvdRequested);
     console.log(userName);
 
-    Owner.findOne({"userName": userName, "dvd.title": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
+    Owner.findOne({"userName": userName, "dvd._id": dvdRequested}, {"dvd.$": 1}, function (err, dvd) {
         if (err) {
             return handleError(err);
         }
@@ -439,6 +439,7 @@ exports.getDvd = function (req, res) {
  * @param res : The response
  */
 exports.isDvdExist = function (req, res) {
+    // Title and release date it's used to avoid problem if the title isn't unique
     var dvdRequested = req.params.dvdTitle;
     var releaseDate = req.params.releaseDate;
 //    var owner = req.params.owner.owner;
