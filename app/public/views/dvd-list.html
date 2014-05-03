@@ -74,7 +74,7 @@
             <ul class="dvd-list">
                 <accordion close-others="oneAtATime">
                     <li ng-repeat="dvd in dvdList | filter:query | filter:movieFormatFilter  | orderBy:orderProp" class="dvd-listing">
-                        <accordion-group is-open="isopen">
+                        <accordion-group is-open="true">
                             <!--Header-->
                             <accordion-heading>
                                 {{dvd.title}}
