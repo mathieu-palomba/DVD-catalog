@@ -7,8 +7,8 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'DvdFormatConstant', 'IdGenerator', 'MultiField', 'Array',
-    function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdFormatConstant, IdGenerator, MultiField, Array) {
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'DvdFormatsConstant', 'IdGenerator', 'MultiField', 'Array',
+    function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array) {
         console.log('Dvd Add controller');
 
         // The MovieDB request to get movie information.
@@ -32,7 +32,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
         $scope.currentGenre = $scope.defaultGenre;
 
         // The movie format list.
-        $scope.movieFormat = DvdFormatConstant;
+        $scope.movieFormats = DvdFormatsConstant;
 
         // Initialize the DVD form.
         $scope.dvd = {
@@ -46,7 +46,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
             productionCompanies: '',
             director: '',
             actors: [ {name: '', character: ''} ],
-            movieFormat: $scope.movieFormat.dvd
+            movieFormat: $scope.movieFormats.dvd
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.

@@ -31,7 +31,7 @@ dvdCatServices.constant('GenresConstant', {
 /**
  * The DVD genres.
  */
-dvdCatServices.constant('DvdFormatConstant', {
+dvdCatServices.constant('DvdFormatsConstant', {
     dvd: 'Dvd',
     blueray: 'Blue-ray',
     divx: 'Divx',

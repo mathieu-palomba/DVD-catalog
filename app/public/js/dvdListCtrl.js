@@ -1,18 +1,51 @@
 /**
  * Controllers.
  */
-var dvdListControllers = angular.module('dvdListControllers', ['ngRoute']);
+var dvdListControllers = angular.module('dvdListControllers', ['ngRoute', 'ui.bootstrap']);
 
 /**
  * DVD List controllers.
  */
-dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '$routeParams', 'Dvd', 'User', 'Rating',
-    function ($scope, $location, $route, $routeParams, Dvd, User, Rating) {
+dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '$routeParams', 'Dvd', 'User', 'Rating', 'DvdFormatsConstant',
+    function ($scope, $location, $route, $routeParams, Dvd, User, Rating, DvdFormatsConstant) {
         console.log('Dvd List controller');
+
+        // Accordion handle
+        $scope.oneAtATime = true;
+
+        // Order prop handle
+        // This value must have the same name in the html view to set the default filter
+        $scope.orderProp = 'title';
+
+        // Set a new selection
+        $scope.setOrderProp = function(orderProp) {
+            $scope.orderProp = orderProp;
+        };
 
         // Rating handle
         $scope.max = Rating.max;
         $scope.isReadonly = Rating.readOnly;
+
+        // Movie format handle
+        $scope.movieFormats = DvdFormatsConstant;
+        $scope.showAll = "--- Tous ---";
+        $scope.currentMovieFormat = $scope.showAll;
+
+        // Set a new selection
+        $scope.setMovieFormat = function(movieFormat) {
+            $scope.currentMovieFormat = movieFormat;
+        };
+
+        // Custom filter - filter based on the movie format
+        $scope.movieFormatFilter = function (data) {
+            if (data.movieFormat === $scope.currentMovieFormat) {
+                return true;
+            } else if ($scope.currentMovieFormat === $scope.showAll) {
+                return true;
+            } else {
+                return false;
+            }
+        };
 
         // If the DVD list it's call with the administration route, we get the owner in relation
         if($routeParams.userName) {
@@ -60,9 +93,6 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
                 }
             } );
         }
-
-        // This value must have the same name in the html view to set the default filter
-        $scope.orderProp = 'title';
 
         /**
          * Redirection into the add DVD html page.

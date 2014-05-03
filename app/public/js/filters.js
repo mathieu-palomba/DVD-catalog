@@ -50,3 +50,21 @@ dvdCatFilter.filter('dateFormat', function() {
         return date.toDateString();
     };
 });
+
+
+/**
+ * This filter permit to filter the movies with the movie format attribute.
+ */
+dvdCatFilter.filter('movieFormatFilter', function() {
+    return function (data, currentMovieFormat, movieFormats) {
+        console.log('plop');
+        console.log(data);
+        if (data.movieFormat === currentMovieFormat) {
+            return true;
+        } else if (currentMovieFormat === movieFormats.showAll) {
+            return true;
+        } else {
+            return false;
+        }
+    };
+});

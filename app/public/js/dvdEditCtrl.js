@@ -7,8 +7,8 @@ var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute', 'ui.bo
 /**
  * DVD Edit controllers.
  */
-dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'DvdFormatConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
-    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, DvdFormatConstant, IdGenerator, MultiField, Array, Rating) {
+dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'DvdFormatsConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
+    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Edit controller');
 
         // Rating handle
@@ -48,7 +48,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         $scope.currentGenre = $scope.defaultGenre;
 
         // The movie format list
-        $scope.movieFormat = DvdFormatConstant;
+        $scope.movieFormats = DvdFormatsConstant;
 
         // Administration case
         if($routeParams.userName) {

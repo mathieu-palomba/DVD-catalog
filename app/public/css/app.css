@@ -53,9 +53,9 @@ footer, .push {
     float: left;
     clear: both;
     height: 100%;
-    width: 50%;
-    padding-top: 20px;
-    margin-bottom: 20px;
+    width: 70%;
+    /*padding-top: 20px;*/
+    /*margin-bottom: 20px;*/
 }
 
 .movie-poster {

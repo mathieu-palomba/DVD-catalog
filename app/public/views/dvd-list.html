@@ -27,16 +27,38 @@
             <!--<div>Rechercher : <input type="text" ng-model="query"></div>-->
 
             <ul class="inline">
-                <li>
-                    Trier par :
-                </li>
-                <li>
-                    <select ng-model="orderProp">
-                        <option value="title">Alphabetique</option>
-                        <!-- Reverse the sort order by adding a - symbol before the sorting value -->
-                        <option value="-rate">Préférence</option>
-                    </select>
-                </li>
+                <accordion>
+                    <accordion-group is-open="isopen">
+                        <!--Header-->
+                        <accordion-heading>
+                            Filtres :
+                            <i class="pull-right glyphicon" ng-class="{'icon-chevron-down': isopen, 'icon-chevron-right': !isopen}"></i>
+                        </accordion-heading>
+
+                        <!--Content-->
+                        <li>
+                            Trier par :
+                        </li>
+                        <li>
+                            <select ng-model="orderProp" ng-change="setOrderProp(orderProp)">
+                                <option value="title">Alphabetique</option>
+                                <option value="-releaseDate">Date de sortie</option>
+                                <!-- Reverse the sort order by adding a - symbol before the sorting value -->
+                                <option value="-rate">Préférence</option>
+                            </select>
+                        </li>
+                        <li>
+                            Genres :
+                            <div>
+                                <select ng-model="currentMovieFormat" ng-change="setMovieFormat(currentMovieFormat)">
+                                    <option>{{showAll}}</option>
+                                    <option ng-repeat="movieFormat in movieFormats">{{movieFormat}}</option>
+                                </select>
+                            </div>
+                        </li>
+
+                    </accordion-group>
+                </accordion>
             </ul>
             <!--<div>Trier par :-->
                 <!--<select ng-model="orderProp">-->
@@ -50,63 +72,71 @@
         <!--Body content-->
         <div class="span9 offset1">
             <ul class="dvd-list">
-                <li ng-repeat="dvd in dvdList | filter:query | orderBy:orderProp" class="thumbnail dvd-listing">
-                    <div class="row-fluid">
-                        <!-- We redirect to the correct view when the user click on the picture -->
-                        <div class="span3">
-                            <a href="{{href}}{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
-                        </div>
+                <accordion close-others="oneAtATime">
+                    <li ng-repeat="dvd in dvdList | filter:query | filter:movieFormatFilter  | orderBy:orderProp" class="dvd-listing">
+                        <accordion-group is-open="isopen">
+                            <!--Header-->
+                            <accordion-heading>
+                                {{dvd.title}}
+                                <i class="pull-right glyphicon" ng-class="{'icon-chevron-down': isopen, 'icon-chevron-right': !isopen}"></i>
+                            </accordion-heading>
 
-                        <!-- We redirect to the correct view when the user click on the description -->
-                        <div class="span9">
-                            <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
+                            <!--Content-->
+                            <div class="row-fluid">
+                                <!-- We redirect to the correct view when the user click on the picture -->
+                                <div class="span3">
+                                    <a href="{{href}}{{dvd.title}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
+                                </div>
 
-                            <a href="{{href}}{{dvd.title}}" class="lead">{{dvd.title}}</a>
+                                <!-- We redirect to the correct view when the user click on the description -->
+                                <div class="span9">
+                                    <button type="button" id="deleteButton" ng-click="deleteDvd(dvd)" class="btn btn-danger delete-button">Supprimer</button>
+                                    <a href="{{href}}{{dvd.title}}" class="lead">{{dvd.title}}</a>
+                                    <p>
+                                        <strong>Genres :</strong>
+                                        {{dvd.genres | dvdGenreInline}}
+                                    </p>
+                                    <p>
+                                        <strong>Date de sortie :</strong>
+                                        {{dvd.releaseDate | date:'dd/MM/yyyy'}}
+                                    </p>
 
-                            <p>
-                                <strong>Genres :</strong>
-                                {{dvd.genres | dvdGenreInline}}
-                            </p>
+                                    <!--<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>-->
+                                    <dl>
+                                        <dt>Résumé :</dt>
+                                        <dd>{{dvd.overview | overviewMaxLength}}</dd>
+                                    </dl>
 
-                            <p>
-                                <strong>Date de sortie :</strong>
-                                {{dvd.releaseDate | date:'dd/MM/yyyy'}}
-                            </p>
+                                    <!--<p>-->
+                                        <!--<strong>Producteur :</strong>-->
+                                        <!--{{dvd.director}}-->
+                                    <!--</p>-->
 
-                            <!--&lt;!&ndash;<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>&ndash;&gt;-->
-                            <!--<dl>-->
-                                <!--<dt>Résumé :</dt>-->
-                                <!--<dd>{{dvd.overview | overviewMaxLength}}</dd>-->
-                            <!--</dl>-->
+                                    <!--&lt;!&ndash;<p><strong>Acteurs :</strong></p>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<p ng-repeat="actor in dvd.actors">&ndash;&gt;-->
+                                        <!--&lt;!&ndash;{{actor.name}}&ndash;&gt;-->
+                                    <!--&lt;!&ndash;</p>&ndash;&gt;-->
+                                    <!--<dl>-->
+                                        <!--<dt>Acteurs :</dt>-->
+                                        <!--<dd ng-repeat="actor in dvd.actors">-->
+                                            <!--<a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a>-->
+                                            <!--({{actor.character}})-->
+                                        <!--</dd>-->
+                                    <!--</dl>-->
 
-                            <!--<p>-->
-                                <!--<strong>Producteur :</strong>-->
-                                <!--{{dvd.director}}-->
-                            <!--</p>-->
-
-                            <!--&lt;!&ndash;<p><strong>Acteurs :</strong></p>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<p ng-repeat="actor in dvd.actors">&ndash;&gt;-->
-                                <!--&lt;!&ndash;{{actor.name}}&ndash;&gt;-->
-                            <!--&lt;!&ndash;</p>&ndash;&gt;-->
-                            <!--<dl>-->
-                                <!--<dt>Acteurs :</dt>-->
-                                <!--<dd ng-repeat="actor in dvd.actors">-->
-                                    <!--<a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a>-->
-                                    <!--({{actor.character}})-->
-                                <!--</dd>-->
-                            <!--</dl>-->
-
-                            <p>
-                                <strong>Préférence :</strong>
-                                <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
-                            </p>
-                            <p>
-                                <strong>Type :</strong>
-                                {{dvd.movieFormat}}
-                            </p>
-                        </div>
-                    </div>
-                </li>
+                                    <p>
+                                        <strong>Préférence :</strong>
+                                        <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
+                                    </p>
+                                    <p>
+                                        <strong>Type :</strong>
+                                        {{dvd.movieFormat}}
+                                    </p>
+                                </div>
+                            </div>
+                        </accordion-group>
+                    </li>
+                </accordion>
             </ul>
         </div>
     </div>

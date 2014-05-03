@@ -31,7 +31,7 @@ module.exports = function( app, passport, db )
         .use(express.session({
             secret: '29ninJaTurtlePoWaaaaaaaaaa31',
 //            cookie: {maxAge: new Date(Date.now() + 3600000)},   // 3600000 = 1 hour
-            cookie: { maxAge: 60 * 60 * 1000 },                   // 24 * 60 * 60 * 1000 = 1 day
+            cookie: { maxAge: 24* 60 * 60 * 1000 },               // 24 * 60 * 60 * 1000 = 1 day
 //            maxAge: new Date(Date.now() + 3600000),             // 3600000 = 1 hour
 //            expires: new Date(Date.now() + 36000),
             store: new mongoStore({
