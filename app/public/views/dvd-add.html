@@ -31,6 +31,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="control-group">
                     <label for="inputDvdGenres" class="control-label">Genres</label>
 
@@ -48,6 +49,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="control-group">
                     <label for="inputDvdReleaseData" class="control-label">Date de sortie</label>
 
@@ -65,6 +67,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="control-group">
                     <label for="inputDvdOverview" class="control-label">Resumé</label>
 
@@ -73,6 +76,7 @@
                                   required class="text-area"></textarea>
                     </div>
                 </div>
+
                 <div class="control-group">
                     <label for="inputDvdProductionCompanies" class="control-label">Sociétés de Production</label>
 
@@ -82,6 +86,7 @@
                                   class="text-area"></textarea>
                     </div>
                 </div>
+
                 <div class="control-group">
                     <label for="inputDvdDirector" class="control-label">Producteur</label>
 
@@ -90,6 +95,7 @@
                                placeholder="James Cameron" required class="character-area">
                     </div>
                 </div>
+
                 <div class="control-group">
                     <label for="inputDvdActors" class="control-label">Acteurs</label>
 
@@ -105,6 +111,7 @@
                         <button type="button" id="deleteActor_{{$index}}" ng-click="deleteThisActor($index)" ng-hide="!(dvd.actors.length>1)" class="btn btn-danger btn-small">Supprimer</button>
                     </div>
                 </div>
+
                 <div class="control-group">
                     <label class="control-label">Type</label>
                     <div class="controls">
@@ -114,6 +121,23 @@
                                 <option ng-repeat="movieFormat in movieFormats">{{movieFormat}}</option>
                             </select>
                         </div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Préférence</label>
+                    <div class="controls">
+                        <rating ng-model="dvd.rate" value="dvd.rate" max="max" readonly="isReadonly" on-hover="hoveringOver(value)" on-leave="overStar = null"></rating>
+                        <span class="label" ng-class="{'label-warning': percent<30, 'label-info': percent>=30 && percent<70, 'label-success': percent>=70}" ng-show="overStar && !isReadonly">{{percent}}%</span>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="inputDvdLocation" class="control-label">Emplacement</label>
+
+                    <div class="controls">
+                        <input type="text" id="inputDvdLocation" ng-model="dvd.location"
+                               placeholder="A1" class="character-area">
                     </div>
                 </div>
 

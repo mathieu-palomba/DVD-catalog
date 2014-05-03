@@ -112,21 +112,10 @@ exports.getOwners = function(req, res) {
 exports.create = function (req, res) {
     console.log("Create DVD in nodejs");
     console.log(req.user.username);
-    var owner = req.body.owner.owner;
-    console.log(req.body.dvd.genres);
+//    var owner = req.body.owner.owner;
 
     // We create the DVD model.
-    var newDvd = new Dvd({
-        title: req.body.dvd.title,
-        moviePoster: req.body.dvd.moviePoster,
-        genres: req.body.dvd.genres,
-        releaseDate: req.body.dvd.releaseDate,
-        overview: req.body.dvd.overview,
-        productionCompanies: req.body.dvd.productionCompanies,
-        director: req.body.dvd.director,
-        actors: req.body.dvd.actors,     // actorsArray
-        movieFormat: req.body.dvd.movieFormat
-    });
+    var newDvd = new Dvd(req.body.dvd);
 
     // Find the current login user, else we create it
     Owner.findOne({ "userName": req.user.username }, function (err, owner) {
@@ -284,7 +273,7 @@ exports.edit = function (req, res) {
             "dvd.$.overview": dvdToEdit.overview, "dvd.$.productionCompanies": dvdToEdit.productionCompanies,
             "dvd.$.director": dvdToEdit.director, "dvd.$.actors": dvdToEdit.actors,
             "dvd.$.rate": dvdToEdit.rate, "dvd.$.comments": dvdToEdit.comments,
-            "dvd.$.movieFormat": dvdToEdit.movieFormat} },
+            "dvd.$.movieFormat": dvdToEdit.movieFormat, "dvd.$.location": dvdToEdit.location} },
         function (err, numberAffected) {
             if (err) {
                 console.log("Error during updating the DVD");

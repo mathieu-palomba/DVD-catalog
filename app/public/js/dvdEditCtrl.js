@@ -91,9 +91,6 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
 
                     // In the case if user change the title
                     $scope.dvd.oldTitle = $scope.dvd.title;
-
-                    // We set the previous rate order
-                    $scope.rate = $scope.dvd.rate;
                 }
                 else
                 {
@@ -107,7 +104,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
          * Redirection into the DVD details html page (oldTitle because the film was not updated).
          */
         $scope.cancelEditDvd = function () {
-            $location.url('/dvd/' + $scope.dvd.oldTitle);
+            $location.url('/dvd/' + $scope.dvd._id);
         };
 
         // TODO genre
@@ -158,9 +155,6 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         $scope.performUpdate = function () {
             console.log('Update DVD');
 
-            // We get the current rate
-            $scope.dvd.rate = $scope.rate;
-
             // If the title has changed, we rename the movie poster file and movie poster path
             if($scope.dvd.oldTitle != $scope.dvd.title) {
                 // We compute the string to hash (title + date to build unique key)
@@ -187,12 +181,12 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
 
                     if($routeParams.userName) {
                         // We redirect into the DVD details administration view ( title because the film was updated)
-                        $location.url('/dvd/' + $scope.owner.userName + '/' + $scope.dvd.title);
+                        $location.url('/dvd/' + $scope.owner.userName + '/' + $scope.dvd._id);
                     }
 
                     else {
                         // We redirect into the DVD details view ( title because the film was updated)
-                        $location.url('/dvd/' + $scope.dvd.title);
+                        $location.url('/dvd/' + $scope.dvd._id);
                     }
                 }
                 else {

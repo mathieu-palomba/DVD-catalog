@@ -7,8 +7,9 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'DvdFormatsConstant', 'IdGenerator', 'MultiField', 'Array',
-    function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array) {
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'DvdFormatsConstant',
+                                            'IdGenerator', 'MultiField', 'Array', 'Rating',
+    function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Add controller');
 
         // The MovieDB request to get movie information.
@@ -46,7 +47,8 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
             productionCompanies: '',
             director: '',
             actors: [ {name: '', character: ''} ],
-            movieFormat: $scope.movieFormats.dvd
+            movieFormat: $scope.movieFormats.dvd,
+            location: ''
         };
 
         // Initialize the dynamic popover when the user search a movie not recorder in the movieDB.
@@ -98,6 +100,14 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                 console.log($scope.owner);
             }
         });
+
+        // Rating handle
+        $scope.max = Rating.max;
+        $scope.isReadonly = Rating.readWrite;
+        $scope.hoveringOver = function (value) {
+            Rating.hoveringOver($scope, value);
+        };
+
 
         /**
          * Redirection into the index html page.
