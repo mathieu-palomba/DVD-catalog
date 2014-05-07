@@ -55,6 +55,10 @@ var borrowerSchema = mongoose.Schema({
     address: {
         type: String,
         default: ''
+    },
+    phoneNumber: {
+        type: Number,
+        default: 0000000000
     }
 });
 

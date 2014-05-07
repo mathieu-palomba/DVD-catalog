@@ -16,7 +16,7 @@ dvdCatServices.constant('GenresConstant', {
     documentary: 'Documentaire',
     drama: 'Drame',
     erotic: 'Erotique',
-    family: 'Famille',
+    family: 'Familial',
     fantastic: 'Fantastique',
     martialArts: 'Arts Martiaux',
     horror: 'Horreur',

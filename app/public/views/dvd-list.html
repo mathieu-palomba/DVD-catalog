@@ -2,7 +2,7 @@
     <div class="row-fluid">
 
         <!--Sidebar content-->
-        <div class="span2">
+        <div class="span3">
             <div class="informations-header">
                 <p class="text-info">Nombre total de DVD : {{dvdList.length}}</p>
                 <button type="button" ng-click="addDvd()" class="btn btn-primary">Ajouter un film</button>
@@ -19,7 +19,7 @@
                     <!--</div>-->
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-search"></i></span>
-                        <input type="text" ng-model="query" class="span12" placeholder="Filtre">
+                        <input type="text" ng-model="query" class="span12" placeholder="Film, Artiste, ...">
                     </div>
 
                 </li>
@@ -27,7 +27,7 @@
             <!--<div>Rechercher : <input type="text" ng-model="query"></div>-->
 
             <ul class="inline">
-                <accordion>
+                <accordion close-others="false">
                     <accordion-group is-open="isopen">
                         <!--Header-->
                         <accordion-heading>
@@ -48,12 +48,18 @@
                             </select>
                         </li>
                         <li>
-                            Genres :
+                            Formats :
                             <div>
                                 <select ng-model="currentMovieFormat" ng-change="setMovieFormat(currentMovieFormat)">
                                     <option>{{showAll}}</option>
                                     <option ng-repeat="movieFormat in movieFormats">{{movieFormat}}</option>
                                 </select>
+                                <!--<input type="checkbox" ng-model="dvdGenres.Action"> Action-->
+                                <!--<input type="checkbox" ng-model="dvdGenres.Horreur"> Horreur-->
+                                <span ng-repeat="(key, value) in dvdGenres" class="input-group-addon">
+                                    <input type="checkbox" ng-model="dvdGenres[key]">{{key}}</option>
+                                </span>
+
                             </div>
                         </li>
 
@@ -70,10 +76,10 @@
         </div>
 
         <!--Body content-->
-        <div class="span9 offset1">
+        <div class="span9">
             <ul class="dvd-list">
                 <accordion close-others="oneAtATime">
-                    <li ng-repeat="dvd in dvdList | filter:query | filter:movieFormatFilter  | orderBy:orderProp" class="dvd-listing">
+                    <li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:currentMovieFormat:movieFormats:showAll | dvdGenresFilter:dvdGenres | orderBy:orderProp" class="dvd-listing">
                         <accordion-group is-open="true">
                             <!--Header-->
                             <accordion-heading>
@@ -137,7 +143,7 @@
                         </accordion-group>
                     </li>
                 </accordion>
-                <button ng-click="JSONToCSVConvertor()">Generate File</button>
+                <!--<button ng-click="JSONToCSVConvertor()">Generate File</button>-->
             </ul>
         </div>
     </div>

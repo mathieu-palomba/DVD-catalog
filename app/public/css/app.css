@@ -63,6 +63,8 @@ footer, .push {
     margin: 0.5em 1em 0em 0em;
     /*height: 380px;*/
     /*width: 260px;*/
+    height: 80%;
+    width: 90%;
 }
 
 .thumb {

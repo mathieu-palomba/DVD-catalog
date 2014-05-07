@@ -56,15 +56,51 @@ dvdCatFilter.filter('dateFormat', function() {
  * This filter permit to filter the movies with the movie format attribute.
  */
 dvdCatFilter.filter('movieFormatFilter', function() {
-    return function (data, currentMovieFormat, movieFormats) {
+    return function (data, currentMovieFormat, movieFormats, showAll) {
         console.log('plop');
         console.log(data);
-        if (data.movieFormat === currentMovieFormat) {
-            return true;
-        } else if (currentMovieFormat === movieFormats.showAll) {
-            return true;
-        } else {
-            return false;
-        }
+        var result = data.slice(0); // copy array
+
+        angular.forEach(movieFormats, function(value, key) {
+            for(var index = 0; index < result.length; index++) {
+                console.log('for')
+                var dvd = result[index];
+
+                if (dvd.movieFormat != currentMovieFormat && currentMovieFormat != showAll) {
+                    console.log('Delete')
+                    console.log(result[index])
+                    result.splice(index--, 1);
+                }
+            }
+        });
+
+        return result;
+    };
+});
+
+dvdCatFilter.filter('dvdGenresFilter', function() {
+    return function(items, dvdGenres) {
+        console.log('Dvd genres filter');
+        var result = items.slice(0); // copy array
+
+        angular.forEach(dvdGenres, function(value, key) {
+            if(value) {
+                for(var index = 0; index < result.length; index++) {
+                    var dvd = result[index];
+                    var isGenreMatch = false;
+                    var genre = key;
+
+                    angular.forEach(dvd.genres, function(value, key) {
+                        isGenreMatch = isGenreMatch | dvd.genres[key].name == genre;
+                    });
+
+                    if(!isGenreMatch) {
+                        result.splice(index--, 1);
+                    }
+                }
+            }
+        });
+
+        return result;
     };
 });
