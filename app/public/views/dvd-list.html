@@ -54,18 +54,39 @@
                                     <option>{{showAll}}</option>
                                     <option ng-repeat="movieFormat in movieFormats">{{movieFormat}}</option>
                                 </select>
-                                <!--<input type="checkbox" ng-model="dvdGenres.Action"> Action-->
-                                <!--<input type="checkbox" ng-model="dvdGenres.Horreur"> Horreur-->
-                                <span ng-repeat="(key, value) in dvdGenres" class="input-group-addon">
-                                    <input type="checkbox" ng-model="dvdGenres[key]">{{key}}</option>
-                                </span>
-
                             </div>
+                        </li>
+                        <li>
+                            Genres :
+                            <!--<div>-->
+                                <!--&lt;!&ndash;<input type="checkbox" ng-model="dvdGenres.Action"> Action&ndash;&gt;-->
+                                <!--&lt;!&ndash;<input type="checkbox" ng-model="dvdGenres.Horreur"> Horreur&ndash;&gt;-->
+                                <!--<span ng-repeat="(key, value) in dvdGenres" class="input-group-addon">-->
+                                    <!--<input type="checkbox" ng-model="dvdGenres[key]">{{key}}</option>-->
+                                <!--</span>-->
+                            <!--</div>-->
+
+
+                            <!--<div class="btn-group">-->
+                                <!--&lt;!&ndash;<button class="btn">Action</button>&ndash;&gt;-->
+                                <!--<button class="btn dropdown-toggle" data-toggle="dropdown">-->
+                                    <!--<span class="caret"></span>-->
+                                <!--</button>-->
+                                <!--<ul class="dropdown-menu">-->
+                                    <!--&lt;!&ndash; dropdown menu links &ndash;&gt;-->
+                                    <!--<li ng-repeat="(key, value) in dvdGenres">-->
+                                        <!--<span>-->
+                                    <!--<input type="checkbox" ng-model="dvdGenres[key]">{{key}}</option>-->
+                                            <!--</span>-->
+                                    <!--</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
                         </li>
 
                     </accordion-group>
                 </accordion>
             </ul>
+            <dropdown-multiselect pre-selected="movie.genres" model="selectedItems" options="dvdGenres"></dropdown-multiselect>
             <!--<div>Trier par :-->
                 <!--<select ng-model="orderProp">-->
                     <!--<option value="title">Alphabetique</option>-->
@@ -79,7 +100,7 @@
         <div class="span9">
             <ul class="dvd-list">
                 <accordion close-others="oneAtATime">
-                    <li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:currentMovieFormat:movieFormats:showAll | dvdGenresFilter:dvdGenres | orderBy:orderProp" class="dvd-listing">
+                    <li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:currentMovieFormat:movieFormats:showAll | dvdGenresFilter:dvdGenres:selectedItems | orderBy:orderProp" class="dvd-listing">
                         <accordion-group is-open="true">
                             <!--Header-->
                             <accordion-heading>

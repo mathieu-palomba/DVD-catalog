@@ -11,6 +11,7 @@ var dvdCatApp = angular.module('dvdCatApp', [
     'userAccountControllers',
     'userAdministrationControllers',
     'dvdCatFilter',
+    'dvdCatDirectives',
     'dvdCatServices',
     'dvdCatAnimations'
 ]);

@@ -79,19 +79,24 @@ dvdCatFilter.filter('movieFormatFilter', function() {
 });
 
 dvdCatFilter.filter('dvdGenresFilter', function() {
-    return function(items, dvdGenres) {
+    return function(items, dvdGenres, selectedItems) {
         console.log('Dvd genres filter');
+        console.log(dvdGenres)
         var result = items.slice(0); // copy array
 
-        angular.forEach(dvdGenres, function(value, key) {
-            if(value) {
+        angular.forEach(selectedItems, function(value, key) {
+            console.log('For each')
+            console.log(value)
+            var genre = dvdGenres[value];
+            console.log(genre)
+            if(genre.assignable) {
                 for(var index = 0; index < result.length; index++) {
                     var dvd = result[index];
                     var isGenreMatch = false;
-                    var genre = key;
 
                     angular.forEach(dvd.genres, function(value, key) {
-                        isGenreMatch = isGenreMatch | dvd.genres[key].name == genre;
+                        console.log('2nd for each')
+                        isGenreMatch = isGenreMatch | dvd.genres[key].name == genre.name;
                     });
 
                     if(!isGenreMatch) {

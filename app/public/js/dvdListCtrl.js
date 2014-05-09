@@ -37,6 +37,8 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
             $scope.currentMovieFormat = movieFormat;
         };
 
+        $scope.selectedItems = [];
+
 //        // Custom filter - filter based on the movie format
 //        $scope.movieFormatFilter = function (data) {
 //            if (data.movieFormat === $scope.currentMovieFormat) {
@@ -50,12 +52,19 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
 
         // Handle Dvd genres filter
         $scope.dvdGenresTmp = GenresConstant;
-        $scope.dvdGenres = {};
+        $scope.dvdGenres = [];
+        $scope.movie = {dvdGenres: []};
+        var counter = 0;
 
         // We replace the french value (old value) by boolean value to use it in the checkbox filter
         angular.forEach($scope.dvdGenresTmp, function(value, key){
-            $scope.dvdGenres[value] = false;
-            console.log($scope.dvdGenres)
+            var newGenre = {};
+            newGenre.id = counter++;
+            newGenre.name = value;
+            newGenre.assignable = false;
+
+            // We push the new genre in the list
+            $scope.dvdGenres.push(newGenre);
         });
 
         // If the DVD list it's call with the administration route, we get the owner in relation
