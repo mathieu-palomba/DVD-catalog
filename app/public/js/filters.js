@@ -56,20 +56,54 @@ dvdCatFilter.filter('dateFormat', function() {
  * This filter permit to filter the movies with the movie format attribute.
  */
 dvdCatFilter.filter('movieFormatFilter', function() {
-    return function (data, currentMovieFormat, movieFormats, showAll) {
-        console.log('plop');
-        console.log(data);
-        var result = data.slice(0); // copy array
+    return function (items, dvdFormats) {
+//        console.log('plop');
+//        console.log(data);
+//        var result = data.slice(0); // copy array
+//
+//        angular.forEach(movieFormats, function(value, key) {
+//            for(var index = 0; index < result.length; index++) {
+//                console.log('for')
+//                var dvd = result[index];
+//
+//                if (dvd.movieFormat != currentMovieFormat && currentMovieFormat != showAll) {
+//                    console.log('Delete')
+//                    console.log(result[index])
+//                    result.splice(index--, 1);
+//                }
+//            }
+//        });
+//
+//        return result;
+        console.log('Dvd formats filter');
+        var result = items.slice(0); // copy array
+        console.log('dvdFormats')
+        console.log(dvdFormats);
+        console.log('items')
+        console.log(items);
 
-        angular.forEach(movieFormats, function(value, key) {
-            for(var index = 0; index < result.length; index++) {
-                console.log('for')
-                var dvd = result[index];
+        angular.forEach(dvdFormats, function(value, key) {
+            console.log('Format')
+            console.log(format)
+            var format = value;
 
-                if (dvd.movieFormat != currentMovieFormat && currentMovieFormat != showAll) {
-                    console.log('Delete')
-                    console.log(result[index])
-                    result.splice(index--, 1);
+            if(format.assignable) {
+                for(var index = 0; index < result.length; index++) {
+                    var dvd = result[index];
+                    var isFormatMatch = false;
+                    console.log('dvd')
+                    console.log(dvd)
+                    console.log('movie format')
+                    console.log(dvd.movieFormat)
+
+//                    angular.forEach(dvd.movieFormat, function(value, key) {
+//                        isFormatMatch = isFormatMatch | dvd.movieFormat[key].name == format.name;
+//                    });
+                    isFormatMatch = isFormatMatch | dvd.movieFormat == format.name;
+
+                    if(!isFormatMatch) {
+                        result.splice(index--, 1);
+                    }
                 }
             }
         });
@@ -79,23 +113,30 @@ dvdCatFilter.filter('movieFormatFilter', function() {
 });
 
 dvdCatFilter.filter('dvdGenresFilter', function() {
-    return function(items, dvdGenres, selectedItems) {
+    return function(items, dvdGenres) {
         console.log('Dvd genres filter');
-        console.log(dvdGenres)
         var result = items.slice(0); // copy array
+        console.log('items')
+        console.log(items)
+        console.log('selected dvd genres')
+        console.log('dvd genres');
+        console.log(dvdGenres)
 
-        angular.forEach(selectedItems, function(value, key) {
-            console.log('For each')
+        angular.forEach(dvdGenres, function(value, key) {
+            console.log('value - key')
             console.log(value)
-            var genre = dvdGenres[value];
+            console.log(key)
+            var genre = value;
+            console.log('genre')
             console.log(genre)
             if(genre.assignable) {
                 for(var index = 0; index < result.length; index++) {
                     var dvd = result[index];
                     var isGenreMatch = false;
+                    console.log('dvd genre')
+                    console.log(dvd.genres[key])
 
                     angular.forEach(dvd.genres, function(value, key) {
-                        console.log('2nd for each')
                         isGenreMatch = isGenreMatch | dvd.genres[key].name == genre.name;
                     });
 

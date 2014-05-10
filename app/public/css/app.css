@@ -46,14 +46,13 @@ footer, .push {
 
 .dvd-list {
     list-style: none;
-    height: 100%;
 }
 
 .dvd-list li {
     float: left;
     clear: both;
     height: 100%;
-    width: 70%;
+    width: 90%;
     /*padding-top: 20px;*/
     /*margin-bottom: 20px;*/
 }
@@ -63,7 +62,7 @@ footer, .push {
     margin: 0.5em 1em 0em 0em;
     /*height: 380px;*/
     /*width: 260px;*/
-    height: 80%;
+    height: 100%;
     width: 90%;
 }
 
@@ -76,6 +75,10 @@ footer, .push {
 .delete-button {
     float: right;
     /*margin-top: -30px;*/
+}
+
+.accordion-body.in:hover {
+    overflow:visible;
 }
 
 /** Detail View **/
