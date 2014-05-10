@@ -30,8 +30,6 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
         // Movie format handle
         $scope.movieFormats = DvdFormatsConstant;
         $scope.dvdFormats = [];
-        $scope.showAll = "--- Tous ---";
-//        $scope.currentMovieFormat = $scope.showAll;
         $scope.selectedDvdFormats = [];
         var counter = 0;
 
@@ -44,11 +42,6 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
             // We push the new genre in the list
             $scope.dvdFormats.push(newFormat);
         });
-
-        // Set a new selection
-//        $scope.setMovieFormat = function(movieFormat) {
-//            $scope.currentMovieFormat = movieFormat;
-//        };
 
         // Handle Dvd genres filter
         $scope.dvdGenres = [];

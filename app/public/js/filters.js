@@ -112,34 +112,30 @@ dvdCatFilter.filter('movieFormatFilter', function() {
     };
 });
 
+
+/**
+ * This filter permit to filter the movies with the movie genres attribute.
+ */
 dvdCatFilter.filter('dvdGenresFilter', function() {
     return function(items, dvdGenres) {
-        console.log('Dvd genres filter');
         var result = items.slice(0); // copy array
-        console.log('items')
-        console.log(items)
-        console.log('selected dvd genres')
-        console.log('dvd genres');
-        console.log(dvdGenres)
 
+        // For each genres in the dropdowns menu, we check if the checkbox it's enabled
         angular.forEach(dvdGenres, function(value, key) {
-            console.log('value - key')
-            console.log(value)
-            console.log(key)
             var genre = value;
-            console.log('genre')
-            console.log(genre)
+
+            // If the checkbox it's enabled, we look over the dvd list
             if(genre.assignable) {
                 for(var index = 0; index < result.length; index++) {
                     var dvd = result[index];
                     var isGenreMatch = false;
-                    console.log('dvd genre')
-                    console.log(dvd.genres[key])
 
+                    // We search if the dvd contains the genre filter
                     angular.forEach(dvd.genres, function(value, key) {
                         isGenreMatch = isGenreMatch | dvd.genres[key].name == genre.name;
                     });
 
+                    // If the filter isn't in the dvd genres, we delete the dvd from the display list
                     if(!isGenreMatch) {
                         result.splice(index--, 1);
                     }
