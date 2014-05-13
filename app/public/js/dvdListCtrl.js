@@ -58,7 +58,6 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
             // We push the new genre in the list
             $scope.dvdGenres.push(newGenre);
         });
-        console.log($scope.dvdGenres)
 
         // If the DVD list it's call with the administration route, we get the owner in relation
         if($routeParams.userName) {

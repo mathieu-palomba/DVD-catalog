@@ -68,19 +68,16 @@ app.listen(config.port, function() {
 
 // Vérifier si le titre du film existe avant de l'enregister dans la vue edit-dvd
 // Faire fichies de conf pour la langue et les constantes
-// Vérifier enregistrement DVD manuelement (pour le movie poster)
 // Pouvoir éditer un utilisateur (mail, username, password...)
 // Gestion collection de DVD (combien par categories...)
 // Faire zone register
 // Rajouter option choix couleur de body dans la section compte
 // Pour utiliser le champ rechercher uniquement sur des acteurs, titre ou producteurs
 // Rajouter option 'Dvd preter'
-// Rajouter option 'emplacement Dvd'
-// Rajouter ranking dans la vue 'add-dvd'
 // Rajouter image acteurs
 // Rajouter fonction collapse pour éviter de tout afficher dans la vue 'dvd-list'
-// Change date String en date pour le model de DVD
 // Refactoring date filter dans userAccount
+// Avoir une couleur différente pour les combobox de filtrage lorsqu'un filtre est activé
 
 
 
@@ -97,3 +94,7 @@ app.listen(config.port, function() {
 // Rajouter date de sortie du film à coté du nom du film dans les autres choix de recherche de la vue 'add-dvd'
 // Séparer role de l'acteur de son nom (pour faire recherche google)
 // Corriger bug plusieurs films avec le même nom dans la vue 'add-dvd', rechercher par ID et pas par nom
+// Change date String en date pour le model de DVD
+// Rajouter ranking dans la vue 'add-dvd'
+// Rajouter option 'emplacement Dvd'
+// Vérifier enregistrement DVD manuelement (pour le movie poster)

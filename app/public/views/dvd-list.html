@@ -37,6 +37,12 @@
 
                         <!--Content-->
                         <li>
+                            <span class="label label-info">
+                                {{(dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp).length}} films filtrés
+                            </span>
+                        </li>
+                        </br>
+                        <li>
                             Trier par :
                         </li>
                         <li>
@@ -46,6 +52,10 @@
                                 <!-- Reverse the sort order by adding a - symbol before the sorting value -->
                                 <option value="-rate">Préférence</option>
                             </select>
+                        </li>
+                        </br>
+                        <li>
+                            Filtres disponibles :
                         </li>
                         <li>
                             <dropdown-multiselect label="Formats" model="selectedDvdFormats" options="dvdFormats"></dropdown-multiselect>
@@ -61,7 +71,8 @@
         <div class="span9">
             <ul class="dvd-list">
                 <accordion close-others="oneAtATime">
-                    <li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp" class="dvd-listing">
+                    <li ng-repeat="dvd in filteredDvdList = (dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp)" class="dvd-listing">
+                    <!--<li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp" class="dvd-listing">-->
                         <accordion-group is-open="true">
                             <!--Header-->
                             <accordion-heading>

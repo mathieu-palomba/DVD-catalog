@@ -57,56 +57,40 @@ dvdCatFilter.filter('dateFormat', function() {
  */
 dvdCatFilter.filter('movieFormatFilter', function() {
     return function (items, dvdFormats) {
-//        console.log('plop');
-//        console.log(data);
-//        var result = data.slice(0); // copy array
-//
-//        angular.forEach(movieFormats, function(value, key) {
-//            for(var index = 0; index < result.length; index++) {
-//                console.log('for')
-//                var dvd = result[index];
-//
-//                if (dvd.movieFormat != currentMovieFormat && currentMovieFormat != showAll) {
-//                    console.log('Delete')
-//                    console.log(result[index])
-//                    result.splice(index--, 1);
-//                }
-//            }
-//        });
-//
-//        return result;
-        console.log('Dvd formats filter');
-        var result = items.slice(0); // copy array
-        console.log('dvdFormats')
-        console.log(dvdFormats);
-        console.log('items')
-        console.log(items);
+//        console.log('Dvd formats filter')
+        var result = [];
 
-        angular.forEach(dvdFormats, function(value, key) {
-            console.log('Format')
-            console.log(format)
-            var format = value;
+        if (items != undefined) {
+            console.log(items)
+            var result = items.slice(0); // copy array
+    //        console.log('dvdFormats')
+    //        console.log(dvdFormats)
+    //        console.log('items')
+    //        console.log(items)
 
-            if(format.assignable) {
-                for(var index = 0; index < result.length; index++) {
-                    var dvd = result[index];
-                    var isFormatMatch = false;
-                    console.log('dvd')
-                    console.log(dvd)
-                    console.log('movie format')
-                    console.log(dvd.movieFormat)
+            angular.forEach(dvdFormats, function(value, key) {
+    //            console.log('Format')
+    //            console.log(format)
+                var format = value;
 
-//                    angular.forEach(dvd.movieFormat, function(value, key) {
-//                        isFormatMatch = isFormatMatch | dvd.movieFormat[key].name == format.name;
-//                    });
-                    isFormatMatch = isFormatMatch | dvd.movieFormat == format.name;
+                if(format.assignable) {
+                    for(var index = 0; index < result.length; index++) {
+                        var dvd = result[index];
+                        var isFormatMatch = false;
+    //                    console.log('dvd')
+    //                    console.log(dvd)
+    //                    console.log('movie format')
+    //                    console.log(dvd.movieFormat)
 
-                    if(!isFormatMatch) {
-                        result.splice(index--, 1);
+                        isFormatMatch = isFormatMatch | dvd.movieFormat == format.name;
+
+                        if(!isFormatMatch) {
+                            result.splice(index--, 1);
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
 
         return result;
     };
