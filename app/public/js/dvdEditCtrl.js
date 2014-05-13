@@ -19,12 +19,6 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         };
 
         // Initialize Date picker
-        // Disable weekend selection
-        $scope.disabled = function(date, mode) {
-            console.log("Date disable");
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-        };
-
         $scope.open = function($event) {
             console.log("Date open");
             $event.preventDefault();

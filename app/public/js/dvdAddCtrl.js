@@ -12,7 +12,15 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
     function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Add controller');
 
-
+        // The MovieDB request to get movie information.
+        $scope.requests = {
+            movieDBKey: '37c2294ca3753bd14d165eda4b3f9314',
+            movieImagesPath: 'https://api.themoviedb.org/3/movie/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleID: 'https://api.themoviedb.org/3/search/person?api_key=VAR_API_KEY&query=VAR_QUERY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleDetails: 'https://api.themoviedb.org/3/person/VAR_QUERY?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            peopleImagesPath: 'https://api.themoviedb.org/3/person/VAR_QUERY/images?api_key=VAR_API_KEY&language=VAR_LANGUAGE&callback=JSON_CALLBACK',
+            images: 'http://image.tmdb.org/t/p/w500VAR_QUERY'
+        };
 
         // The default movie poster.
         $scope.imagesFolder = 'img/';
@@ -63,12 +71,6 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
         $scope.dynamicSavePopoverTrigger = 'focus';     // Primary it's "click"
 
         // Initialize Date picker
-        // Disable weekend selection
-        $scope.disabled = function(date, mode) {
-            console.log("Date disable");
-            return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-        };
-
         $scope.open = function($event) {
             console.log("Date open");
             $event.preventDefault();
