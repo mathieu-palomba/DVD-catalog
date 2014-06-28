@@ -90,11 +90,32 @@ dvdCatFilter.filter('movieFormatFilter', function() {
                     }
                 }
             });
-        }
 
-        return result;
-    };
-});
+            return result;
+        }
+}});
+
+//            for (var index = 0; index < result.length; index++) {
+//                var dvd = result[index];
+//                var isFormatMatch = false;
+//
+//                angular.forEach(dvdFormats, function (value, key) {
+//                    var format = value;
+//
+//                    if (format.assignable) {
+//                        isFormatMatch = isFormatMatch | dvd.movieFormat == format.name;
+//                    }
+//                });
+//
+//                if (!isFormatMatch) {
+//                    result.splice(index--, 1);
+//                }
+//            }
+//        }
+//
+//        return result;
+//    };
+//});
 
 
 /**

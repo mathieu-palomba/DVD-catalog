@@ -77,6 +77,11 @@ footer, .push {
     /*margin-top: -30px;*/
 }
 
+.collapse-expand-all-button {
+    float: right;
+    /*margin-top: -30px;*/
+}
+
 .accordion-body.in:hover {
     overflow:visible;
 }

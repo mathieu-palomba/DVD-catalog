@@ -13,6 +13,10 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
 
         // Accordion handle
         $scope.oneAtATime = false;
+        $scope.status = {
+            isFirstFilterOpen : false,
+            openDvd: true
+        };
 
         // Order prop handle
         // This value must have the same name in the html view to set the default filter
@@ -27,7 +31,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
         $scope.max = Rating.max;
         $scope.isReadonly = Rating.readOnly;
 
-        // Movie format handle
+        // Handle movie format filter
         $scope.movieFormats = DvdFormatsConstant;
         $scope.dvdFormats = [];
         $scope.selectedDvdFormats = [];
@@ -37,7 +41,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
             var newFormat = {};
             newFormat.id = counter++;
             newFormat.name = value;
-            newFormat.assignable = false;
+            newFormat.assignable = true;
 
             // We push the new genre in the list
             $scope.dvdFormats.push(newFormat);

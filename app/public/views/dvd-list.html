@@ -7,6 +7,7 @@
                 <p class="text-info">Nombre total de DVD : {{dvdList.length}}</p>
                 <button type="button" ng-click="addDvd()" class="btn btn-primary">Ajouter un film</button>
             </div>
+            {{isOpen}}
 
             <ul class="inline">
                 <li>
@@ -28,7 +29,7 @@
 
             <ul class="inline">
                 <accordion close-others="false">
-                    <accordion-group is-open="isopen">
+                    <accordion-group is-open="status.isFirstFilterOpen">
                         <!--Header-->
                         <accordion-heading>
                             Filtres :
@@ -38,7 +39,7 @@
                         <!--Content-->
                         <li>
                             <span class="label label-info">
-                                {{(dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp).length}} films filtrés
+                                {{(dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp).length}} films trouvés
                             </span>
                         </li>
                         </br>
@@ -70,10 +71,11 @@
         <!--Body content-->
         <div class="span9">
             <ul class="dvd-list">
+                <button type="button" ng-click="status.openDvd = !status.openDvd" class="btn btn-info collapse-expand-all-button">{{status.openDvd ? 'Réduire tout' : 'Afficher tout'}}</button>
                 <accordion close-others="oneAtATime">
                     <li ng-repeat="dvd in filteredDvdList = (dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp)" class="dvd-listing">
                     <!--<li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp" class="dvd-listing">-->
-                        <accordion-group is-open="true">
+                        <accordion-group is-open="status.openDvd">
                             <!--Header-->
                             <accordion-heading>
                                 {{dvd.title}}
