@@ -29,17 +29,17 @@
 
             <ul class="inline">
                 <accordion close-others="false">
-                    <accordion-group is-open="status.isFirstFilterOpen">
+                    <accordion-group is-open="isFirstFilterOpen">
                         <!--Header-->
                         <accordion-heading>
                             Filtres :
-                            <i class="pull-right glyphicon" ng-class="{'icon-chevron-down': isopen, 'icon-chevron-right': !isopen}"></i>
+                            <i class="pull-right glyphicon" ng-class="{'icon-chevron-down': isFirstFilterOpen, 'icon-chevron-right': !isFirstFilterOpen}"></i>
                         </accordion-heading>
 
                         <!--Content-->
                         <li>
                             <span class="label label-info">
-                                {{(dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp).length}} films trouvés
+                            {{(dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp).length}} films trouvés
                             </span>
                         </li>
                         </br>
@@ -71,15 +71,18 @@
         <!--Body content-->
         <div class="span9">
             <ul class="dvd-list">
-                <button type="button" ng-click="status.openDvd = !status.openDvd" class="btn btn-info collapse-expand-all-button">{{status.openDvd ? 'Réduire tout' : 'Afficher tout'}}</button>
+                <button type="button" ng-click="collapseExpandAll()" class="btn btn-info collapse-expand-all-button">{{dvdOpenStatus ? 'Réduire tout' : 'Afficher tout'}}
+                    <i class="glyphicon icon-white" ng-class="{'icon-minus': dvdOpenStatus, 'icon-plus': !dvdOpenStatus}"></i>
+                </button>
+
                 <accordion close-others="oneAtATime">
                     <li ng-repeat="dvd in filteredDvdList = (dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp)" class="dvd-listing">
                     <!--<li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp" class="dvd-listing">-->
-                        <accordion-group is-open="status.openDvd">
+                        <accordion-group is-open="status.openDvd{{$index}}">
                             <!--Header-->
                             <accordion-heading>
                                 {{dvd.title}}
-                                <i class="pull-right glyphicon" ng-class="{'icon-chevron-down': isopen, 'icon-chevron-right': !isopen}"></i>
+                                <i class="pull-right glyphicon" ng-class="{'icon-chevron-down': status.openDvd{{$index}}, 'icon-chevron-right': !status.openDvd{{$index}}}"></i>
                             </accordion-heading>
 
                             <!--Content-->

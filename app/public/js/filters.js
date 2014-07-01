@@ -60,62 +60,46 @@ dvdCatFilter.filter('movieFormatFilter', function() {
 //        console.log('Dvd formats filter')
         var result = [];
 
-        if (items != undefined) {
-            console.log(items)
-            var result = items.slice(0); // copy array
-    //        console.log('dvdFormats')
-    //        console.log(dvdFormats)
-    //        console.log('items')
-    //        console.log(items)
+        // Try catch to avoid error like 'interpolation error'
+        try {
+            if (items != undefined) {
+    //            console.log(items)
+                var result = items.slice(0); // copy array
+        //        console.log('dvdFormats')
+        //        console.log(dvdFormats)
+        //        console.log('items')
+        //        console.log(items)
 
-            angular.forEach(dvdFormats, function(value, key) {
-    //            console.log('Format')
-    //            console.log(format)
-                var format = value;
+                angular.forEach(dvdFormats, function(value, key) {
+        //            console.log('Format')
+        //            console.log(format)
+                    var format = value;
 
-                if(format.assignable) {
-                    for(var index = 0; index < result.length; index++) {
-                        var dvd = result[index];
-                        var isFormatMatch = false;
-    //                    console.log('dvd')
-    //                    console.log(dvd)
-    //                    console.log('movie format')
-    //                    console.log(dvd.movieFormat)
+                    if(format.assignable) {
+                        for(var index = 0; index < result.length; index++) {
+                            var dvd = result[index];
+                            var isFormatMatch = false;
+        //                    console.log('dvd')
+        //                    console.log(dvd)
+        //                    console.log('movie format')
+        //                    console.log(dvd.movieFormat)
 
-                        isFormatMatch = isFormatMatch | dvd.movieFormat == format.name;
+                            isFormatMatch = isFormatMatch | dvd.movieFormat == format.name;
 
-                        if(!isFormatMatch) {
-                            result.splice(index--, 1);
+                            if(!isFormatMatch) {
+                                result.splice(index--, 1);
+                            }
                         }
                     }
-                }
-            });
+                });
 
+                return result;
+            }
+        }
+        catch (e) {
             return result;
         }
 }});
-
-//            for (var index = 0; index < result.length; index++) {
-//                var dvd = result[index];
-//                var isFormatMatch = false;
-//
-//                angular.forEach(dvdFormats, function (value, key) {
-//                    var format = value;
-//
-//                    if (format.assignable) {
-//                        isFormatMatch = isFormatMatch | dvd.movieFormat == format.name;
-//                    }
-//                });
-//
-//                if (!isFormatMatch) {
-//                    result.splice(index--, 1);
-//                }
-//            }
-//        }
-//
-//        return result;
-//    };
-//});
 
 
 /**

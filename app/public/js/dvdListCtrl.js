@@ -13,9 +13,16 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
 
         // Accordion handle
         $scope.oneAtATime = false;
-        $scope.status = {
-            isFirstFilterOpen : false,
-            openDvd: true
+        $scope.isFirstFilterOpen = false
+        $scope.dvdOpenStatus = false
+        $scope.status = {}
+
+
+        $scope.collapseExpandAll = function() {
+            $scope.dvdOpenStatus = !$scope.dvdOpenStatus
+            for(itemKey in $scope.status){
+                $scope.status[itemKey] = $scope.dvdOpenStatus
+            }
         };
 
         // Order prop handle
@@ -95,7 +102,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
             {
                 if( $scope.dvdList.success ) {
                     console.log('DVD got successfully');
-                    console.log($scope.dvdList.dvdList[0].dvd);
+//                    console.log($scope.dvdList.dvdList[0].dvd);
 
                     // We get the DVD list in relation with this owner
                     $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
