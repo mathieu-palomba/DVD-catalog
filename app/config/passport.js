@@ -46,9 +46,7 @@ module.exports = function( passport )
                 {
                     console.log("Utilisateur inconnu");
 
-                    return done( null, false, {
-                        message: 'Unknown user'
-                    } );
+                    return done( null, false, { message: 'Utilisateur inconnu' } );
                 }
 
                 // bcrypt usage

@@ -3,6 +3,7 @@
  */
 var passport = require('passport'),
     mongoose = require('mongoose'),
+    flash = require('express-flash'),
     User = mongoose.model('User'); // The model we defined in the previous example
 
 var AuthController = {
@@ -195,6 +196,48 @@ var AuthController = {
 //
 //            res.redirect('/* Your success redirection path */');
 //        });
+    },
+
+    /**
+     * Change a user password.
+     * @param req : The request
+     * @param res : The response
+     */
+    updateUser: function(req, res)
+    {
+        console.log('Password changed to ')
+        console.log(req.body.password)
+
+        User.findOne({ email: req.body.oldEmail }, function(err, user) {
+            if (!user) {
+                console.log('User does not exist with this email')
+                res.jsonp({"success": false, "status": 'User does not found with this email'});
+            }
+
+            if (req.body.username !== "") {
+                user.username = req.body.username;
+            }
+
+            if (req.body.newEmail !== "") {
+                user.email = req.body.newEmail;
+            }
+
+            if (req.body.newPassword != undefined) {
+                console.log("password not null")
+                user.password = req.body.newPassword;
+            }
+
+            user.save(function(err) {
+                if (err) {
+                    console.log("Error during updating the user");
+                    res.jsonp({"success": false, "status": "Le nom d'utilisateur ou l'adresse email existe déjà pour un autre utilisateur"});
+                }
+                else {
+                    console.log("User updated");
+                    res.jsonp({"success": true});
+                }
+            });
+        });
     },
 
     /**

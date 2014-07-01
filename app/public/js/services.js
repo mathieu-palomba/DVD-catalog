@@ -170,7 +170,8 @@ dvdCatServices.factory('User', ['$resource',
             UserAccount: $resource('', {}, {
                 getCurrentUser: {method: 'GET', url: '/user/currentUser'},
                 getCurrentOwner: {method: 'GET', url: '/owner'},
-                getOwner: {method: 'GET', url: '/owner/:userName'}
+                getOwner: {method: 'GET', url: '/owner/:userName'},
+                updateUser: {method: 'POST', url: '/updateUser'}
             }),
             Administration: $resource('', {}, {
                 getOwners: {method: 'GET', url: '/owners'},
@@ -193,6 +194,18 @@ dvdCatServices.factory('MovieDB', ['$resource',
                 request: {method: 'JSONP'}
             }),
             GetMovieCast: $resource('https://api.themoviedb.org/3/movie/:queryVar/credits?api_key=:apiKeyVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
+                request: {method: 'JSONP'}
+            }),
+            GetMovieImagesPath: $resource('https://api.themoviedb.org/3/movie/:queryVar/images?api_key=:apiKeyVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
+                request: {method: 'JSONP'}
+            }),
+            GetPeopleID: $resource('https://api.themoviedb.org/3/search/person?api_key=:apiKeyVar&query=:queryVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
+                request: {method: 'JSONP'}
+            }),
+            GetPeopleDetails: $resource('https://api.themoviedb.org/3/person/:queryVar?api_key=:apiKeyVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
+                request: {method: 'JSONP'}
+            }),
+            GetPeopleImagesPath: $resource('https://api.themoviedb.org/3/person/:queryVar/images?api_key=:apiKeyVar&language=:languageVar&callback=JSON_CALLBACK', {}, {
                 request: {method: 'JSONP'}
             })
         }

@@ -6,6 +6,9 @@
             <div class="informations-header">
                 <p class="text-info">Nombre total de DVD : {{dvdList.length}}</p>
                 <button type="button" ng-click="addDvd()" class="btn btn-primary">Ajouter un film</button>
+                <button type="button" ng-click="collapseExpandAll()" class="btn btn-info">{{dvdOpenStatus ? 'Réduire tout' : 'Ouvrir tout'}}
+                    <i class="glyphicon icon-white" ng-class="{'icon-minus': dvdOpenStatus, 'icon-plus': !dvdOpenStatus}"></i>
+                </button>
             </div>
             {{isOpen}}
 
@@ -71,10 +74,6 @@
         <!--Body content-->
         <div class="span9">
             <ul class="dvd-list">
-                <button type="button" ng-click="collapseExpandAll()" class="btn btn-info collapse-expand-all-button">{{dvdOpenStatus ? 'Réduire tout' : 'Afficher tout'}}
-                    <i class="glyphicon icon-white" ng-class="{'icon-minus': dvdOpenStatus, 'icon-plus': !dvdOpenStatus}"></i>
-                </button>
-
                 <accordion close-others="oneAtATime">
                     <li ng-repeat="dvd in filteredDvdList = (dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp)" class="dvd-listing">
                     <!--<li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp" class="dvd-listing">-->

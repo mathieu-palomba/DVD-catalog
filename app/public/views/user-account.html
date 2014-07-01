@@ -1,24 +1,70 @@
 <div class="container-fluid">
     <div class="row-fluid">
+        <!--Default case-->
+        <div ng-if="status.value == status.default"></div>
+        <!--Updated user case-->
+        <div ng-if="status.value == status.updated">
+            <div class="alert alert-success">{{status.value}}</div>
+        </div>
+        <!--Error case-->
+        <div ng-if="status.value != status.default && status.value != status.updated">
+            <div class="alert alert-danger">{{status.value}}</div>
+        </div>
+
         <h1>Compte de {{user.username}}</h1>
-        <dl class="dl-horizontal">
-            <dt>Nom d'utilisateur :</dt>
-            <dd>{{user.username}}</dd>
-        </dl>
 
-        <dl class="dl-horizontal">
-            <dt>Email :</dt>
-            <dd>{{user.email}}</dd>
-        </dl>
+        <form name="userForm" class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">Administrateur</label>
+                <div class="controls">
+                    <label class="center-label">{{user.isAdmin ? 'Oui' : 'Non'}}</label>
+                </div>
+            </div>
 
-        <dl class="dl-horizontal">
-            <dt>Admin :</dt>
-            <dd>{{user.isAdmin ? 'Oui' : 'Non'}}</dd>
-        </dl>
+            <div class="control-group">
+                <label class="control-label">Date de création</label>
+                <div class="controls">
+                    <label class="center-label">{{user.created | date:'dd-MMMM-yyyy HH:MM:ss'}}</label>
+                </div>
+            </div>
 
-        <dl class="dl-horizontal">
-            <dt>Date de création :</dt>
-            <dd>{{user.created | date:'dd-MMMM-yyyy HH:MM:ss'}}</dd>
-        </dl>
+            <div class="control-group">
+                <label class="control-label" for="inputUserName">Nom d'utilisateur</label>
+                <div class="controls">
+                    <input type="text" id="inputUserName" placeholder="Nom d'utilisateur" ng-model="user.username">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="inputEmail">Email</label>
+                <div class="controls">
+                    <input type="email" id="inputEmail" placeholder="Email" ng-model="newEmail">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="inputPassword">Mot de passe</label>
+                <div class="controls">
+                    <input type="password" id="inputPassword" placeholder="Password" ng-model="newPassword">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="controls">
+                    <input type="submit" name="submit" value="Mise à jour" ng-click="login(user.username, newEmail, newPassword)" class="btn btn-primary" />
+                </div>
+            </div>
+
+        </form>
+
+        <!--<dl class="dl-horizontal">-->
+            <!--<dt>Nom d'utilisateur :</dt>-->
+            <!--<dd>{{user.username}}</dd>-->
+        <!--</dl>-->
+
+        <!--<dl class="dl-horizontal">-->
+            <!--<dt>Email :</dt>-->
+            <!--<dd>{{user.email}}</dd>-->
+        <!--</dl>-->
     </div>
 </div>

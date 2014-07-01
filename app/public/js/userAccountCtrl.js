@@ -7,13 +7,20 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
 /**
  * User Account controllers.
  */
-userAccountControllers.controller('UserAccountCtrl', ['$scope', 'User',
-    function ($scope, User) {
+userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', 'User',
+    function ($scope, $location, User) {
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
 //                console.log($scope.user);
                 $scope.user = $scope.user.user;
+                $scope.newPassword = undefined
+                $scope.newEmail = $scope.user.email
+                $scope.status = {
+                    default: undefined,
+                    updated: "Compte mis à jour",
+                    value: undefined
+                }
 
                 // We format the created date
 //                var date = $scope.user.created;
@@ -29,5 +36,27 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', 'User',
 //                $scope.user.created = d.toLocaleString();
             }
         });
+
+        $scope.login = function(userName, newEmail, newPassword) {
+            // We ask user confirmation
+            bootbox.confirm('Voulez-vous vraiment mettre à jour votre profil utilisateur?', function(result) {
+                // OK clicked
+                if(result) {
+                    // We update the user account
+                    var userUpdated = User.UserAccount.updateUser({'username': userName, 'oldEmail': $scope.user.email, 'newEmail': newEmail, 'newPassword': newPassword}, function () {
+                        // If the user is successfully updated, we redirect to the dvd list view
+                        if(userUpdated.success) {
+                            console.log('User successfully updated');
+                            $scope.status.value = $scope.status.updated
+//                    $location.url('/dvd-list');
+                        }
+
+                        else {
+                            $scope.status.value = userUpdated.status
+                        }
+                    });
+                }
+            });
+        };
     }
 ]);

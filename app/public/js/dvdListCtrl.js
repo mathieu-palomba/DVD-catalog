@@ -97,7 +97,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
                 }
             });
 
-            // We get the DVD list (NOT NECESSARY because we have the owner, but it's a seconf method)
+            // We get the DVD list (NOT NECESSARY because we have the owner, but it's a second method)
             $scope.dvdList = Dvd.DvdList.getAllDvd(function()
             {
                 if( $scope.dvdList.success ) {

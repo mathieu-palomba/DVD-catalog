@@ -9,6 +9,7 @@ module.exports = function (app) {
     app.post('/user/register', user.register);
     app.get('/user/currentUser', user.ensureAuthenticated, user.currentUser);
     app.get('/user/users', user.ensureAdmin, user.getUsers);
+    app.post('/updateUser', user.ensureAuthenticated, user.updateUser);
 
     // Home route
     var portal = require('../app/controllers/portal');

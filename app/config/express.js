@@ -3,7 +3,7 @@
  */
 var express = require('express'),       // Routes module
     mongoStore = require('connect-mongo')(express),
-    flash = require('connect-flash'),   // Error message module
+    flash = require('express-flash'),   // Error message module
     path = require('path');             // To compute directory path
 
 module.exports = function( app, passport, db )
