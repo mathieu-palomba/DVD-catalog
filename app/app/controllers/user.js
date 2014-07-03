@@ -38,7 +38,7 @@ var AuthController = {
 
             // User isn't authenticated
             if (!user) {
-                req.session.messages =  [info.message];
+                req.session.messages = [info.message];
                 return res.redirect('/login');
             }
 
@@ -141,6 +141,17 @@ var AuthController = {
     },
 
     /**
+     * The sign up view.
+     * @param req : The request
+     * @param res : The response
+     */
+    signUp: function (req, res) {
+        console.log('Sing Up');
+
+        res.render('sign-up');
+    },
+
+    /**
      * Log out a user.
      * @param req : The request
      * @param res : The response
@@ -197,15 +208,44 @@ var AuthController = {
     register: function(req, res){
         console.log('Create user');
 
-//        User.create({name: req.body.name, email: req.body.email, password: req.body.password}, function(err){
-//            if (err) {
-//                console.log(err);
-//                res.redirect('/* Your error redirection path */');
-//                return;
-//            }
-//
-//            res.redirect('/* Your success redirection path */');
-//        });
+        var password = req.body.password
+        var passwordRepeat = req.body.passwordRepeat
+
+        // If the user enter the same password, we create the new user account
+        if (password == passwordRepeat) {
+            var user = new User( req.body );
+
+            user.save( function( err )
+            {
+                if( err )
+                {
+                    return res.render( 'sign-up', {
+                        message: "Le nom d'utilisateur ou l'adresse email existe déjà pour un autre utilisateur",
+                        user: user
+                    } );
+                }
+
+                console.log('User created')
+                req.logIn( user, function( err )
+                {
+                    if( err )
+                    {
+                        return next( err );
+                    }
+                    return res.redirect( '/dvd' );
+                } );
+            } );
+        }
+
+        // Error during the password verification
+        else {
+            console.log('Password error during the nex user creation')
+
+            res.render( 'sign-up', {
+                message: "Le mot de passe ne correspond pas à la confirmation"
+            } );
+        }
+
     },
 
     /**
@@ -215,13 +255,12 @@ var AuthController = {
      */
     updateUser: function(req, res)
     {
-        console.log('Password changed to ')
-        console.log(req.body.password)
+        console.log('Password changed')
 
-        User.findOne({ email: req.body.oldEmail }, function(err, user) {
+        User.findOne({ _id: req.body.userID }, function(err, user) {
             if (!user) {
                 console.log('User does not exist with this email')
-                res.jsonp({"success": false, "status": 'User does not found with this email'});
+                res.jsonp({"success": false, "status": 'User does not found'});
             }
 
             if (req.body.username !== "") {

@@ -43,7 +43,7 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', 'Us
                 // OK clicked
                 if(result) {
                     // We update the user account
-                    var userUpdated = User.UserAccount.updateUser({'username': userName, 'oldEmail': $scope.user.email, 'newEmail': newEmail, 'newPassword': newPassword}, function () {
+                    var userUpdated = User.UserAccount.updateUser({'username': userName, 'userID': $scope.user._id, 'newEmail': newEmail, 'newPassword': newPassword}, function () {
                         // If the user is successfully updated, we redirect to the dvd list view
                         if(userUpdated.success) {
                             console.log('User successfully updated');

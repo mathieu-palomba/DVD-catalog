@@ -3,6 +3,8 @@ module.exports = function (app) {
     var user = require('../app/controllers/user');
     app.get('/', user.signIn);
     app.post('/login', user.login);
+    app.get('/signUp', user.signUp);
+    app.post('/register', user.register);
     app.get('/user/logout', user.ensureAuthenticated, user.logout);
     app.get('/login', user.loginFailure);
     app.get('/login/success', user.loginSuccess);

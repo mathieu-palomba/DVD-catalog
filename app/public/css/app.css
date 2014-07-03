@@ -35,10 +35,6 @@ footer, .push {
     height: 60px; /* '.push' must be the same height as 'footer' */
 }
 
-.my-navbar {
-    margin-top: -18px;
-}
-
 .center-label {
     text-align: left;
     padding-top: 5px;

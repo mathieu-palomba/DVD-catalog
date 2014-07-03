@@ -2,13 +2,13 @@
 <html>
 <head>
     <!--------------------
-    LOGIN FORM
+    SIGN UP FORM
     by: Amit Jakhu
     www.amitjakhu.com
     Modified by: Palomba Mathieu
     --------------------->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
-    <title>DVD catalog - SignIn</title>
+    <title>DVD catalog - SignUp</title>
 
     <!-- CSS -->
     <!-- Bootstrap CSS -->
@@ -18,7 +18,7 @@
 
     <!-- Our CSS -->
     <link rel="stylesheet" href="css/common.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/sign-up.css">
 
     <!-- Libraries -->
     <!-- jQuery is used for JavaScript animations (include this before angular.js) -->
@@ -32,6 +32,13 @@
             });
             $(".username").blur(function() {
                 $(".user-icon").css("left","0px");
+            });
+
+            $(".email").focus(function() {
+                $(".email-icon").css("left","-48px");
+            });
+            $(".email").blur(function() {
+                $(".email-icon").css("left","0px");
             });
 
             $(".password").focus(function() {
@@ -71,37 +78,44 @@
 <div id="wrapper">
     <!--SLIDE-IN ICONS-->
     <div class="user-icon"></div>
+    <div class="email-icon"></div>
     <div class="pass-icon"></div>
     <!--END SLIDE-IN ICONS-->
 
-    <!--LOGIN FORM-->
-    <form name="login-form" action="/login" method="post" class="login-form">
+    <!--SIGN UP FORM-->
+    <form name="signUp-form" action="/register" method="post" class="signUp-form">
 
         <!--HEADER-->
         <div class="header">
-            <!--TITLE--><h1 class="text-center">Formulaire de connexion</h1><!--END TITLE-->
+            <!--TITLE--><h1 class="text-center">Formulaire d'enregistrement</h1><!--END TITLE-->
         </div>
         <!--END HEADER-->
 
         <!--CONTENT-->
         <div class="content">
-            <!--USERNAME--><input name="username" type="text" onfocus="this.value=''" placeholder="Nom d'utilisateur" class="input username" required autofocus/><!--END USERNAME-->
-            <!--PASSWORD--><input name="password" type="password" onfocus="this.value=''" placeholder="Mot de passe" class="input password" required/><!--END PASSWORD-->
+            <!--USERNAME-->
+            <input name="username" type="text" onfocus="this.value=''" placeholder="Nom d'utilisateur" class="input username" required autofocus/>
+            <!--END USERNAME-->
+            <!--EMAIL-->
+            <input name="email" type="email" onfocus="this.value=''" placeholder="Email" class="input email" required autofocus/>
+            <!--END EMAIL-->
+            <!--PASSWORD-->
+            <input name="password" type="password" onfocus="this.value=''" placeholder="Mot de passe" class="input password" required/>
+            <input name="passwordRepeat" type="password" onfocus="this.value=''" placeholder="Confirmez votre mot de passe" class="input password" required/>
+            <!--END PASSWORD-->
         </div>
         <!--END CONTENT-->
 
         <!--FOOTER-->
         <div class="footer">
             <!--LOGIN BUTTON-->
-            <input type="submit" name="submit" value="Connexion" class="button" />
+            <input type="submit" name="submit" value="S'enregistrer" class="button" />
             <!--END LOGIN BUTTON-->
             <!--REGISTER BUTTON-->
             <!--<input type="submit" name="submit" value="Register" class="register" />-->
-            <a href="/signUp" class="register">Register</a>
             <!--END REGISTER BUTTON-->
             <!--FORGOT BUTTON-->
             <!--<input type="submit" name="submit" value="Forgot password" class="forgot" />-->
-            <!--<a href="/forgotPassword" class="forgot">Register</a>-->
             <!--END FORGOT BUTTON-->
         </div>
         <!--END FOOTER-->
