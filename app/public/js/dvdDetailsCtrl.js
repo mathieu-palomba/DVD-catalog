@@ -34,7 +34,7 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
             $scope.owner = User.UserAccount.getCurrentOwner(function() {
                 if($scope.owner.success) {
                     console.log('From DVD list');
-                    console.log($scope.owner.owner);
+//                    console.log($scope.owner.owner);
                     $scope.owner = $scope.owner.owner;
 
                     // We call the getDvd function to have the DVD details
@@ -50,7 +50,7 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
                 if( $scope.dvdSearch.success )
                 {
                     console.log('DVD got successfully');
-                    console.log($scope.dvdSearch.dvd.dvd[0]);
+//                    console.log($scope.dvdSearch.dvd.dvd[0]);
                     $scope.dvd = $scope.dvdSearch.dvd.dvd[0];
                 }
                 else

@@ -6,10 +6,13 @@ var dvdListControllers = angular.module('dvdListControllers', ['ngRoute', 'ui.bo
 /**
  * DVD List controllers.
  */
-dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '$routeParams', 'Dvd', 'User', 'Rating',
+dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '$routeParams', '$window', 'Dvd', 'User', 'Rating',
                                               'GenresConstant', 'DvdFormatsConstant',
-    function ($scope, $location, $route, $routeParams, Dvd, User, Rating, GenresConstant, DvdFormatsConstant) {
+    function ($scope, $location, $route, $routeParams, $window, Dvd, User, Rating, GenresConstant, DvdFormatsConstant) {
         console.log('Dvd List controller');
+
+        // Scroll of the top of the window per default
+        $window.scrollTo(0, 0)
 
         // Accordion handle
         $scope.oneAtATime = false;

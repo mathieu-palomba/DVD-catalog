@@ -64,7 +64,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
             $scope.owner = User.UserAccount.getCurrentOwner(function() {
                 if($scope.owner.success) {
                     console.log('From DVD details');
-                    console.log($scope.owner.owner);
+//                    console.log($scope.owner.owner);
                     $scope.owner = $scope.owner.owner;
 
                     // We call the getDvd function to have the DVD details

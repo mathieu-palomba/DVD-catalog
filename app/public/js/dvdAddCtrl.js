@@ -12,6 +12,12 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
     function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Add controller');
 
+        // The MovieDB request to get movie information.
+        $scope.requests = {
+            movieDBKey: '37c2294ca3753bd14d165eda4b3f9314',
+            images: 'http://image.tmdb.org/t/p/w500VAR_QUERY'
+        };
+
         // The default movie poster.
         $scope.imagesFolder = 'img/';
         $scope.defaultMoviePoster = $scope.imagesFolder + 'unknown.jpg';
@@ -81,7 +87,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
         // We get the current owner
         $scope.owner = User.UserAccount.getCurrentOwner(function() {
             if($scope.owner.success) {
-                console.log($scope.owner);
+//                console.log($scope.owner);
             }
         });
 
@@ -220,7 +226,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                     // This callback will be called asynchronously when the response is available
                     if(dvdID.results.length > 0) {
                         console.log('Movie ID got from internet');
-                        console.log(dvdID);
+//                        console.log(dvdID);
 
                         // We set the popover message and the class button OK
                         $scope.dvd.searchError = false;
@@ -259,7 +265,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                 function success() {
                     // This callback will be called asynchronously when the response is available
                     console.log('Movie details got from internet');
-                    console.log(dvdDetails);
+//                    console.log(dvdDetails);
 
                     // Set the movie poster url and the movie title.
                     $scope.dvd.title = dvdDetails.title;
@@ -315,7 +321,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                 function success() {
                     // This callback will be called asynchronously when the response is available
                     console.log('Movie cast got from internet');
-                    console.log(dvdCast);
+//                    console.log(dvdCast);
 
                     // We fill out the movies form
                     if(dvdCast.crew.length > 0) {

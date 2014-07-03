@@ -98,7 +98,17 @@ var AuthController = {
 //                console.log('User created');
 //            }
 //        });
-//        User.create({'username': 'sylvain', 'email': 'sylvain@sylvain.fr', 'password': '12345'}, function(err){
+//        User.create({'username': 'sylvain', 'email': 'sylvain@sylvain.fr', 'password': '12345', 'isAdmin': true}, function(err){
+//            if (err) {
+//                console.log(err);
+//                return;
+//            }
+//
+//            else {
+//                console.log('User created');
+//            }
+//        });
+//        User.create({'username': 'famille_fabre', 'email': 'fabre@fabre.fr', 'password': '12345'}, function(err){
 //            if (err) {
 //                console.log(err);
 //                return;

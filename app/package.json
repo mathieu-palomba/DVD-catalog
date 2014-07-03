@@ -14,6 +14,7 @@
 		"passport": "*",
 		"passport-local": "*",
 		"connect-flash": "*",
+		"express-flash": "*",
         "bcrypt-nodejs": "*",
 		"underscore": "*",
 		"multiparty": "*"
