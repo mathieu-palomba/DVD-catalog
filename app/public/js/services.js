@@ -171,11 +171,15 @@ dvdCatServices.factory('User', ['$resource',
                 getCurrentUser: {method: 'GET', url: '/user/currentUser'},
                 getCurrentOwner: {method: 'GET', url: '/owner'},
                 getOwner: {method: 'GET', url: '/owner/:userName'},
-                updateUser: {method: 'POST', url: '/updateUser'}
+                deleteCurrentOwner: {method: 'POST', url: '/owner/deleteCurrentOwner'},
+                deleteCurrentUser: {method: 'POST', url: '/deleteCurrentUser'},
+                logout: {method: 'GET', url: '/user/logout'}
             }),
             Administration: $resource('', {}, {
                 getOwners: {method: 'GET', url: '/owners'},
-                getUsers: {method: 'GET', url: '/user/users'}
+                getUsers: {method: 'GET', url: '/user/users'},
+                deleteOwner: {method: 'POST', url: '/owner/deleteOwner'},
+                deleteUser: {method: 'POST', url: '/deleteUser'}
             })
         }
     }]

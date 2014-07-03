@@ -7,8 +7,8 @@ var userAdministrationControllers = angular.module('userAdministrationController
 /**
  * User Administration controllers.
  */
-userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', 'User',
-    function ($scope, User) {
+userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$route', 'User',
+    function ($scope, $route, User) {
         // We get the all of the owners
         $scope.owners = User.Administration.getOwners(function() {
             if($scope.owners.success) {
@@ -16,6 +16,7 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', 'U
                 $scope.owners = $scope.owners.owners;
 //                console.log($scope.owners);
 
+                // TODO TO improve for perfo
                 // We get all of the user to add the isAdmin properties to all of the owners
                 $scope.users = User.Administration.getUsers(function() {
                     if($scope.users.success) {
@@ -35,6 +36,7 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', 'U
                                 // We get the isAdmin properties when the user name equal the owner name
                                 if(userName == ownerName) {
                                     owner.isAdmin = user.isAdmin;
+                                    owner.userID = user._id
                                 }
                             }
                         }
@@ -42,5 +44,38 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', 'U
                 });
             }
         });
+
+        $scope.deleteAccount = function(owner) {
+            console.log('Delete account ' + owner.userName)
+
+            // We ask user confirmation
+            bootbox.confirm('Voulez-vous vraiment supprimer le compte utilisateur de ' + owner.userName + ' ?', function(result) {
+                // OK clicked
+                if(result) {
+                    if (owner.isAdmin) {
+                        // Nothing to do
+                    }
+
+                    else {
+                        var status = User.Administration.deleteOwner({'ownerID': owner._id}, function () {
+                            // If the owner has been correctly deleted
+                            if(status.success) {
+                                console.log('Owner successfully deleted');
+                                $route.reload();
+                            }
+                        });
+
+
+                        var status = User.Administration.deleteUser({'userID': owner.userID}, function () {
+                            // If the user has been correctly deleted
+                            if(status.success) {
+                                console.log('User successfully deleted');
+                                $route.reload();
+                            }
+                        });
+                    }
+                }
+            });
+        };
     }
 ]);

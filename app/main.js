@@ -76,7 +76,9 @@ app.listen(config.port, function() {
 // Rajouter image acteurs
 // Refactoring date filter dans userAccount
 // Avoir une couleur différente pour les combobox de filtrage lorsqu'un filtre est activé
-// Rajouter option pour supprimer compte
+// Rajouter option pour supprimer compte depuis la vue administrateur/ et depuis le compte utilisateur
+// Pouvoir modifier compte d'un utilisateur depuis la zone administrateur
+// Mettre un compteur de mots de passe érronés
 
 
 

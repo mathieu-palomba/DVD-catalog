@@ -12,6 +12,8 @@ module.exports = function (app) {
     app.get('/user/currentUser', user.ensureAuthenticated, user.currentUser);
     app.get('/user/users', user.ensureAdmin, user.getUsers);
     app.post('/updateUser', user.ensureAuthenticated, user.updateUser);
+    app.post('/deleteCurrentUser', user.ensureAuthenticated, user.deleteCurrentUser);
+    app.post('/deleteUser', user.ensureAdmin, user.deleteUser);
 
     // Home route
     var portal = require('../app/controllers/portal');
@@ -31,5 +33,6 @@ module.exports = function (app) {
     app.get('/owner/:userName', user.ensureAuthenticated, dvd.getOwner);
     app.get('/owners', user.ensureAdmin, dvd.getOwners);
     app.post('/upload', user.ensureAuthenticated, dvd.uploadImage);
-
+    app.post('/owner/deleteCurrentOwner', user.ensureAuthenticated, dvd.deleteCurrenteOwner);
+    app.post('/owner/deleteOwner', user.ensureAdmin, dvd.deleteOwner);
 };

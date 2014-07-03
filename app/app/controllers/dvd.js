@@ -477,6 +477,64 @@ exports.isDvdExist = function (req, res) {
 };
 
 /**
+ * Delete an owner in the database.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.deleteOwner = function (req, res) {
+    console.log("Delete owner in database");
+    var ownerID = req.body.ownerID;
+
+    // Find the owner to remove
+    Owner.remove({ "_id": ownerID }, function (err) {
+        if (err) {
+            res.jsonp({"success": false});
+        }
+
+        else {
+            console.log('Owner successfully deleted')
+            res.jsonp({"success": true});
+        }
+    });
+};
+
+/**
+ * Delete the current logged owner in the database.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.deleteCurrenteOwner = function (req, res) {
+    console.log("Delete current owner in database");
+
+    // Find the owner to remove
+    Owner.findOne({ "userName": req.user.username }, function (err, owner) {
+        if (err) {
+            return handleError(err);
+        }
+
+        else {
+            if(owner) {
+                console.log('Owner found');
+
+                owner.remove(function (err) {
+                    if (err) {
+                        return handleError(err);
+                    }
+
+                    console.log('Current owner deleted')
+                    res.jsonp({"success": true});
+                });
+            }
+
+            else {
+                console.log('Owner not found');
+                res.jsonp({"success": false});
+            }
+        }
+    });
+};
+
+/**
  * Download the "uri" pictures at the "filename" path.
  * @param req : The request
  * @param res : The response

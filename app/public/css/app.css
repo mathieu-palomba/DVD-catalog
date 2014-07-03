@@ -151,3 +151,8 @@ h1 {
     cursor: inherit;
     display: block;
 }
+
+/** Administration view **/
+.delete-account-btn {
+    float: right;
+}

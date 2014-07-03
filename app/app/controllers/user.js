@@ -4,6 +4,7 @@
 var passport = require('passport'),
     mongoose = require('mongoose'),
     flash = require('express-flash'),
+    Owner = mongoose.model('Owner'); // The model we defined in the previous example
     User = mongoose.model('User'); // The model we defined in the previous example
 
 var AuthController = {
@@ -162,6 +163,9 @@ var AuthController = {
         req.logout();
         res.end();
         res.redirect('/');
+        res.send(401);
+
+        console.log('logout OK')
     },
 
     /**
@@ -189,7 +193,6 @@ var AuthController = {
      */
     ensureAdmin: function ensureAdmin(req, res, next) {
         console.log('Ensure admin');
-        console.log(req.user);
 
         // If the user it's an admin, we call the next method
         if(req.user && req.user.isAdmin === true) {
@@ -217,6 +220,8 @@ var AuthController = {
 
             user.save( function( err )
             {
+                console.log('User created')
+
                 if( err )
                 {
                     return res.render( 'sign-up', {
@@ -225,7 +230,23 @@ var AuthController = {
                     } );
                 }
 
-                console.log('User created')
+                // We create a new owner
+                var owner = new Owner({
+                    userName: user.username,
+                    dvd: []
+                });
+
+                // We save the new owner
+                owner.save(function (err) {
+                    if (err) {
+                        console.log("Error during recording Owner");
+                    }
+                    else {
+                        console.log("Owner recorded");
+                    }
+                });
+
+                // We redirect to the portal view
                 req.logIn( user, function( err )
                 {
                     if( err )
@@ -288,6 +309,50 @@ var AuthController = {
             });
         });
     },
+
+    /**
+     * Delete the given user.
+     * @param req : The request
+     * @param res : The response
+     */
+    deleteUser: function( req, res )
+    {
+        console.log('Delete user in the database')
+        var userID = req.body.userID
+
+        // Find the owner to remove
+        User.remove({ "_id": userID }, function (err) {
+            if (err) {
+                res.jsonp({"success": false});
+            }
+
+            else {
+                console.log('User successfully deleted')
+                res.jsonp({"success": true});
+            }
+        });
+    },
+
+    /**
+     * Delete the current logged user.
+     * @param req : The request
+     * @param res : The response
+     */
+    deleteCurrentUser: function( req, res )
+    {
+        console.log('Delete current user in the database')
+
+        // Find the owner to remove
+        req.user.remove(function (err) {
+            if (err) {
+                return handleError(err);
+            }
+
+            console.log('Current user deleted')
+            res.jsonp({"success": true});
+        });
+    },
+
 
     /**
      * Get the current user.

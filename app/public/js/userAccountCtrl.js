@@ -7,8 +7,8 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
 /**
  * User Account controllers.
  */
-userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', 'User',
-    function ($scope, $location, User) {
+userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$window', 'User',
+    function ($scope, $location, $window, User) {
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
@@ -21,6 +21,13 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', 'Us
                     updated: "Compte mis à jour",
                     value: undefined
                 }
+
+                $scope.owner = User.UserAccount.getOwner({'userName': $scope.user.username}, function() {
+                    if($scope.owner.success) {
+                        // We get the owner in relation with the url parameter
+                        $scope.owner = $scope.owner.owner;
+                    }
+                });
 
                 // We format the created date
 //                var date = $scope.user.created;
@@ -46,14 +53,45 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', 'Us
                     var userUpdated = User.UserAccount.updateUser({'username': userName, 'userID': $scope.user._id, 'newEmail': newEmail, 'newPassword': newPassword}, function () {
                         // If the user is successfully updated, we redirect to the dvd list view
                         if(userUpdated.success) {
-                            console.log('User successfully updated');
+                            console.log('User successfully updated')
                             $scope.status.value = $scope.status.updated
-//                    $location.url('/dvd-list');
+//                          $location.url('/dvd-list');
                         }
 
                         else {
                             $scope.status.value = userUpdated.status
                         }
+                    });
+                }
+            });
+        };
+
+        $scope.deleteAccount = function(user) {
+            console.log('Delete current account')
+            // We ask user confirmation
+            bootbox.confirm('Voulez-vous vraiment supprimer votre compte utilisateur ?', function(result) {
+                // OK clicked
+                if(result) {
+                    var status = User.UserAccount.deleteCurrentOwner({'ownerID': $scope.owner._id}, function () {
+                        // If the owner has been correctly deleted
+                        if(status.success) {
+                            console.log('Owner successfully deleted');
+                        }
+                    });
+
+
+                    var status = User.UserAccount.deleteCurrentUser({'userID': user._id}, function () {
+                        // If the user has been correctly deleted
+                        if(status.success) {
+                            console.log('User successfully deleted');
+                        }
+                    });
+
+                    User.UserAccount.logout(function () {
+                        // Logout
+                        console.log('User successfully logout');
+                        $window.location.href = "/"
+                        $window.location.reload();
                     });
                 }
             });
