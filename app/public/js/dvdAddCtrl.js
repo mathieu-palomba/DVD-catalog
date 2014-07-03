@@ -12,12 +12,6 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
     function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Add controller');
 
-        // The MovieDB request to get movie information.
-        $scope.requests = {
-            movieDBKey: '37c2294ca3753bd14d165eda4b3f9314',
-            images: 'http://image.tmdb.org/t/p/w500VAR_QUERY'
-        };
-
         // The default movie poster.
         $scope.imagesFolder = 'img/';
         $scope.defaultMoviePoster = $scope.imagesFolder + 'unknown.jpg';
