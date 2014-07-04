@@ -7,15 +7,16 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
 /**
  * User Account controllers.
  */
-userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$window', 'User',
-    function ($scope, $location, $window, User) {
+userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', 'User',
+    function ($scope, $location, $route, $window, User) {
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
 //                console.log($scope.user);
                 $scope.user = $scope.user.user;
-                $scope.newPassword = undefined
+                $scope.newUserName = $scope.user.username
                 $scope.newEmail = $scope.user.email
+                $scope.newPassword = undefined
                 $scope.status = {
                     default: undefined,
                     updated: "Compte mis à jour",
@@ -49,17 +50,30 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$w
             bootbox.confirm('Voulez-vous vraiment mettre à jour votre profil utilisateur?', function(result) {
                 // OK clicked
                 if(result) {
-                    // We update the user account
-                    var userUpdated = User.UserAccount.updateUser({'username': userName, 'userID': $scope.user._id, 'newEmail': newEmail, 'newPassword': newPassword}, function () {
+
+                    // We update the owner account
+                    var ownerUpdated = User.UserAccount.updateCurrentOwner({'userName': userName}, function () {
                         // If the user is successfully updated, we redirect to the dvd list view
-                        if(userUpdated.success) {
-                            console.log('User successfully updated')
-                            $scope.status.value = $scope.status.updated
-//                          $location.url('/dvd-list');
+                        if(ownerUpdated.success) {
+                            console.log('Owner successfully updated')
+
+                            // We update the user account
+                            var userUpdated = User.UserAccount.updateCurrentUser({'username': userName, 'newEmail': newEmail, 'newPassword': newPassword}, function () {
+                                // If the user is successfully updated, we redirect to the dvd list view
+                                if(userUpdated.success) {
+                                    console.log('User successfully updated')
+                                    $window.location.reload();
+//                                    $scope.status.value = $scope.status.updated
+                                }
+
+                                else {
+                                    $scope.status.value = userUpdated.status
+                                }
+                            });
                         }
 
                         else {
-                            $scope.status.value = userUpdated.status
+                            $scope.status.value = ownerUpdated.status
                         }
                     });
                 }
@@ -72,26 +86,28 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$w
             bootbox.confirm('Voulez-vous vraiment supprimer votre compte utilisateur ?', function(result) {
                 // OK clicked
                 if(result) {
-                    var status = User.UserAccount.deleteCurrentOwner({'ownerID': $scope.owner._id}, function () {
+                    // Owner delete
+                    var ownerStatus = User.UserAccount.deleteCurrentOwner({'ownerID': $scope.owner._id}, function () {
                         // If the owner has been correctly deleted
-                        if(status.success) {
+                        if(ownerStatus.success) {
                             console.log('Owner successfully deleted');
+
+                            // User delete
+                            var userStatus = User.UserAccount.deleteCurrentUser({'userID': user._id}, function () {
+                                // If the user has been correctly deleted
+                                if(userStatus.success) {
+                                    console.log('User successfully deleted');
+
+                                    // Logout
+                                    User.UserAccount.logout(function () {
+                                        // Logout
+                                        console.log('User successfully logout');
+//                        $window.location.href = "/"
+                                        $window.location.reload();
+                                    });
+                                }
+                            });
                         }
-                    });
-
-
-                    var status = User.UserAccount.deleteCurrentUser({'userID': user._id}, function () {
-                        // If the user has been correctly deleted
-                        if(status.success) {
-                            console.log('User successfully deleted');
-                        }
-                    });
-
-                    User.UserAccount.logout(function () {
-                        // Logout
-                        console.log('User successfully logout');
-                        $window.location.href = "/"
-                        $window.location.reload();
                     });
                 }
             });

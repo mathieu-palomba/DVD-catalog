@@ -57,20 +57,20 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
                     }
 
                     else {
-                        var status = User.Administration.deleteOwner({'ownerID': owner._id}, function () {
+                        // Delete owner
+                        var ownerStatus = User.Administration.deleteOwner({'ownerID': owner._id}, function () {
                             // If the owner has been correctly deleted
-                            if(status.success) {
+                            if(ownerStatus.success) {
                                 console.log('Owner successfully deleted');
-                                $route.reload();
-                            }
-                        });
 
-
-                        var status = User.Administration.deleteUser({'userID': owner.userID}, function () {
-                            // If the user has been correctly deleted
-                            if(status.success) {
-                                console.log('User successfully deleted');
-                                $route.reload();
+                                // Delete user
+                                var userStatus = User.Administration.deleteUser({'userID': owner.userID}, function () {
+                                    // If the user has been correctly deleted
+                                    if(userStatus.success) {
+                                        console.log('User successfully deleted');
+                                        $route.reload();
+                                    }
+                                });
                             }
                         });
                     }

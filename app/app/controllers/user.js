@@ -160,12 +160,16 @@ var AuthController = {
     logout: function(req, res) {
         console.log('Logout');
 
-        req.logout();
-        res.end();
-        res.redirect('/');
-        res.send(401);
+//        req.logout();
+//        res.end();
+//        res.redirect('/');
 
-        console.log('logout OK')
+        req.session.destroy(function () {
+            res.redirect('/');
+            res.end();
+
+            console.log('logout OK')
+        });
     },
 
     /**
@@ -270,29 +274,61 @@ var AuthController = {
     },
 
     /**
-     * Change a user password.
+     * Update the current user.
+     * @param req : The request
+     * @param res : The response
+     */
+    updateCurrentUser: function(req, res)
+    {
+        console.log('Update the current user account')
+
+        if (req.body.username != undefined && req.body.username != "") {
+            req.user.username = req.body.username;
+        }
+
+        if (req.body.newEmail != undefined && req.body.newEmail != "") {
+            req.user.email = req.body.newEmail;
+        }
+
+        if (req.body.newPassword != undefined && req.body.newPassword != "") {
+            req.user.password = req.body.newPassword;
+        }
+
+        req.user.save(function (err) {
+            if (err) {
+                res.jsonp({"success": false, "status": "Le nom d'utilisateur ou l'adresse email existe déjà pour un autre utilisateur"});
+                return handleError(err);
+            }
+
+            console.log('Current user updated')
+            res.jsonp({"success": true});
+        });
+    },
+
+    /**
+     * Update the user account.
      * @param req : The request
      * @param res : The response
      */
     updateUser: function(req, res)
     {
-        console.log('Password changed')
+        console.log('Update a user account')
 
         User.findOne({ _id: req.body.userID }, function(err, user) {
             if (!user) {
-                console.log('User does not exist with this email')
+                console.log('User does not exist with this ID')
                 res.jsonp({"success": false, "status": 'User does not found'});
             }
 
-            if (req.body.username !== "") {
+            if (req.body.username != undefined && req.body.username != "") {
                 user.username = req.body.username;
             }
 
-            if (req.body.newEmail !== "") {
+            if (req.body.newEmail != undefined && req.body.newEmail != "") {
                 user.email = req.body.newEmail;
             }
 
-            if (req.body.newPassword != undefined) {
+            if (req.body.newPassword != undefined && req.body.newPassword != "") {
                 console.log("password not null")
                 user.password = req.body.newPassword;
             }

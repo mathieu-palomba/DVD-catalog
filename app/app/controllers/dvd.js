@@ -477,6 +477,37 @@ exports.isDvdExist = function (req, res) {
 };
 
 /**
+ * Update the current owner in the database.
+ * @param req : The request
+ * @param res : The response
+ */
+exports.updateCurrentOwner = function (req, res) {
+    console.log("Update the current owner in database");
+
+    Owner.findOne({ "userName": req.user.username }, function(err, owner) {
+        if (!owner) {
+            console.log('Owner does not exist with this user name')
+            res.jsonp({"success": false, "status": 'User does not found'});
+        }
+
+        if (req.body.userName != undefined && req.body.userName != "") {
+            owner.userName = req.body.userName;
+        }
+
+        owner.save(function(err) {
+            if (err) {
+                console.log("Error during updating the owner");
+                res.jsonp({"success": false, "status": "Le nom d'utilisateur existe déjà pour un autre utilisateur"});
+            }
+            else {
+                console.log("Current owner updated");
+                res.jsonp({"success": true});
+            }
+        });
+    });
+};
+
+/**
  * Delete an owner in the database.
  * @param req : The request
  * @param res : The response
@@ -503,7 +534,7 @@ exports.deleteOwner = function (req, res) {
  * @param req : The request
  * @param res : The response
  */
-exports.deleteCurrenteOwner = function (req, res) {
+exports.deleteCurrentOwner = function (req, res) {
     console.log("Delete current owner in database");
 
     // Find the owner to remove

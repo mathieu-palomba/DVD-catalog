@@ -107,31 +107,39 @@ dvdCatFilter.filter('movieFormatFilter', function() {
  */
 dvdCatFilter.filter('dvdGenresFilter', function() {
     return function(items, dvdGenres) {
-        var result = items.slice(0); // copy array
+        var result = []
 
-        // For each genres in the dropdowns menu, we check if the checkbox it's enabled
-        angular.forEach(dvdGenres, function(value, key) {
-            var genre = value;
+        // Try catch to avoid error like 'interpolation error'
+        try {
+            var result = items.slice(0); // copy array
 
-            // If the checkbox it's enabled, we look over the dvd list
-            if(genre.assignable) {
-                for(var index = 0; index < result.length; index++) {
-                    var dvd = result[index];
-                    var isGenreMatch = false;
+            // For each genres in the dropdowns menu, we check if the checkbox it's enabled
+            angular.forEach(dvdGenres, function(value, key) {
+                var genre = value;
 
-                    // We search if the dvd contains the genre filter
-                    angular.forEach(dvd.genres, function(value, key) {
-                        isGenreMatch = isGenreMatch | dvd.genres[key].name == genre.name;
-                    });
+                // If the checkbox it's enabled, we look over the dvd list
+                if(genre.assignable) {
+                    for(var index = 0; index < result.length; index++) {
+                        var dvd = result[index];
+                        var isGenreMatch = false;
 
-                    // If the filter isn't in the dvd genres, we delete the dvd from the display list
-                    if(!isGenreMatch) {
-                        result.splice(index--, 1);
+                        // We search if the dvd contains the genre filter
+                        angular.forEach(dvd.genres, function(value, key) {
+                            isGenreMatch = isGenreMatch | dvd.genres[key].name == genre.name;
+                        });
+
+                        // If the filter isn't in the dvd genres, we delete the dvd from the display list
+                        if(!isGenreMatch) {
+                            result.splice(index--, 1);
+                        }
                     }
                 }
-            }
-        });
+            });
 
-        return result;
+            return result;
+        }
+        catch (e) {
+            return result;
+        }
     };
 });

@@ -5,13 +5,13 @@ module.exports = function (app) {
     app.post('/login', user.login);
     app.get('/signUp', user.signUp);
     app.post('/register', user.register);
-    app.get('/user/logout', user.ensureAuthenticated, user.logout);
+    app.get('/user/logout', user.logout);
     app.get('/login', user.loginFailure);
     app.get('/login/success', user.loginSuccess);
     app.post('/user/register', user.register);
     app.get('/user/currentUser', user.ensureAuthenticated, user.currentUser);
     app.get('/user/users', user.ensureAdmin, user.getUsers);
-    app.post('/updateUser', user.ensureAuthenticated, user.updateUser);
+    app.post('/updateCurrentUser', user.ensureAuthenticated, user.updateCurrentUser);
     app.post('/deleteCurrentUser', user.ensureAuthenticated, user.deleteCurrentUser);
     app.post('/deleteUser', user.ensureAdmin, user.deleteUser);
 
@@ -33,6 +33,7 @@ module.exports = function (app) {
     app.get('/owner/:userName', user.ensureAuthenticated, dvd.getOwner);
     app.get('/owners', user.ensureAdmin, dvd.getOwners);
     app.post('/upload', user.ensureAuthenticated, dvd.uploadImage);
-    app.post('/owner/deleteCurrentOwner', user.ensureAuthenticated, dvd.deleteCurrenteOwner);
+    app.post('/updateCurrentOwner', user.ensureAuthenticated, dvd.updateCurrentOwner);
+    app.post('/owner/deleteCurrentOwner', user.ensureAuthenticated, dvd.deleteCurrentOwner);
     app.post('/owner/deleteOwner', user.ensureAdmin, dvd.deleteOwner);
 };

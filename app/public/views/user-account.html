@@ -13,7 +13,7 @@
 
         <h1>Compte de {{user.username}}</h1>
 
-        <form name="userForm" class="form-horizontal">
+        <form name="userForm" ng-submit="login(newUserName, newEmail, newPassword)" class="form-horizontal">
             <div class="control-group">
                 <label class="control-label">Administrateur</label>
                 <div class="controls">
@@ -31,7 +31,7 @@
             <div class="control-group">
                 <label class="control-label" for="inputUserName">Nom d'utilisateur</label>
                 <div class="controls">
-                    <input type="text" id="inputUserName" placeholder="Nom d'utilisateur" ng-model="user.username">
+                    <input type="text" id="inputUserName" placeholder="Nom d'utilisateur" ng-model="newUserName">
                 </div>
             </div>
 
@@ -51,12 +51,12 @@
 
             <div class="control-group">
                 <div class="controls">
-                    <input type="submit" name="submit" value="Mise à jour" ng-click="login(user.username, newEmail, newPassword)" class="btn btn-primary" />
+                    <input type="submit" name="submit" value="Mise à jour" ng-disabled="!(newUserName != '' && newEmail != '' && newPassword != '' && (newUserName != user.username || newEmail != user.email || newPassword != undefined))" class="btn btn-primary" />
                 </div>
             </div>
 
         </form>
 
-        <button class="btn btn-small btn-danger delete-account-btn" type="button" ng-click="deleteAccount(user)">Supprimer le compte</button>
+        <button type="button" ng-click="deleteAccount(user)" class="btn btn-small btn-danger delete-account-btn">Supprimer le compte</button>
     </div>
 </div>
