@@ -15,33 +15,50 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
         $scope.max = Rating.max;
         $scope.isReadonly = Rating.readOnly;
 
-        if($routeParams.userName) {
-            // We get owner chosen in the administration view
-            $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
-                if($scope.owner.success) {
-                    console.log('From administration');
-                    // We get the owner in relation with the url parameter
-                    $scope.owner = $scope.owner.owner;
+        // We get the current user
+        $scope.user = User.UserAccount.getCurrentUser(function() {
+            if($scope.user.success) {
+                $scope.user = $scope.user.user;
 
-                    // We call the getDvd function to have the DVD details
-                    getDvd();
+                // If the user isn't an admin, we delete the user parameter from the url
+                if(!$scope.user.isAdmin && $routeParams.userName) {
+                    $location.url('/dvd-list');
                 }
-            });
-        }
 
-        else {
-            // We get the current owner
-            $scope.owner = User.UserAccount.getCurrentOwner(function() {
-                if($scope.owner.success) {
-                    console.log('From DVD list');
-//                    console.log($scope.owner.owner);
-                    $scope.owner = $scope.owner.owner;
+                // Administration case
+                if($scope.user.isAdmin && $routeParams.userName) {
+                    // We get owner chosen in the administration view
+                    $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
+                        if($scope.owner.success) {
+                            console.log('From administration');
+                            // We get the owner in relation with the url parameter
+                            $scope.owner = $scope.owner.owner;
 
-                    // We call the getDvd function to have the DVD details
-                    getDvd();
+                            // We call the getDvd function to have the DVD details
+                            getDvd();
+                        }
+
+                        else {
+                            console.log('User ' + $routeParams.userName + ' not found')
+                            $location.url('/dvd-list');
+                        }
+                    });
                 }
-            });
-        }
+
+                else {
+                    // We get the current owner
+                    $scope.owner = User.UserAccount.getCurrentOwner(function() {
+                        if($scope.owner.success) {
+                            console.log('From DVD list');
+        //                    console.log($scope.owner.owner);
+                            $scope.owner = $scope.owner.owner;
+
+                            // We call the getDvd function to have the DVD details
+                            getDvd();
+                        }
+                    });
+                }
+        }});
 
         // We get the DVD
         getDvd = function() {

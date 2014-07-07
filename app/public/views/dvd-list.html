@@ -4,7 +4,8 @@
         <!--Sidebar content-->
         <div class="span3">
             <div class="informations-header">
-                <p class="text-info">Nombre total de DVD : {{dvdList.length}}</p>
+                <p class="text-info">Nombre total de DVD : <span class="badge badge-info">{{dvdList.length}}</span></p>
+
                 <button type="button" ng-click="addDvd()" class="btn btn-primary">Ajouter un film</button>
                 <button type="button" ng-click="collapseExpandAll()" class="btn btn-info">{{dvdOpenStatus ? 'Réduire tout' : 'Ouvrir tout'}}
                     <i class="glyphicon icon-white" ng-class="{'icon-minus': dvdOpenStatus, 'icon-plus': !dvdOpenStatus}"></i>
@@ -88,7 +89,7 @@
                             <div class="row-fluid">
                                 <!-- We redirect to the correct view when the user click on the picture -->
                                 <div class="span3">
-                                    <a href="{{href}}{{dvd._id}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster"></a>
+                                    <a href="{{href}}{{dvd._id}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster coin"></a>
                                 </div>
 
                                 <!-- We redirect to the correct view when the user click on the description -->

@@ -7,8 +7,8 @@ var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute', 'ui.bo
 /**
  * DVD Edit controllers.
  */
-dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', 'Dvd', 'User', 'GenresConstant', 'DvdFormatsConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
-    function ($scope, $location, $routeParams, Dvd, User, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
+dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', '$upload', 'Dvd', 'User', 'GenresConstant', 'DvdFormatsConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
+    function ($scope, $location, $routeParams, $upload, Dvd, User, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Edit controller');
 
         // Rating handle
@@ -44,37 +44,57 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         // The movie format list
         $scope.movieFormats = DvdFormatsConstant;
 
-        // Administration case
-        if($routeParams.userName) {
-            // We get owner chosen in the administration view
-            $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
-                if($scope.owner.success) {
-                    console.log('From DVD details administration');
-                    // We get the owner in relation with the url parameter
-                    $scope.owner = $scope.owner.owner;
+        // Initialize the DVD form
+        $scope.imagesFolder = 'img/';
+        $scope.temporaryMoviePosterName = 'temporaryImg.jpg'
 
-                    // We call the getDvd function to have the DVD details
-                    getDvd();
+        // We get the current user
+        $scope.user = User.UserAccount.getCurrentUser(function() {
+            if($scope.user.success) {
+                $scope.user = $scope.user.user;
+
+                // If the user isn't an admin, we delete the user parameter from the url
+                if(!$scope.user.isAdmin && $routeParams.userName) {
+                    $location.url('/dvd-list');
                 }
-            });
-        }
 
-        else {
-            // We get the current owner
-            $scope.owner = User.UserAccount.getCurrentOwner(function() {
-                if($scope.owner.success) {
-                    console.log('From DVD details');
-//                    console.log($scope.owner.owner);
-                    $scope.owner = $scope.owner.owner;
+                // Administration case
+                if($scope.user.isAdmin && $routeParams.userName) {
+                    // We get owner chosen in the administration view
+                    $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
+                        if($scope.owner.success) {
+                            console.log('From DVD details administration');
+                            // We get the owner in relation with the url parameter
+                            $scope.owner = $scope.owner.owner;
 
-                    // We call the getDvd function to have the DVD details
-                   getDvd();
+                            // We call the getDvd function to have the DVD details
+                            $scope.getDvd();
+                        }
+
+                        else {
+                            console.log('User ' + $routeParams.userName + ' not found')
+                            $location.url('/dvd-list');
+                        }
+                    });
                 }
-            });
-        }
+
+                else {
+                    // We get the current owner
+                    $scope.owner = User.UserAccount.getCurrentOwner(function() {
+                        if($scope.owner.success) {
+                            console.log('From DVD details');
+        //                    console.log($scope.owner.owner);
+                            $scope.owner = $scope.owner.owner;
+
+                            // We call the getDvd function to have the DVD details
+                            $scope.getDvd();
+                        }
+                    });
+                }
+        }});
 
         // We get the DVD
-        getDvd = function() {
+        $scope.getDvd = function() {
             // We use '$scope.owner.userName' and not '$routeParams.userName' because if we are in the normal route (not from the administration), the '$routeParams.userName' doesn't exist
             $scope.dvdSearch = Dvd.DvdDetails.getDvd( {'dvdID': $routeParams.dvdID, 'userName': $scope.owner.userName}, function()
             {
@@ -85,6 +105,9 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
 
                     // In the case if user change the title
                     $scope.dvd.oldTitle = $scope.dvd.title;
+
+                    // We set a new movie poster variable in the case of the user change the poster manually
+                    $scope.moviePoster = $scope.dvd.moviePoster
                 }
                 else
                 {
@@ -140,6 +163,47 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
          */
         $scope.deleteThisActor = function(actor) {
             MultiField.deleteThisField($scope.dvd.actors, actor);
+        };
+
+        /**
+         * This function it's call when the user select an other poster image with the file browser.
+         */
+        $scope.onFileSelect = function($files) {
+            // $files: an array of files selected, each file has name, size, and type.
+//            for (var i = 0; i < $files.length; i++) {
+            var $file = $files[0];
+            $upload.upload({
+                url: '/upload',
+                method: 'POST',
+                file: $file,
+                progress: function(e){}
+            }).progress(function(evt) {
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).then(function(data, status, headers, config) {
+                    // File is uploaded successfully
+                    console.log('File successfully uploaded');
+                    var uploadedImageName = data.data.uploadedImageName;
+                    var newImageName = data.data.newImageName;
+
+                    // We save the movie poster
+                    var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': uploadedImageName, 'filename': $scope.temporaryMoviePosterName}, function () {
+                        // If the image is successfully renamed, we set the new movie poster path
+                        if(renamedImage.success) {
+                            console.log('Image uploaded successfully renamed');
+
+                            // We compute the string to hash (title + date to build unique key)
+                            var titleHash = $scope.dvd.title + $scope.dvd.releaseDate;
+
+                            // We set the new movie poster path
+                            $scope.dvd.moviePoster = $scope.imagesFolder + IdGenerator.moviePosterID(titleHash);
+
+                            // We use the date to generate a random string which it's used to reload the ng-src <img> tag
+                            var random = (new Date()).toString();
+                            $scope.moviePoster = $scope.imagesFolder + $scope.temporaryMoviePosterName + "?cb=" + random;
+                        }
+                    });
+                });
+//            }
         };
 
 

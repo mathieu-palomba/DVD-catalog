@@ -162,7 +162,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                     });
              });
 //            }
-        }
+        };
 
         /**
          * This function it's call when the user select a genre in the combo box.

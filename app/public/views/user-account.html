@@ -1,62 +1,70 @@
 <div class="container-fluid">
     <div class="row-fluid">
-        <!--Default case-->
-        <div ng-if="status.value == status.default"></div>
-        <!--Updated user case-->
-        <div ng-if="status.value == status.updated">
-            <div class="alert alert-success">{{status.value}}</div>
-        </div>
-        <!--Error case-->
-        <div ng-if="status.value != status.default && status.value != status.updated">
-            <div class="alert alert-danger">{{status.value}}</div>
-        </div>
-
         <h1>Compte de {{user.username}}</h1>
 
-        <form name="userForm" ng-submit="login(newUserName, newEmail, newPassword)" class="form-horizontal">
-            <div class="control-group">
-                <label class="control-label">Administrateur</label>
-                <div class="controls">
-                    <label class="center-label">{{user.isAdmin ? 'Oui' : 'Non'}}</label>
+        <tabset>
+            <tab heading="Informations du compte">
+                <!--Default case-->
+                <div ng-if="status.value == status.default"></div>
+                <!--Updated user case-->
+                <div ng-if="status.value == status.updated">
+                    <div class="alert alert-success">{{status.value}}</div>
                 </div>
-            </div>
-
-            <div class="control-group">
-                <label class="control-label">Date de création</label>
-                <div class="controls">
-                    <label class="center-label">{{user.created | date:'dd-MMMM-yyyy HH:MM:ss'}}</label>
+                <!--Error case-->
+                <div ng-if="status.value != status.default && status.value != status.updated">
+                    <div class="alert alert-danger">{{status.value}}</div>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <label class="control-label" for="inputUserName">Nom d'utilisateur</label>
-                <div class="controls">
-                    <input type="text" id="inputUserName" placeholder="Nom d'utilisateur" ng-model="newUserName">
-                </div>
-            </div>
+                <form name="userForm" ng-submit="updateAccount(newUserName, newEmail, newPassword)" class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label">Administrateur</label>
+                        <div class="controls">
+                            <label class="center-label">{{user.isAdmin ? 'Oui' : 'Non'}}</label>
+                        </div>
+                    </div>
 
-            <div class="control-group">
-                <label class="control-label" for="inputEmail">Email</label>
-                <div class="controls">
-                    <input type="email" id="inputEmail" placeholder="Email" ng-model="newEmail">
-                </div>
-            </div>
+                    <div class="control-group">
+                        <label class="control-label">Date de création</label>
+                        <div class="controls">
+                            <label class="center-label">{{user.created | date:'dd-MMMM-yyyy HH:MM:ss'}}</label>
+                        </div>
+                    </div>
 
-            <div class="control-group">
-                <label class="control-label" for="inputPassword">Mot de passe</label>
-                <div class="controls">
-                    <input type="password" id="inputPassword" placeholder="Password" ng-model="newPassword">
-                </div>
-            </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputUserName">Nom d'utilisateur</label>
+                        <div class="controls">
+                            <input type="text" id="inputUserName" placeholder="Nom d'utilisateur" ng-model="newUserName">
+                        </div>
+                    </div>
 
-            <div class="control-group">
-                <div class="controls">
-                    <input type="submit" name="submit" value="Mise à jour" ng-disabled="!(newUserName != '' && newEmail != '' && newPassword != '' && (newUserName != user.username || newEmail != user.email || newPassword != undefined))" class="btn btn-primary" />
-                </div>
-            </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">Email</label>
+                        <div class="controls">
+                            <input type="email" id="inputEmail" placeholder="Email" ng-model="newEmail">
+                        </div>
+                    </div>
 
-        </form>
+                    <div class="control-group">
+                        <label class="control-label" for="inputPassword">Mot de passe</label>
+                        <div class="controls">
+                            <input type="password" id="inputPassword" placeholder="Password" ng-model="newPassword">
+                        </div>
+                    </div>
 
-        <button type="button" ng-click="deleteAccount(user)" class="btn btn-small btn-danger delete-account-btn">Supprimer le compte</button>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input type="submit" name="submit" value="Mise à jour" ng-disabled="!(newUserName != '' && newEmail != ''  && (newUserName != user.username || newEmail != user.email || newPassword != undefined))" class="btn btn-primary" />
+                        </div>
+                    </div>
+
+                </form>
+
+                <button type="button" ng-click="deleteAccount(user)" class="btn btn-small btn-danger delete-account-btn">Supprimer le compte</button>
+            </tab>
+
+            <tab heading="Informations sur la collection">TO DO</tab>
+
+            <tab heading="Style">TO DO</tab>
+        </tabset>
     </div>
 </div>

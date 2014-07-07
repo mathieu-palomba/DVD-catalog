@@ -63,13 +63,20 @@ footer, .push {
     /*height: 380px;*/
     /*width: 260px;*/
     height: 100%;
-    width: 90%;
+    width: 100%;
 }
 
 .thumb {
     float: left;
     margin: -1em 1em 1.5em 0em;
     padding-bottom: 1em;
+}
+
+.coin {
+    border:2px solid black;
+    -moz-border-radius:7px;
+    -webkit-border-radius:7px;
+    border-radius:7px;
 }
 
 .delete-button {
