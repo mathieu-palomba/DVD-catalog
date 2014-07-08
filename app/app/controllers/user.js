@@ -397,7 +397,26 @@ var AuthController = {
      */
     currentUser: function( req, res )
     {
-        res.jsonp({"success": true, "user": req.user || null});
+//        res.jsonp({"success": true, "user": req.user || null});
+
+        // Find the current user
+        User.find({_id: req.user._id }, 'username email created isAdmin', function (err, user) {
+            if (err) {
+                return handleError(err);
+            }
+
+            else {
+                if(user) {
+                    console.log('User found');
+                    res.jsonp({"success": true, user: user});
+                }
+
+                else {
+                    console.log('User not found');
+                    res.jsonp({"success": false});
+                }
+            }
+        });
     },
 
     /**
@@ -410,7 +429,7 @@ var AuthController = {
         console.log("Find users");
 
         // Find the users
-        User.find(null, function (err, users) {
+        User.find('username email created isAdmin', function (err, users) {
             if (err) {
                 return handleError(err);
             }

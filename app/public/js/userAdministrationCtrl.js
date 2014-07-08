@@ -49,7 +49,7 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
             console.log('Delete account ' + owner.userName)
 
             // We ask user confirmation
-            bootbox.confirm('Voulez-vous vraiment supprimer le compte utilisateur de ' + owner.userName + ' ?', function(result) {
+            bootbox.confirm('Voulez-vous vraiment supprimer le compte utilisateur de <b><i>' + owner.userName + '</i></b> ?', function(result) {
                 // OK clicked
                 if(result) {
                     if (owner.isAdmin) {
