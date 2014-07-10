@@ -33,6 +33,7 @@ module.exports = function (app) {
     app.get('/owner/:userName', user.ensureAuthenticated, dvd.getOwner);
     app.get('/owners', user.ensureAdmin, dvd.getOwners);
     app.post('/upload', user.ensureAuthenticated, dvd.uploadImage);
+    app.post('/uploadBackupFile', user.ensureAuthenticated, dvd.uploadBackupFile);
     app.post('/updateCurrentOwner', user.ensureAuthenticated, dvd.updateCurrentOwner);
     app.post('/owner/deleteCurrentOwner', user.ensureAuthenticated, dvd.deleteCurrentOwner);
     app.post('/owner/deleteOwner', user.ensureAdmin, dvd.deleteOwner);

@@ -67,3 +67,40 @@ dvdCatDirectives.directive('dropdownMultiselect', function(){
         }
     }
 });
+
+dvdCatDirectives.directive('onReadFile', function ($parse) {
+    return {
+        restrict: 'A',
+        scope: false,
+        link: function(scope, element, attrs) {
+            var fn = $parse(attrs.onReadFile);
+
+            element.on('change', function(onChangeEvent) {
+                var reader = new FileReader();
+
+                reader.onload = function(onLoadEvent) {
+                    scope.$apply(function() {
+                        fn(scope, {$fileContent:onLoadEvent.target.result});
+                    });
+                };
+
+                reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
+            });
+        }
+    };
+});
+
+dvdCatDirectives.directive('showtab',
+    function () {
+        return {
+            link: function (scope, element, attrs) {
+                console.log('directive')
+                element.on('click', function(e){
+                    console.log(element)
+                    element.show();
+                    e.preventDefault();
+
+                });
+            }
+        };
+    });

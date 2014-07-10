@@ -64,9 +64,93 @@
 
             <tab heading="Informations sur la collection">
                 <button ng-click="exportJson()" class="btn btn-small btn-success">Exporter votre collection</button>
+
+                <!--&lt;!&ndash;Method with AngularJS and server calling (read with 'files.file[0].path' in the server side&ndash;&gt;-->
+                <!--<form name="importCollection">-->
+                    <!--<span class="btn btn-small btn-info btn-file">-->
+                        <!--Importer votre collection-->
+                        <!--<input type="file" name="backupFile" enctype="multipart/form-data" ng-file-select="importJson($files)" multiple>-->
+                    <!--</span>-->
+                <!--</form>-->
+
+                <!--&lt;!&ndash;Method with server calling (read with 'files.backupFile[0].path' in the server side)&ndash;&gt;-->
+                <!--<form method="post" enctype="multipart/form-data" action="/uploadBackupFile">-->
+                    <!--<input type="file" name="backupFile">-->
+                    <!--<input type="submit">-->
+                <!--</form>-->
+
+                <!--Read file with AngularJS-->
+                <span class="btn btn-small btn-info btn-file">
+                    Importer votre collection
+                    <input type="file" on-read-file="showContent($fileContent)" />
+                </span>
             </tab>
 
-            <tab heading="Style">TO DO</tab>
+            <tab heading="Thème">TO DO</tab>
         </tabset>
+
+
+        <div class="tabbable"> <!-- Only required for left/right tabs -->
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <!--<a href="#tab1" data-toggle="tab">Section 1</a>-->
+                    <a id="link1" href="" name="link-1" ng-click="tab1" data-toggle="tab">Section 1</a>
+                </li>
+                <li>
+                    <!--<a href="#tab2" data-toggle="tab">Section 2</a>-->
+                    <a id="link2" href="" name="link-2" ng-click="tab2" data-toggle="tab">Section 2</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab1">
+                    <p>I'm in Section 1.</p>
+                </div>
+                <div class="tab-pane" id="tab2">
+                    <p>Howdy, I'm in Section 2.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tabbable tabs-left"> <!-- Only required for left/right tabs -->
+            <ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
+                <li class="active"><a showtab="" href="#red" data-toggle="tab">Red</a></li>
+                <li><a showtab="" href="#orange" data-toggle="tab">Orange</a></li>
+                <li><a showtab="" href="#yellow" data-toggle="tab">Yellow</a></li>
+                <li><a showtab="" href="#green" data-toggle="tab">Green</a></li>
+                <li><a showtab="" href="#blue" data-toggle="tab">Blue</a></li>
+            </ul>
+            <div id="my-tab-content" class="tab-content">
+                <div class="tab-pane active" id="red">
+                    <h1>Red</h1>
+                    <p>red red red red red red</p>
+                </div>
+                <div class="tab-pane" id="orange">
+                    <h1>Orange</h1>
+                    <p>orange orange orange orange orange</p>
+                </div>
+                <div class="tab-pane" id="yellow">
+                    <h1>Yellow</h1>
+                    <p>yellow yellow yellow yellow yellow</p>
+                </div>
+                <div class="tab-pane" id="green">
+                    <h1>Green</h1>
+                    <p>green green green green green</p>
+                </div>
+                <div class="tab-pane" id="blue">
+                    <h1>Blue</h1>
+                    <p>blue blue blue blue blue</p>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+
+<!--Javascript Method without AngularJS directive-->
+<!--<script type="text/javascript">-->
+    <!--$('.nav-tabs a').click(function (e) {-->
+        <!--e.preventDefault();-->
+        <!--$('#tabs').tab();-->
+    <!--});-->
+<!--</script>-->

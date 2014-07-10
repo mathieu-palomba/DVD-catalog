@@ -7,8 +7,8 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
 /**
  * User Account controllers.
  */
-userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', 'User',
-    function ($scope, $location, $route, $window, User) {
+userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', '$upload', 'User',
+    function ($scope, $location, $route, $window, $upload, User) {
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
@@ -117,6 +117,30 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
             a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
             e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
             a.dispatchEvent(e)
+        };
+
+        $scope.importJson = function($files) {
+            // $files: an array of files selected, each file has name, size, and type.
+            var $file = $files[0];
+            console.log($file)
+            $upload.upload({
+                url: '/uploadBackupFile',
+                method: 'POST',
+                file: $file,
+                progress: function(e){}
+            }).progress(function(evt) {
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).then(function(data, status, headers, config) {
+                    // File is uploaded successfully
+                    console.log('File successfully uploaded');
+                    console.log(data)
+                });
+        };
+
+        $scope.showContent = function($fileContent){
+            console.log('Read file')
+            $scope.content = JSON.parse($fileContent)
+            console.log($scope.content)
         };
     }
 ]);

@@ -7,9 +7,8 @@ var mongoose = require('mongoose'),
     fs = require('fs'),             // fs and request is used to download cross domain pictures
     path = require('path'),         // To save files
     http = require('http'),
-    request = require('request');
-
-var multipart = require('multiparty');
+    request = require('request'),
+    multipart = require('multiparty');
 
 /**
  * Get the Owner in relation with the user login.
@@ -661,4 +660,26 @@ exports.uploadImage = function(req, res){
         // We return OK
         res.jsonp({"success": true, "uploadedImageName": uploadedImageName, "newImageName": newImageName});
     });
+};
+
+exports.uploadBackupFile = function(req, res){
+    console.log('Upload backup file');
+
+    // Parse a file uploaded
+    var form = new multipart.Form();
+
+    form.parse(req, function(err, fields, files) {
+        console.log(files)
+//        console.log(files.backupFile)
+//        console.log(files.backupFile[0].path)
+//        console.log(files.file[0].path)
+
+        fs.readFile(files.file[0].path, 'utf8', function (err, data) {
+        console.log(data)
+
+        // We return OK
+        res.jsonp({"success": true});
+        });
+    });
+
 };
