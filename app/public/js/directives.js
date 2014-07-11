@@ -94,12 +94,9 @@ dvdCatDirectives.directive('showtab',
     function () {
         return {
             link: function (scope, element, attrs) {
-                console.log('directive')
                 element.on('click', function(e){
-                    console.log(element)
                     element.show();
                     e.preventDefault();
-
                 });
             }
         };

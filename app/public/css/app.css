@@ -72,11 +72,14 @@ footer, .push {
     padding-bottom: 1em;
 }
 
-.coin {
-    border:2px solid black;
+.rounded-corner, .movie-poster-corner, .nav-content, .sub-section-content  {
     -moz-border-radius:7px;
     -webkit-border-radius:7px;
     border-radius:7px;
+}
+
+.movie-poster-corner {
+    border:2px solid black;
 }
 
 .delete-button {
@@ -157,6 +160,36 @@ h1 {
     background: white;
     cursor: inherit;
     display: block;
+}
+
+/** Account view **/
+.nav-content {
+    padding: 1px;
+    margin: 0px 25px 0px 0px;
+    display: inline-block;
+    float: left;
+    border:1px solid #808080;
+    background-color: rgba(255,255,255,0.2);
+}
+
+.nav-content ul {
+    margin: 0px;
+}
+
+.form-left .control-label{
+    text-align:left;
+}
+
+.sub-section h1 {
+    text-align: left;
+    color: rgb(57,58,59);
+    font-size: 20px;
+}
+
+.sub-section-content{
+    padding: 5px;
+    border:1px solid #808080;
+    background-color: rgba(255,255,255,0.2);
 }
 
 /** Administration view **/

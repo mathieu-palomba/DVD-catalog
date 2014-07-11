@@ -101,7 +101,7 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
         };
 
         $scope.exportJson = function() {
-            var data = $scope.dvdList
+            var data = $scope.owner.dvd
             var fileName = '[Dvd_catalog]_Exported_Dvd_' + $scope.owner.userName
 
             if(typeof data === "object"){
