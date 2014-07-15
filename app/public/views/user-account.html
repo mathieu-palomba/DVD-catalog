@@ -10,128 +10,132 @@
 
         <div class="tabbable tabs-left"> <!-- Only required for left/right tabs -->
             <!--Header-->
-            <div class="nav-content">
-                <ul id="tabs" class="nav nav-tabs nav-stacked" data-tabs="tabs">
-                    <li class="active">
-                        <a showtab="" href="#account" data-toggle="tab">
-                            <span>Informations du compte</span>
-                            <i class="pull-right icon-chevron-right"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a showtab="" href="#collection" data-toggle="tab">
-                            <span>Informations de la collection</span>
-                            <i class="right icon-chevron-right"></i>
-                        </a>
+            <div class="span2">
+                <div class="nav-content">
+                    <ul id="tabs" class="nav nav-tabs nav-stacked" data-tabs="tabs">
+                        <li class="active">
+                            <a showtab="" href="#account" data-toggle="tab">
+                                <span>Informations du compte</span>
+                                <i class="pull-right icon-chevron-right"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a showtab="" href="#collection" data-toggle="tab">
+                                <span>Gestion de la collection</span>
+                                <i class="right icon-chevron-right"></i>
+                            </a>
 
-                    </li>
-                    <li>
-                        <a showtab="" href="#theme" data-toggle="tab">
-                            <span>Thème</span>
-                            <i class="pull-right icon-chevron-right"></i>
-                        </a>
-                    </li>
-                </ul>
+                        </li>
+                        <li>
+                            <a showtab="" href="#theme" data-toggle="tab">
+                                <span>Thème</span>
+                                <i class="pull-right icon-chevron-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
             <!--Content-->
-            <div id="my-tab-content" class="tab-content sub-section-content">
-                <!--Account-->
-                <div class="tab-pane active" id="account">
-                    <div class="sub-section">
-                        <h1>Compte</h1>
+            <div class="span9">
+                <div id="my-tab-content" class="tab-content sub-section-content">
+                    <!--Account-->
+                    <div class="tab-pane active" id="account">
+                        <div class="sub-section">
+                            <h1>Compte</h1>
 
-                        <!--Default case-->
-                        <div ng-if="status.value == status.default"></div>
-                        <!--Updated user case-->
-                        <div ng-if="status.value == status.updated">
-                            <div class="alert alert-success">{{status.value}}</div>
+                            <!--Default case-->
+                            <div ng-if="status.value == status.default"></div>
+                            <!--Updated user case-->
+                            <div ng-if="status.value == status.updated">
+                                <div class="alert alert-success">{{status.value}}</div>
+                            </div>
+                            <!--Error case-->
+                            <div ng-if="status.value != status.default && status.value != status.updated">
+                                <div class="alert alert-danger">{{status.value}}</div>
+                            </div>
+
+                            <form name="userForm" ng-submit="updateAccount(newUserName, newEmail, newPassword)" class="form-horizontal form-left">
+                                <div class="control-group">
+                                    <label class="control-label">Administrateur</label>
+                                    <div class="controls">
+                                        <label class="center-label">{{user.isAdmin ? 'Oui' : 'Non'}}</label>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label">Date de création</label>
+                                    <div class="controls">
+                                        <label class="center-label">{{user.created | date:'dd-MMMM-yyyy HH:MM:ss'}}</label>
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="inputUserName">Nom d'utilisateur</label>
+                                    <div class="controls">
+                                        <input type="text" id="inputUserName" placeholder="Nom d'utilisateur" ng-model="newUserName">
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="inputEmail">Email</label>
+                                    <div class="controls">
+                                        <input type="email" id="inputEmail" placeholder="Email" ng-model="newEmail">
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <label class="control-label" for="inputPassword">Mot de passe</label>
+                                    <div class="controls">
+                                        <input type="password" id="inputPassword" placeholder="Password" ng-model="newPassword">
+                                    </div>
+                                </div>
+
+                                <div class="control-group">
+                                    <div class="controls">
+                                        <input type="submit" name="submit" value="Mise à jour" ng-disabled="!(newUserName != '' && newEmail != ''  && (newUserName != user.username || newEmail != user.email || newPassword != undefined))" class="btn btn-primary" />
+                                    </div>
+                                </div>
+
+                            </form>
+
+                            <button type="button" ng-click="deleteAccount(user)" class="btn btn-small btn-danger delete-account-btn">Supprimer le compte</button>
                         </div>
-                        <!--Error case-->
-                        <div ng-if="status.value != status.default && status.value != status.updated">
-                            <div class="alert alert-danger">{{status.value}}</div>
+                    </div>
+
+                    <!--Collection-->
+                    <div class="tab-pane" id="collection">
+                        <div class="sub-section">
+                            <h1>Options d'export et d'import</h1>
+
+                            <button ng-click="exportJson()" title="Exporter votre collection actuelle pour pouvoir la ré-importer ultérieurement" class="btn btn-small btn-success">Exporter votre collection</button>
+
+                            <!--&lt;!&ndash;Method with AngularJS and server calling (read with 'files.file[0].path' in the server side&ndash;&gt;-->
+                            <!--<form name="importCollection">-->
+                            <!--<span class="btn btn-small btn-info btn-file">-->
+                            <!--Importer votre collection-->
+                            <!--<input type="file" name="backupFile" enctype="multipart/form-data" ng-file-select="importJson($files)" multiple>-->
+                            <!--</span>-->
+                            <!--</form>-->
+
+                            <!--&lt;!&ndash;Method with server calling (read with 'files.backupFile[0].path' in the server side)&ndash;&gt;-->
+                            <!--<form method="post" enctype="multipart/form-data" action="/uploadBackupFile">-->
+                            <!--<input type="file" name="backupFile">-->
+                            <!--<input type="submit">-->
+                            <!--</form>-->
+
+                            <!--Read file with AngularJS-->
+                            <span class="btn btn-small btn-info btn-file" title="Importer une ancienne collection sauvegardée">
+                                Importer une collection
+                                <input type="file" on-read-file="showContent($fileContent)" />
+                            </span>
                         </div>
-
-                        <form name="userForm" ng-submit="updateAccount(newUserName, newEmail, newPassword)" class="form-horizontal form-left">
-                            <div class="control-group">
-                                <label class="control-label">Administrateur</label>
-                                <div class="controls">
-                                    <label class="center-label">{{user.isAdmin ? 'Oui' : 'Non'}}</label>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <label class="control-label">Date de création</label>
-                                <div class="controls">
-                                    <label class="center-label">{{user.created | date:'dd-MMMM-yyyy HH:MM:ss'}}</label>
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <label class="control-label" for="inputUserName">Nom d'utilisateur</label>
-                                <div class="controls">
-                                    <input type="text" id="inputUserName" placeholder="Nom d'utilisateur" ng-model="newUserName">
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <label class="control-label" for="inputEmail">Email</label>
-                                <div class="controls">
-                                    <input type="email" id="inputEmail" placeholder="Email" ng-model="newEmail">
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <label class="control-label" for="inputPassword">Mot de passe</label>
-                                <div class="controls">
-                                    <input type="password" id="inputPassword" placeholder="Password" ng-model="newPassword">
-                                </div>
-                            </div>
-
-                            <div class="control-group">
-                                <div class="controls">
-                                    <input type="submit" name="submit" value="Mise à jour" ng-disabled="!(newUserName != '' && newEmail != ''  && (newUserName != user.username || newEmail != user.email || newPassword != undefined))" class="btn btn-primary" />
-                                </div>
-                            </div>
-
-                        </form>
-
-                        <button type="button" ng-click="deleteAccount(user)" class="btn btn-small btn-danger delete-account-btn">Supprimer le compte</button>
                     </div>
-                </div>
 
-                <!--Collection-->
-                <div class="tab-pane" id="collection">
-                    <div class="sub-section">
-                        <h1>Options d'export et d'import</h1>
-
-                        <button ng-click="exportJson()" title="Exporter votre collection actuelle pour pouvoir la ré-importer ultérieurement" class="btn btn-small btn-success">Exporter votre collection</button>
-
-                        <!--&lt;!&ndash;Method with AngularJS and server calling (read with 'files.file[0].path' in the server side&ndash;&gt;-->
-                        <!--<form name="importCollection">-->
-                        <!--<span class="btn btn-small btn-info btn-file">-->
-                        <!--Importer votre collection-->
-                        <!--<input type="file" name="backupFile" enctype="multipart/form-data" ng-file-select="importJson($files)" multiple>-->
-                        <!--</span>-->
-                        <!--</form>-->
-
-                        <!--&lt;!&ndash;Method with server calling (read with 'files.backupFile[0].path' in the server side)&ndash;&gt;-->
-                        <!--<form method="post" enctype="multipart/form-data" action="/uploadBackupFile">-->
-                        <!--<input type="file" name="backupFile">-->
-                        <!--<input type="submit">-->
-                        <!--</form>-->
-
-                        <!--Read file with AngularJS-->
-                        <span class="btn btn-small btn-info btn-file" title="Importer une ancienne collection sauvegardée">
-                            Importer une collection
-                            <input type="file" on-read-file="showContent($fileContent)" />
-                        </span>
+                    <!--Theme-->
+                    <div class="tab-pane" id="theme">
+                        <p>TO DO</p>
                     </div>
-                </div>
-
-                <!--Theme-->
-                <div class="tab-pane" id="theme">
-                    <p>TO DO</p>
                 </div>
             </div>
         </div>

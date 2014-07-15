@@ -137,6 +137,10 @@ dvdCatServices.factory('Rating', function () {
     };
 });
 
+dvdCatServices.factory('Cache', function($cacheFactory) {
+    return $cacheFactory('dvd_list_cache');
+});
+
 /**
  * This service permit to create a RESTful client and avoid the $http lower method. The $ressource route must hve the same name in "app.js".
  */

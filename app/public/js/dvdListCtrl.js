@@ -6,21 +6,65 @@ var dvdListControllers = angular.module('dvdListControllers', ['ngRoute', 'ui.bo
 /**
  * DVD List controllers.
  */
-dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '$routeParams', '$window', 'Dvd', 'User', 'Rating',
-                                              'GenresConstant', 'DvdFormatsConstant',
-    function ($scope, $location, $route, $routeParams, $window, Dvd, User, Rating, GenresConstant, DvdFormatsConstant) {
+dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFactory', '$route', '$routeParams', '$window', 'Dvd', 'User', 'Rating',
+                                              'GenresConstant', 'DvdFormatsConstant', 'Cache',
+    function ($scope, $location, $cacheFactory, $route, $routeParams, $window, Dvd, User, Rating, GenresConstant, DvdFormatsConstant, Cache) {
         console.log('Dvd List controller');
 
         // Scroll of the top of the window per default
         $window.scrollTo(0, 0)
 
+        // Keep scroll position
+        $scope.scrollPos = {}; // scroll position of each view
+
+        $(window).on('scroll', function() {
+            if ($scope.okSaveScroll) { // false between $routeChangeStart and $routeChangeSuccess
+                $scope.scrollPos[$location.path()] = $(window).scrollTop();
+
+                // We save the current position
+                $scope.cache.put('scrollPos', $scope.scrollPos);
+            }
+        });
+
+        // Route changed
+        $scope.$on('$routeChangeStart', function() {
+            $scope.okSaveScroll = false;
+
+            // We save the current preference
+            $scope.cache.put('dvdOpenStatus', $scope.status);
+        });
+
+        // Route restore
+        $scope.$on('$routeChangeSuccess', function() {
+            var scrollPos = 0
+
+            // We get the previous scroll position if it exist
+            if($scope.cache.get('scrollPos') != undefined) {
+                scrollPos = $scope.cache.get('scrollPos')[$location.path()]
+            }
+            else {
+                scrollPos = 0
+            }
+
+            $(window).scrollTop(scrollPos);
+            $scope.okSaveScroll = true;
+        });
+
         // Accordion handle
         $scope.oneAtATime = false;
         $scope.isFirstFilterOpen = false
-        $scope.dvdOpenStatus = false
-        $scope.status = {}
 
+        // We get the dvd item open status (in cache, is isn't the first loading)
+        $scope.cache = Cache;
+        if($scope.cache.get('dvdOpenStatus') != undefined) {
+            $scope.status = $scope.cache.get('dvdOpenStatus')
+        }
+        else {
+            $scope.dvdOpenStatus = false;
+            $scope.status = {}
+        }
 
+        // Expand or collapse all of the Dvd items
         $scope.collapseExpandAll = function() {
             $scope.dvdOpenStatus = !$scope.dvdOpenStatus
             for(itemKey in $scope.status){
@@ -76,7 +120,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
-                $scope.user = $scope.user.user;
+                $scope.user = $scope.user.user[0];
 
                 // If the user isn't an admin, we delete the user parameter from the url
                 if(!$scope.user.isAdmin && $routeParams.userName) {
@@ -85,7 +129,6 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$route', '
 
                 // If the DVD list it's call with the administration route, we get the owner in relation
                 if($scope.user.isAdmin && $routeParams.userName) {
-                    console.log($scope.user)
                     // We get owner chosen in the administration view
                     $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
                         if($scope.owner.success) {

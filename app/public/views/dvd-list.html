@@ -105,6 +105,11 @@
                                         {{dvd.releaseDate | date:'dd/MM/yyyy'}}
                                     </p>
 
+                                    <p>
+                                        <strong>Durée :</strong>
+                                        {{dvd.runtime}} min
+                                    </p>
+
                                     <!--<p><strong>Résumé :</strong> {{dvd.overview | overviewMaxLength}}</p>-->
                                     <dl>
                                         <dt>Résumé :</dt>
@@ -123,7 +128,7 @@
                                     <!--<dl>-->
                                         <!--<dt>Acteurs :</dt>-->
                                         <!--<dd ng-repeat="actor in dvd.actors">-->
-                                            <!--<a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a>-->
+                                            <!--<a href="https://www.google.fr/search?q={{actor.name}}" target='_blank'>{{actor.name}}</a>-->
                                             <!--({{actor.character}})-->
                                         <!--</dd>-->
                                     <!--</dl>-->
@@ -135,6 +140,10 @@
                                     <p>
                                         <strong>Type :</strong>
                                         {{dvd.movieFormat}}
+                                    </p>
+                                    <p>
+                                        <strong>Emplacement :</strong>
+                                        {{dvd.location != '' ? dvd.location : 'Aucun'}}
                                     </p>
                                 </div>
                             </div>

@@ -7,9 +7,12 @@ var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute', 'ui.bo
 /**
  * DVD Edit controllers.
  */
-dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', '$upload', 'Dvd', 'User', 'GenresConstant', 'DvdFormatsConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
-    function ($scope, $location, $routeParams, $upload, Dvd, User, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
+dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', '$upload', '$window', 'Dvd', 'User', 'GenresConstant', 'DvdFormatsConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
+    function ($scope, $location, $routeParams, $upload, $window, Dvd, User, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Edit controller');
+
+        // Scroll of the top of the window per default
+        $window.scrollTo(0, 0)
 
         // Rating handle
         $scope.max = Rating.max;
@@ -51,7 +54,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
-                $scope.user = $scope.user.user;
+                $scope.user = $scope.user.user[0];
 
                 // If the user isn't an admin, we delete the user parameter from the url
                 if(!$scope.user.isAdmin && $routeParams.userName) {

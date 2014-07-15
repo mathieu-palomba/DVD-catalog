@@ -86,19 +86,25 @@ var AuthController = {
 //
 //            else {
 //                console.log('User created');
+//
+//                // We create a new owner
+//                var owner = new Owner({
+//                    userName: 'mathieu',
+//                    dvd: []
+//                });
+//
+//                // We save the new owner
+//                owner.save(function (err) {
+//                    if (err) {
+//                        console.log("Error during recording Owner");
+//                    }
+//                    else {
+//                        console.log("Owner recorded");
+//                    }
+//                });
 //            }
 //        });
 //
-//        User.create({'username': 'julie', 'email': 'julie@julie.fr', 'password': 'root'}, function(err){
-//            if (err) {
-//                console.log(err);
-//                return;
-//            }
-//
-//            else {
-//                console.log('User created');
-//            }
-//        });
 //        User.create({'username': 'sylvain', 'email': 'sylvain@sylvain.fr', 'password': '12345', 'isAdmin': true}, function(err){
 //            if (err) {
 //                console.log(err);
@@ -107,26 +113,22 @@ var AuthController = {
 //
 //            else {
 //                console.log('User created');
-//            }
-//        });
-//        User.create({'username': 'famille_fabre', 'email': 'fabre@fabre.fr', 'password': '12345'}, function(err){
-//            if (err) {
-//                console.log(err);
-//                return;
-//            }
 //
-//            else {
-//                console.log('User created');
-//            }
-//        });
-//        User.create({'username': 'kevin', 'email': 'kevin@kevin.fr', 'password': '12345', 'isAdmin': true}, function(err){
-//            if (err) {
-//                console.log(err);
-//                return;
-//            }
+//                // We create a new owner
+//                var owner = new Owner({
+//                    userName: 'sylvain',
+//                    dvd: []
+//                });
 //
-//            else {
-//                console.log('User created');
+//                // We save the new owner
+//                owner.save(function (err) {
+//                    if (err) {
+//                        console.log("Error during recording Owner");
+//                    }
+//                    else {
+//                        console.log("Owner recorded");
+//                    }
+//                });
 //            }
 //        });
 

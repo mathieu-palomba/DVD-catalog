@@ -7,10 +7,13 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 /**
  * Add DVD controllers.
  */
-dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'DvdFormatsConstant',
+dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', '$window', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'DvdFormatsConstant',
                                             'IdGenerator', 'MultiField', 'Array', 'Rating',
-    function ($scope, $location, $http, $upload, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
+    function ($scope, $location, $http, $upload, $window, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
         console.log('Dvd Add controller');
+
+        // Scroll of the top of the window per default
+        $window.scrollTo(0, 0)
 
         // The default movie poster.
         $scope.imagesFolder = 'img/';
@@ -293,8 +296,15 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
                         }
                     }
 
+                    $scope.dvd.movieID = dvdDetails.id;
                     $scope.dvd.releaseDate = dvdDetails.release_date;
                     $scope.dvd.overview = dvdDetails.overview;
+                    $scope.dvd.popularity = dvdDetails.popularity;
+                    $scope.dvd.budget = dvdDetails.budget;
+                    $scope.dvd.revenue = dvdDetails.revenue;
+                    $scope.dvd.voteAverage = dvdDetails.vote_average;
+                    $scope.dvd.voteCount = dvdDetails.vote_count;
+                    $scope.dvd.runtime = dvdDetails.runtime;
                     $scope.dvd.productionCompanies = '';
 
                     for (var productionCompanyID in dvdDetails.production_companies) {

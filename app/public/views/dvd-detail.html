@@ -12,8 +12,12 @@
     {{dvd.releaseDate | date:'dd/MM/yyyy'}}
 </p>
 <p>
+    <strong>Durée :</strong>
+    {{dvd.runtime}} min
+</p>
+<p>
     <strong>Producteur :</strong>
-    <a href="https://www.google.fr/search?q={{dvd.director}}">{{dvd.director}}</a>
+    <a href="https://www.google.fr/search?q={{dvd.director}}" target='_blank'>{{dvd.director}}</a>
 </p>
 <p>
     <strong>Compagnies de production :</strong>
@@ -35,7 +39,7 @@
 <dl>
     <dt>Acteurs :</dt>
     <dd ng-repeat="actor in dvd.actors">
-        <a href="https://www.google.fr/search?q={{actor.name}}">{{actor.name}}</a>
+        <a href="https://www.google.fr/search?q={{actor.name}}" target='_blank'>{{actor.name}}</a>
         ({{actor.character}})
     </dd>
 </dl>
@@ -48,12 +52,12 @@
     {{dvd.movieFormat}}
 </p>
 <p>
-    <strong>Commentaires :</strong></br>
-    {{dvd.comments}}
+    <strong>Emplacement :</strong>
+    {{dvd.location != '' ? dvd.location : 'Aucun'}}
 </p>
 <p>
-    <strong>Emplacement :</strong></br>
-    {{dvd.location}}
+    <strong>Commentaires :</strong></br>
+    {{dvd.comments != '' ? dvd.comments : 'Aucun'}}
 </p>
 <div>
     </br>

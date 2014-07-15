@@ -7,9 +7,12 @@ var dvdDetailsControllers = angular.module('dvdDetailsControllers', ['ngRoute'])
 /**
  * DVD Details controllers.
  */
-dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$location', 'Dvd', 'User', 'Rating',
-    function ($scope, $routeParams, $location, Dvd, User, Rating) {
+dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$location', '$window', 'Dvd', 'User', 'Rating',
+    function ($scope, $routeParams, $location, $window, Dvd, User, Rating) {
         console.log('Dvd Details controller');
+
+        // Scroll of the top of the window per default
+        $window.scrollTo(0, 0)
 
         // Rating handle
         $scope.max = Rating.max;
@@ -18,7 +21,7 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
-                $scope.user = $scope.user.user;
+                $scope.user = $scope.user.user[0];
 
                 // If the user isn't an admin, we delete the user parameter from the url
                 if(!$scope.user.isAdmin && $routeParams.userName) {

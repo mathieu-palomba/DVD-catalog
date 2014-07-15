@@ -1,7 +1,21 @@
 module.exports = function (app) {
+    // Maintenance module
+    var path = require('path');
+    var maintenance = require('maintenance');
+    var options = {
+        current: false,                                                         // current state, default **false**
+        view: path.resolve(__dirname, '../app/views/', 'maintenance.ejs')       // view to render on maintenance, default **'maintenance.html'**
+    };
+
     // Login routes
     var user = require('../app/controllers/user');
+
     app.get('/', user.signIn);
+
+    // MAINTENANCE
+    maintenance(app, options);
+    // END MAINTENANCE
+
     app.post('/login', user.login);
     app.get('/signUp', user.signUp);
     app.post('/register', user.register);
