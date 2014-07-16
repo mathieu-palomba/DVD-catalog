@@ -6,13 +6,13 @@ var dvdListControllers = angular.module('dvdListControllers', ['ngRoute', 'ui.bo
 /**
  * DVD List controllers.
  */
-dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFactory', '$route', '$routeParams', '$window', 'Dvd', 'User', 'Rating',
+dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFactory', '$route', '$routeParams', '$window', '$anchorScroll', 'Dvd', 'User', 'Rating',
                                               'GenresConstant', 'DvdFormatsConstant', 'Cache',
-    function ($scope, $location, $cacheFactory, $route, $routeParams, $window, Dvd, User, Rating, GenresConstant, DvdFormatsConstant, Cache) {
+    function ($scope, $location, $cacheFactory, $route, $routeParams, $window, $anchorScroll, Dvd, User, Rating, GenresConstant, DvdFormatsConstant, Cache) {
         console.log('Dvd List controller');
 
         // Scroll of the top of the window per default
-        $window.scrollTo(0, 0)
+        $window.scrollTo(0, 0);
 
         // Keep scroll position
         $scope.scrollPos = {}; // scroll position of each view
@@ -52,16 +52,16 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
 
         // Accordion handle
         $scope.oneAtATime = false;
-        $scope.isFirstFilterOpen = false
+        $scope.isFirstFilterOpen = false;
 
         // We get the dvd item open status (in cache, is isn't the first loading)
         $scope.cache = Cache;
         if($scope.cache.get('dvdOpenStatus') != undefined) {
-            $scope.status = $scope.cache.get('dvdOpenStatus')
+            $scope.status = $scope.cache.get('dvdOpenStatus');
         }
         else {
             $scope.dvdOpenStatus = false;
-            $scope.status = {}
+            $scope.status = {};
         }
 
         // Expand or collapse all of the Dvd items
@@ -129,9 +129,13 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
 
                 // If the DVD list it's call with the administration route, we get the owner in relation
                 if($scope.user.isAdmin && $routeParams.userName) {
+                    console.log('We get Owner in if case');
+
                     // We get owner chosen in the administration view
                     $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
                         if($scope.owner.success) {
+                            console.log('Owner got successfully in if case');
+
                             // We get the owner in relation with the url parameter
                             $scope.owner = $scope.owner.owner;
 
@@ -153,8 +157,10 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
                 // Else, we display the current owner in relation with the user logged
                 else {
                     // We get the current owner
+                    console.log('We get Owner in else case');
                     $scope.owner = User.UserAccount.getCurrentOwner(function() {
                         if($scope.owner.success) {
+                            console.log('Owner got successfully in else case');
                             $scope.owner = $scope.owner.owner;
                         }
                     });

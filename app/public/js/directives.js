@@ -100,4 +100,26 @@ dvdCatDirectives.directive('showtab',
                 });
             }
         };
-    });
+});
+
+dvdCatDirectives.directive('scroll', function($window) {
+    return {
+        restrict: 'A',
+        link: function(scope, $elm) {
+            angular.element($window).bind("scroll", function() {
+                if ($(this).scrollTop() > 100) {
+                    $elm.fadeIn();
+                } else {
+                    $elm.fadeOut();
+                }
+            });
+
+            $elm.click(function () {
+                $("html, body").animate({
+                    scrollTop: 0
+                }, 600);
+                return false;
+            });
+        }
+    }
+});

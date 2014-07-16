@@ -17,7 +17,8 @@
 		"express-flash": "*",
         "bcrypt-nodejs": "*",
 		"underscore": "*",
-		"multiparty": "*"
+		"multiparty": "*",
+		"maintenance": "*"
     },
     "author": "Mathieu <perdodelamancha31@gmail.com>",
     "description": "DVD catalog"

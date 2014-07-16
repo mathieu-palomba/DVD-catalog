@@ -74,11 +74,9 @@ app.listen(config.port, function() {
 // Pour utiliser le champ rechercher uniquement sur des acteurs, titre ou producteurs
 // Rajouter option 'Dvd preter'
 // Rajouter image acteurs
-// Refactoring date filter dans userAccount
 // Avoir une couleur différente pour les combobox de filtrage lorsqu'un filtre est activé
 // Pouvoir modifier compte d'un utilisateur depuis la zone administrateur
 // Mettre un compteur de mots de passe érronés
-// Corriger bug accès à tous les utilisateur depuis une vue non administrateur
 // Avoir possibilité d'activer/désactiver l'enregistrement des utilisateurs
 
 
@@ -102,5 +100,7 @@ app.listen(config.port, function() {
 // Vérifier enregistrement DVD manuelement (pour le movie poster)
 // Rajouter fonction collapse pour éviter de tout afficher dans la vue 'dvd-list'
 // Pouvoir éditer un utilisateur (mail, username, password...)
+// Refactoring date filter dans userAccount
 // Mettre à jour utilisateur grâce à son ID et pas son email
 // Rajouter option pour supprimer compte depuis la vue administrateur/ et depuis le compte utilisateur
+// Corriger bug accès à tous les utilisateur depuis une vue non administrateur

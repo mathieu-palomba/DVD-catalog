@@ -91,6 +91,23 @@ footer, .push {
     overflow:visible;
 }
 
+.fixed-position {
+    position: fixed;
+    bottom: 72px;
+    right: 0px;
+}
+
+.scrollup {
+    width: 46px;
+    height: 46px;
+    position: fixed;
+    bottom: 75px;
+    right: 15px;
+    display: none;
+    text-indent: -9999px;
+    background: url(../img/dvd-catalog/icon-top.png) no-repeat;
+}
+
 /** Detail View **/
 .dvd-thumb {
     float: left;
