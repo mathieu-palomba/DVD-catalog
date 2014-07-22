@@ -1,4 +1,13 @@
 /**
+ * Underscore service.
+ * @type {*|module}
+ */
+var underscore = angular.module('underscore', []);
+underscore.factory('_', function() {
+    return window._;    // Assumes underscore has already been loaded on the page
+});
+
+/**
  * Resources services.
  */
 var dvdCatServices = angular.module('dvdCatServices', ['ngResource']);
@@ -12,7 +21,7 @@ dvdCatServices.constant('GenresConstant', {
     animation: 'Animation',
     comedy: 'Comédie',
     crime: 'Crime',
-    disaster: 'Catastrophique',
+    disaster: 'Catastrophe',
     documentary: 'Documentaire',
     drama: 'Drame',
     erotic: 'Erotique',
@@ -23,6 +32,7 @@ dvdCatServices.constant('GenresConstant', {
     musical: 'Musical',
     romance: 'Romantique',
     scienceFiction: 'Science-Fiction',
+    suspense: 'Mystère',
     thriller: 'Thriller',
     war: 'Guerre',
     western: 'Western'

@@ -106,6 +106,12 @@
         </div>
         <!--END CONTENT-->
 
+        <!--ERROR MESSAGE-->
+        <% if (locals.message) { %>
+        <div class="alert alert-danger text-center"><%= locals.message %></div>
+        <% } %>
+        <!--END ERROR MESSAGE-->
+
         <!--FOOTER-->
         <div class="footer">
             <!--LOGIN BUTTON-->
@@ -126,10 +132,6 @@
     <div class="span4 copyright">Mathieu PALOMBA - 2014</div>
 </div>
 <!--END WRAPPER-->
-
-<% if (locals.message) { %>
-<div class="alert alert-danger text-center"><%= locals.message %></div>
-<% } %>
 
 <!--GRADIENT--><div class="gradient"></div><!--END GRADIENT-->
 </body>

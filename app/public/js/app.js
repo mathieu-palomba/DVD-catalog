@@ -13,7 +13,8 @@ var dvdCatApp = angular.module('dvdCatApp', [
     'dvdCatFilter',
     'dvdCatDirectives',
     'dvdCatServices',
-    'dvdCatAnimations'
+    'dvdCatAnimations',
+    'underscore'
 ]);
 
 /**

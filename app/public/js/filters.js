@@ -56,45 +56,27 @@ dvdCatFilter.filter('dateFormat', function() {
  * This filter permit to filter the movies with the movie format attribute.
  */
 dvdCatFilter.filter('movieFormatFilter', function() {
-    return function (items, dvdFormats) {
-//        console.log('Dvd formats filter')
+    return function (items, dvdFormatsFilter) {
         var result = [];
 
         // Try catch to avoid error like 'interpolation error'
         try {
-            if (items != undefined) {
-    //            console.log(items)
-                var result = items.slice(0); // copy array
-        //        console.log('dvdFormats')
-        //        console.log(dvdFormats)
-        //        console.log('items')
-        //        console.log(items)
+            var result = items.slice(0); // copy array
 
-                angular.forEach(dvdFormats, function(value, key) {
-        //            console.log('Format')
-        //            console.log(format)
-                    var format = value;
+            // For each dvd, we check if it contain at least one genre
+            angular.forEach(result, function(value, key) {
+                var dvd = value;
 
-                    if(format.assignable) {
-                        for(var index = 0; index < result.length; index++) {
-                            var dvd = result[index];
-                            var isFormatMatch = false;
-        //                    console.log('dvd')
-        //                    console.log(dvd)
-        //                    console.log('movie format')
-        //                    console.log(dvd.movieFormat)
+                // We compute the length of common element
+                var movieFormatMatch = _.indexOf(dvdFormatsFilter, dvd.movieFormat);
 
-                            isFormatMatch = isFormatMatch | dvd.movieFormat == format.name;
+                // If the index of the current movie format isn't greater than -1, AND if the array of movie formats filter isn't empty, we remove the current dvd from the list
+                if(dvdFormatsFilter.length > 0 && !(movieFormatMatch > -1)) {
+                    result = _.without(result, _.findWhere(result, {title: dvd.title}));
+                }
+            });
 
-                            if(!isFormatMatch) {
-                                result.splice(index--, 1);
-                            }
-                        }
-                    }
-                });
-
-                return result;
-            }
+            return result;
         }
         catch (e) {
             return result;
@@ -105,34 +87,31 @@ dvdCatFilter.filter('movieFormatFilter', function() {
 /**
  * This filter permit to filter the movies with the movie genres attribute.
  */
-dvdCatFilter.filter('dvdGenresFilter', function() {
-    return function(items, dvdGenres) {
+dvdCatFilter.filter('dvdGenresFilter', function(_) {
+    return function(items, genreNamesFilter) {
         var result = []
 
         // Try catch to avoid error like 'interpolation error'
         try {
             var result = items.slice(0); // copy array
 
-            // For each genres in the dropdowns menu, we check if the checkbox it's enabled
-            angular.forEach(dvdGenres, function(value, key) {
-                var genre = value;
+            // For each dvd, we check if it contain at least one genre
+            angular.forEach(result, function(value, key) {
+                var dvd = value;
 
-                // If the checkbox it's enabled, we look over the dvd list
-                if(genre.assignable) {
-                    for(var index = 0; index < result.length; index++) {
-                        var dvd = result[index];
-                        var isGenreMatch = false;
+                // We compute the array of genre names
+                var dvdGenreNames = _.chain(dvd.genres)
+                                        .map(function(obj){
+                                            return obj.name;
+                                        })
+                                        .value();
 
-                        // We search if the dvd contains the genre filter
-                        angular.forEach(dvd.genres, function(value, key) {
-                            isGenreMatch = isGenreMatch | dvd.genres[key].name == genre.name;
-                        });
+                // We compute the length of common element
+                var dvdLengthInCommon = _.intersection(genreNamesFilter, dvdGenreNames).length;
 
-                        // If the filter isn't in the dvd genres, we delete the dvd from the display list
-                        if(!isGenreMatch) {
-                            result.splice(index--, 1);
-                        }
-                    }
+                // If the length of the common elements array isn't greater than one, AND if the array of genres filter isn't empty, we remove the current dvd from the list
+                if(genreNamesFilter.length > 0 && !(dvdLengthInCommon >= 1)) {
+                    result = _.without(result, _.findWhere(result, {title: dvd.title}));
                 }
             });
 

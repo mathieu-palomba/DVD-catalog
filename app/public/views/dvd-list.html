@@ -24,7 +24,7 @@
                     <!--</div>-->
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-search"></i></span>
-                        <input type="text" ng-model="query" class="span12" placeholder="Film, Artiste, ...">
+                        <input type="text" ng-change="filterItems(dvdList, query)" ng-model="query" class="span12" placeholder="Film, Artiste, ...">
                     </div>
 
                 </li>
@@ -43,7 +43,7 @@
                         <!--Content-->
                         <li>
                             <span class="label label-info">
-                            {{(dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp).length}} films trouvés
+                            {{filteredDvdList.length}} films trouvés
                             </span>
                         </li>
                         </br>
@@ -63,8 +63,8 @@
                             Filtres disponibles :
                         </li>
                         <li>
-                            <dropdown-multiselect label="Formats" model="selectedDvdFormats" options="dvdFormats"></dropdown-multiselect>
-                            <dropdown-multiselect label="Genres" model="selectedDvdGenres" options="dvdGenres"></dropdown-multiselect>
+                            <dropdown-multiselect label="Formats" model="selectedDvdFormats" options="dvdFormats" on-update="movieFormatFilterItems()" reset-filter="resetMovieFormatFilter()" filter-enabled="dvdFormatsFilter"></dropdown-multiselect>
+                            <dropdown-multiselect label="Genres" model="selectedDvdGenres" options="dvdGenres" on-update="dvdGenreFilterItems()" reset-filter="resetDvdGenreFilter()" filter-enabled="genreNamesFilter"></dropdown-multiselect>
                         </li>
 
                     </accordion-group>
@@ -76,7 +76,8 @@
         <div class="span9">
             <ul class="dvd-list">
                 <accordion close-others="oneAtATime">
-                    <li ng-repeat="dvd in filteredDvdList = (dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp)" class="dvd-listing">
+                    <li ng-repeat="dvd in filteredAndOrderedDvdList = (filteredDvdList | orderBy:orderProp)" class="dvd-listing">
+                    <!--<li ng-repeat="dvd in filteredAndOrderedDvdList = (dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp)" class="dvd-listing">-->
                     <!--<li ng-repeat="dvd in dvdList | filter:query | movieFormatFilter:dvdFormats | dvdGenresFilter:dvdGenres | orderBy:orderProp" class="dvd-listing">-->
                         <accordion-group is-open="status.openDvd{{$index}}">
                             <!--Header-->
@@ -156,4 +157,4 @@
 </div>
 
 <!--Go to the top of the page-->
-<a href="#" scroll class="scrollup"></a>
+<a href="#" scroll class="scrollup" title="Aller en haut de la page"></a>

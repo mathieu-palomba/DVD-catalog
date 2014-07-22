@@ -76,7 +76,6 @@
 
     <!--LOGIN FORM-->
     <form name="login-form" action="/login" method="post" class="login-form">
-
         <!--HEADER-->
         <div class="header">
             <!--TITLE--><h1 class="text-center">Formulaire de connexion</h1><!--END TITLE-->
@@ -89,6 +88,12 @@
             <!--PASSWORD--><input name="password" type="password" onfocus="this.value=''" placeholder="Mot de passe" class="input password" required/><!--END PASSWORD-->
         </div>
         <!--END CONTENT-->
+
+        <!--ERROR MESSAGE-->
+        <% if (locals.message) { %>
+        <div class="alert alert-danger text-center"><%= locals.message %></div>
+        <% } %>
+        <!--END ERROR MESSAGE-->
 
         <!--FOOTER-->
         <div class="footer">
@@ -112,10 +117,6 @@
     <div class="span4 copyright">Mathieu PALOMBA - 2014</div>
 </div>
 <!--END WRAPPER-->
-
-<% if (locals.message) { %>
-<div class="alert alert-danger text-center"><%= locals.message %></div>
-<% } %>
 
 <!--GRADIENT--><div class="gradient"></div><!--END GRADIENT-->
 </body>

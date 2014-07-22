@@ -6,9 +6,9 @@ var dvdListControllers = angular.module('dvdListControllers', ['ngRoute', 'ui.bo
 /**
  * DVD List controllers.
  */
-dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFactory', '$route', '$routeParams', '$window', '$anchorScroll', 'Dvd', 'User', 'Rating',
+dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFactory', '$route', '$routeParams', '$window', '$anchorScroll', '$filter', '$timeout', 'Dvd', 'User', 'Rating',
                                               'GenresConstant', 'DvdFormatsConstant', 'Cache',
-    function ($scope, $location, $cacheFactory, $route, $routeParams, $window, $anchorScroll, Dvd, User, Rating, GenresConstant, DvdFormatsConstant, Cache) {
+    function ($scope, $location, $cacheFactory, $route, $routeParams, $window, $anchorScroll, $filter, $timeout, Dvd, User, Rating, GenresConstant, DvdFormatsConstant, Cache) {
         console.log('Dvd List controller');
 
         // Scroll of the top of the window per default
@@ -36,17 +36,18 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
 
         // Route restore
         $scope.$on('$routeChangeSuccess', function() {
-            var scrollPos = 0
+            var scrollPos = 0;
 
             // We get the previous scroll position if it exist
             if($scope.cache.get('scrollPos') != undefined) {
-                scrollPos = $scope.cache.get('scrollPos')[$location.path()]
-            }
-            else {
-                scrollPos = 0
+                scrollPos = $scope.cache.get('scrollPos')[$location.path()];
             }
 
-            $(window).scrollTop(scrollPos);
+            // Use the timeout to have time to scroll to the old value
+            $timeout(function(){
+                $(window).scrollTop(scrollPos);
+            }, 400);
+
             $scope.okSaveScroll = true;
         });
 
@@ -95,7 +96,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
             var newFormat = {};
             newFormat.id = counter++;
             newFormat.name = value;
-            newFormat.assignable = true;
+            newFormat.assignable = false;
 
             // We push the new genre in the list
             $scope.dvdFormats.push(newFormat);
@@ -117,6 +118,78 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
             $scope.dvdGenres.push(newGenre);
         });
 
+        // Handle all filters
+        $scope.filteredMovieFormatDvdList = [];
+        $scope.filteredDvdGenresDvdList = [];
+
+        $scope.filterItems = function(){
+            $scope.filteredDvdList = $filter('filter')($scope.dvdList, $scope.query);
+        };
+
+        $scope.movieFormatFilterItems = function(){
+            // We compute the array of dvd format enabled
+            $scope.dvdFormatsFilter = _.chain($scope.dvdFormats)
+                .filter(function(obj){
+                    if (obj.assignable) {
+                        return obj;
+                    }
+                })
+                .map(function(obj){
+                    return obj.name;
+                })
+                .value();
+
+            // We call the associated filter
+            $scope.filteredMovieFormatDvdList = $filter('movieFormatFilter')($scope.dvdList, $scope.dvdFormatsFilter);
+
+            // We update the dvd list to display
+            if ($scope.filteredDvdGenresDvdList.length > 0){
+                $scope.filteredDvdList = _.intersection($scope.filteredMovieFormatDvdList, $scope.filteredDvdGenresDvdList);
+            }
+            else {
+                $scope.filteredDvdList = $scope.filteredMovieFormatDvdList
+            }
+        };
+
+        $scope.dvdGenreFilterItems = function(){
+            // We compute the array of genre names enabled
+            $scope.genreNamesFilter = _.chain($scope.dvdGenres)
+                .filter(function(obj){
+                    if (obj.assignable) {
+                        return obj;
+                    }
+                })
+                .map(function(obj){
+                    return obj.name;
+                })
+                .value();
+
+            // We call the associated filter
+            $scope.filteredDvdGenresDvdList = $filter('dvdGenresFilter')($scope.dvdList, $scope.genreNamesFilter);
+
+            // We update the dvd list to display
+            if ($scope.filteredMovieFormatDvdList.length > 0){
+                $scope.filteredDvdList = _.intersection($scope.filteredDvdGenresDvdList, $scope.filteredMovieFormatDvdList);
+            }
+            else {
+                $scope.filteredDvdList = $scope.filteredDvdGenresDvdList
+            }
+        };
+
+        $scope.resetFilter = function(){
+            $scope.filteredDvdList = $scope.dvdList;
+        };
+
+        $scope.resetMovieFormatFilter = function(){
+            $scope.filteredMovieFormatDvdList = [];
+            $scope.movieFormatFilterItems();
+        };
+
+        $scope.resetDvdGenreFilter = function(){
+            $scope.filteredDvdGenresDvdList = [];
+            $scope.dvdGenreFilterItems();
+        };
+
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
@@ -129,18 +202,19 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
 
                 // If the DVD list it's call with the administration route, we get the owner in relation
                 if($scope.user.isAdmin && $routeParams.userName) {
-                    console.log('We get Owner in if case');
 
                     // We get owner chosen in the administration view
                     $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
                         if($scope.owner.success) {
-                            console.log('Owner got successfully in if case');
 
                             // We get the owner in relation with the url parameter
                             $scope.owner = $scope.owner.owner;
 
                             // We get the DVD list in relation with this owner
                             $scope.dvdList = $scope.owner.dvd;
+
+                            // Variable which is used to filter items
+                            $scope.filteredDvdList = $scope.dvdList;
 
                             // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
                             $scope.href = "#/dvd/" + $scope.owner.userName + "/";
@@ -157,32 +231,42 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
                 // Else, we display the current owner in relation with the user logged
                 else {
                     // We get the current owner
-                    console.log('We get Owner in else case');
                     $scope.owner = User.UserAccount.getCurrentOwner(function() {
                         if($scope.owner.success) {
-                            console.log('Owner got successfully in else case');
                             $scope.owner = $scope.owner.owner;
-                        }
-                    });
-
-                    // We get the DVD list (NOT NECESSARY because we have the owner, but it's a second method)
-                    $scope.dvdList = Dvd.DvdList.getAllDvd(function()
-                    {
-                        if( $scope.dvdList.success ) {
-                            console.log('DVD got successfully');
-//                    console.log($scope.dvdList.dvdList[0].dvd);
 
                             // We get the DVD list in relation with this owner
-                            $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
+                            $scope.dvdList = $scope.owner.dvd;
+
+                            // Variable which is used to filter items
+                            $scope.filteredDvdList = $scope.dvdList;
 
                             // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
                             $scope.href = "#/dvd/";
                         }
-                        else {
-                            console.log('Error when getting the DVD list');
-                            $scope.dvdList = []
-                        }
-                    } );
+                    });
+
+                    // We get the DVD list (NOT NECESSARY because we have the owner, but it's a second method)
+//                    $scope.dvdList = Dvd.DvdList.getAllDvd(function()
+//                    {
+//                        if( $scope.dvdList.success ) {
+//                            console.log('DVD got successfully');
+////                    console.log($scope.dvdList.dvdList[0].dvd);
+//
+//                            // We get the DVD list in relation with this owner
+//                            $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
+//
+//                            // Variable which is used to filter items
+//                            $scope.filteredDvdList = $scope.dvdList.length;
+//
+//                            // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
+//                            $scope.href = "#/dvd/";
+//                        }
+//                        else {
+//                            console.log('Error when getting the DVD list');
+//                            $scope.dvdList = []
+//                        }
+//                    } );
                 }
             }
         });

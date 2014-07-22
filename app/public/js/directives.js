@@ -11,6 +11,9 @@ dvdCatDirectives.directive('dropdownMultiselect', function(){
             label: '@', // @ for Attributes
             model: '=',
             options: '=',
+            onUpdate: '&onUpdate',
+            resetFilter: '&resetFilter',
+            filterEnabled: "=",
             pre_selected: '=preSelected'
         },
         templateUrl:  '../views/templates/dropdown-multiselect.html',
@@ -25,11 +28,27 @@ dvdCatDirectives.directive('dropdownMultiselect', function(){
             };
 
             $scope.selectAll = function() {
-                $scope.model = _.pluck($scope.options, 'id');
+                // Select all genre with assignable variable to true
+                $scope.model = _.chain($scope.options)
+                    .map(function(obj){
+                        obj.assignable = true;
+                        return obj;
+                    })
+                    .pluck('id')
+                    .value();
+
+                // Update filter
+                $scope.onUpdate();
 //                console.log($scope.model);
             };
             $scope.deselectAll = function() {
-                $scope.model=[];
+                $scope.model = [];
+                $scope.options = _.map($scope.options, function(obj){
+                                        obj.assignable = false;
+                                        return obj;
+                                    });
+
+                $scope.resetFilter();
 //                console.log($scope.model);
             };
             $scope.setSelectedItem = function($event) {
@@ -42,28 +61,34 @@ dvdCatDirectives.directive('dropdownMultiselect', function(){
                 } else {
                     $scope.model.push(id);
                 }
-//                console.log($scope.model);
+
+                var itemChecked = _.contains($scope.model, id);
+                $scope.options[id].assignable = itemChecked;
+
+                // Update filter
+                $scope.onUpdate();
+
                 return false;
             };
             $scope.isChecked = function(id) {
                 // We get the item state to update it's boolean value in the dvd list model
                 var itemChecked = _.contains($scope.model, id);
-                $scope.options[id].assignable = itemChecked;
+//                $scope.options[id].assignable = itemChecked;
 
                 if (itemChecked) {
                     return 'icon-ok pull-right';
                 }
                 return false;
             };
-            $scope.isCheckEnabled = function(model) {
+//            $scope.isCheckEnabled = function(model) {
 //                console.log('isCheckEnabled')
 //                console.log(model.length)
 //                if(model.length > 0) {
 //                    return 'btn btn-info dropdown-toggle';
 //                }
-
-                return 'btn dropdown-toggle';
-            };
+//
+//                return 'btn dropdown-toggle';
+//            };
         }
     }
 });
