@@ -36,7 +36,7 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
                                 // We get the isAdmin properties when the user name equal the owner name
                                 if(userName == ownerName) {
                                     owner.isAdmin = user.isAdmin;
-                                    owner.userID = user._id
+                                    owner.userID = user._id;
                                 }
                             }
                         }

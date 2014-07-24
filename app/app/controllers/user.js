@@ -4,8 +4,32 @@
 var passport = require('passport'),
     mongoose = require('mongoose'),
     flash = require('express-flash'),
+    nodemailer = require("nodemailer"),
     Owner = mongoose.model('Owner'); // The model we defined in the previous example
     User = mongoose.model('User'); // The model we defined in the previous example
+
+/**
+ * Server configuration
+ */
+var config = require( './config/env/config' );
+/**
+ * Var to send an email.
+ */
+var smtpTransport = nodemailer.createTransport({
+    service: config.smtp.service,
+    auth: {
+        user: config.smtp.user,
+        pass: config.smtp.pass
+//        XOAuth2: {
+//            user: 'pedrodelamancha31@gmail.com',
+//            clientId: "1018459743391-ilhrjuigm8s9517afdmo74q1oekj1614.apps.googleusercontent.com",
+//            clientSecret: "cZwE5GZH-EFIxveqpFUvFylg"
+////            refreshToken: "https://accounts.google.com/o/oauth2/token",
+////            accessToken: "https://accounts.google.com/o/oauth2/token",
+////            timeout: 3600
+//        }
+    }
+});
 
 var AuthController = {
 
@@ -356,7 +380,7 @@ var AuthController = {
     deleteUser: function( req, res )
     {
         console.log('Delete user in the database')
-        var userID = req.body.userID
+        var userID = req.body.userID;
 
         // Find the owner to remove
         User.remove({ "_id": userID }, function (err) {
@@ -446,6 +470,36 @@ var AuthController = {
                     console.log('Users not found');
                     res.jsonp({"success": false});
                 }
+            }
+        });
+    },
+
+    /**
+     * Send and email.
+     * @param req : The request
+     * @param res : The response
+     */
+    sendMail: function(req, res)
+    {
+        console.log("Send email");
+        var email = req.body.email;
+
+        var mailOptions = {
+            to: 'mathieupalomba@msn.com',  // Comma separated list of receivers
+            from: 'noreply@dvd-catalog.com',   // Sender address
+            subject: 'Node.js Password Reset',
+            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                'Please click on the following link, or paste this into your browser to complete the process:\n\n'
+        };
+
+        smtpTransport.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
+                res.jsonp({"success": false});
+            }
+            else{
+                console.log("Message sent: " + response.message);
+                res.jsonp({"success": true});
             }
         });
     }

@@ -24,7 +24,7 @@
                     <!--</div>-->
                     <div class="input-prepend">
                         <span class="add-on"><i class="icon-search"></i></span>
-                        <input type="text" ng-change="filterItems(dvdList, query)" ng-model="query" class="span12" placeholder="Film, Artiste, ...">
+                        <input type="text" ng-change="filterItems(dvdList, query)" ng-model="query" class="span12" placeholder="Film, Acteur, Producteur...">
                     </div>
 
                 </li>
@@ -74,6 +74,15 @@
 
         <!--Body content-->
         <div class="span9">
+            <!--If no DVD are been recorded-->
+            <div ng-if="dvdList.length == 0" class="sub-section-content empty-list">
+                <span>
+                    Votre DVD Tech est vide.</br></br>
+                    Vous pouvez commencer à la construire en cliquant sur le bouton <i>"Ajouter un film"</i>, situé en haut à gauche de l'écran.
+                </span>
+            </div>
+
+            <!--Else-->
             <ul class="dvd-list">
                 <accordion close-others="oneAtATime">
                     <li ng-repeat="dvd in filteredAndOrderedDvdList = (filteredDvdList | orderBy:orderProp)" class="dvd-listing">

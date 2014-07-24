@@ -14,6 +14,7 @@ var dvdCatApp = angular.module('dvdCatApp', [
     'dvdCatDirectives',
     'dvdCatServices',
     'dvdCatAnimations',
+    'contactControllers',
     'underscore'
 ]);
 
@@ -46,6 +47,10 @@ dvdCatApp.config(['$routeProvider',
             when('/user/administration', {
                 templateUrl: 'views/users-administration.html',
                 controller: 'UserAdministrationCtrl'
+            }).
+            when('/contact', {
+                templateUrl: 'views/contact.html',
+                controller: 'ContactCtrl'
             }).
             when('/goodbye', {
                 templateUrl: 'views/goodbye.html'

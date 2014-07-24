@@ -108,6 +108,11 @@ footer, .push {
     background: url(../img/dvd-catalog/icon-top.png) no-repeat;
 }
 
+.empty-list {
+    text-align: center;
+    vertical-align: middle;
+}
+
 /** Detail View **/
 .dvd-thumb {
     float: left;

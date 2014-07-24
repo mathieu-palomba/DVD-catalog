@@ -202,6 +202,17 @@ dvdCatServices.factory('User', ['$resource',
 );
 
 /**
+ * This service permit to create a RESTful client and avoid the $http lower method. The $ressource route must hve the same name in "app.js".
+ */
+dvdCatServices.factory('Contact', ['$resource',
+    function ($resource) {
+        return $resource('', {}, {
+            sendEmail: {method: 'POST', url: '/contact'}
+        });
+    }]
+);
+
+/**
 * This service permit to execute a JSONP requests to get JSON data.
 */
 dvdCatServices.factory('MovieDB', ['$resource',

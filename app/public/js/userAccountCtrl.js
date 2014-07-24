@@ -9,19 +9,19 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
  */
 userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', '$upload', 'User',
     function ($scope, $location, $route, $window, $upload, User) {
+        $scope.status = {
+            default: undefined,
+            updated: "Compte mis à jour",
+            value: undefined
+        };
+
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
             if($scope.user.success) {
-                $scope.user = $scope.user.user[0]
-                $scope.newUserName = $scope.user.username
-                $scope.newEmail = $scope.user.email
-                $scope.newPassword = undefined
-
-                $scope.status = {
-                    default: undefined,
-                    updated: "Compte mis à jour",
-                    value: undefined
-                }
+                $scope.user = $scope.user.user[0];
+                $scope.newUserName = $scope.user.username;
+                $scope.newEmail = $scope.user.email;
+                $scope.newPassword = undefined;
 
                 $scope.owner = User.UserAccount.getCurrentOwner(function() {
                     if($scope.owner.success) {
@@ -54,13 +54,13 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
                                 }
 
                                 else {
-                                    $scope.status.value = userUpdated.status
+                                    $scope.status.value = userUpdated.status;
                                 }
                             });
                         }
 
                         else {
-                            $scope.status.value = ownerUpdated.status
+                            $scope.status.value = ownerUpdated.status;
                         }
                     });
                 }
@@ -105,18 +105,18 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
             var fileName = '[Dvd_catalog]_Exported_Dvd_' + $scope.owner.userName
 
             if(typeof data === "object"){
-                data = JSON.stringify(data, undefined, 4)
+                data = JSON.stringify(data, undefined, 4);
             }
 
             var blob = new Blob([data], {type: 'text/json'}),
                 e    = document.createEvent('MouseEvents'),
-                a    = document.createElement('a')
+                a    = document.createElement('a');
 
-            a.download = fileName + '.json'
-            a.href = window.URL.createObjectURL(blob)
-            a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':')
-            e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null)
-            a.dispatchEvent(e)
+            a.download = fileName + '.json';
+            a.href = window.URL.createObjectURL(blob);
+            a.dataset.downloadurl =  ['text/json', a.download, a.href].join(':');
+            e.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+            a.dispatchEvent(e);
         };
 
         $scope.importJson = function($files) {
@@ -139,7 +139,7 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
 
         $scope.showContent = function($fileContent){
             console.log('Read file')
-            $scope.content = JSON.parse($fileContent)
+            $scope.content = JSON.parse($fileContent);
             console.log($scope.content)
         };
     }

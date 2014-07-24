@@ -1,7 +1,7 @@
 .idea
 data
-old
-node_modules
+app/node_modules
 app/public/fonts
 app/public/lib
+app/sonar/.sonar
 MongoDB.txt

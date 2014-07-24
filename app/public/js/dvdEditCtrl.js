@@ -49,7 +49,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
 
         // Initialize the DVD form
         $scope.imagesFolder = 'img/';
-        $scope.temporaryMoviePosterName = 'temporaryImg.jpg'
+        $scope.temporaryMoviePosterName = 'temporaryImg.jpg';
 
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
@@ -110,7 +110,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
                     $scope.dvd.oldTitle = $scope.dvd.title;
 
                     // We set a new movie poster variable in the case of the user change the poster manually
-                    $scope.moviePoster = $scope.dvd.moviePoster
+                    $scope.moviePoster = $scope.dvd.moviePoster;
                 }
                 else
                 {

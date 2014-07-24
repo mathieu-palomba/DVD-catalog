@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <div class="row-fluid">
+        <h1>Contact</h1>
+
+        <div class="sub-section-content">
+            <form class="form-horizontal form-left">
+                <div class="control-group">
+                    <label class="control-label" for="inputUserName">Pseudonyme</label>
+                    <div class="controls">
+                        <input type="text" id="inputUserName" placeholder="Votre nom" ng-model="email.userName" autofocus required>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="subject" class="select">Sujet</label>
+                    <div class="controls">
+                        <select name="subject" id="subject" ng-model="email.subject" required>
+                            <option value="" selected disabled>--- Sujet du message ---</option>
+                            <option ng-repeat="subject in subjects">{{subject}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="inputEmail">Email</label>
+                    <div class="controls">
+                        <input type="text" id="inputEmail" placeholder="Email" ng-model="email.emailAddress" required>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="inputMessage">Message</label>
+                    <div class="controls">
+                        <textarea id="inputMessage" placeholder="Votre message" ng-model="email.message" rows="8" class="text-area" required></textarea>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <div class="controls">
+                        <button type="submit" name="message" ng-click="performSend()" class="btn btn-primary">Envoyer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

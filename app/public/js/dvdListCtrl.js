@@ -46,7 +46,7 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
             // Use the timeout to have time to scroll to the old value
             $timeout(function(){
                 $(window).scrollTop(scrollPos);
-            }, 400);
+            }, 600);
 
             $scope.okSaveScroll = true;
         });

@@ -18,7 +18,8 @@
         "bcrypt-nodejs": "*",
 		"underscore": "*",
 		"multiparty": "*",
-		"maintenance": "*"
+		"maintenance": "*",
+		"nodemailer": "*"
     },
     "author": "Mathieu <perdodelamancha31@gmail.com>",
     "description": "DVD catalog"
