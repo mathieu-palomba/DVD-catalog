@@ -3,7 +3,11 @@
         <h1>Contact</h1>
 
         <div class="sub-section-content">
-            <form class="form-horizontal form-left">
+            <div ng-if="status.value">
+                <div class="alert alert-success center-label">{{status.value}}</div>
+            </div>
+
+            <form ng-submit="performSend()" class="form-horizontal form-left">
                 <div class="control-group">
                     <label class="control-label" for="inputUserName">Pseudonyme</label>
                     <div class="controls">
@@ -24,7 +28,7 @@
                 <div class="control-group">
                     <label class="control-label" for="inputEmail">Email</label>
                     <div class="controls">
-                        <input type="text" id="inputEmail" placeholder="Email" ng-model="email.emailAddress" required>
+                        <input type="email" id="inputEmail" placeholder="Email" ng-model="email.from" required>
                     </div>
                 </div>
 
@@ -37,7 +41,7 @@
 
                 <div class="control-group">
                     <div class="controls">
-                        <button type="submit" name="message" ng-click="performSend()" class="btn btn-primary">Envoyer</button>
+                        <button type="submit" name="submit" class="btn btn-primary">Envoyer</button>
                     </div>
                 </div>
             </form>

@@ -9,6 +9,8 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
  */
 userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', '$upload', 'User',
     function ($scope, $location, $route, $window, $upload, User) {
+        console.log('User account controller');
+
         $scope.status = {
             default: undefined,
             updated: "Compte mis à jour",
@@ -46,11 +48,18 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
 
                             // We update the user account
                             var userUpdated = User.UserAccount.updateCurrentUser({'username': userName, 'newEmail': newEmail, 'newPassword': newPassword}, function () {
-                                // If the user is successfully updated, we redirect to the dvd list view
+                                // If the user is successfully updated
                                 if(userUpdated.success) {
                                     console.log('User successfully updated')
-                                    $window.location.reload();
-//                                    $scope.status.value = $scope.status.updated
+
+                                    // Set new (or old) values
+                                    $scope.user.username = $scope.newUserName;
+                                    $scope.user.email = $scope.newEmail;
+
+                                    // OK message
+                                    $scope.status.value = $scope.status.updated
+
+//                                    $window.location.reload();
                                 }
 
                                 else {

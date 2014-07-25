@@ -11,6 +11,8 @@ var contactControllers = angular.module('contactControllers', ['ngRoute']);
  */
 contactControllers.controller('ContactCtrl', ['$scope', 'User', 'Contact',
     function ($scope, User, Contact) {
+        console.log('Contact controller');
+
         $scope.subjects = {
             subject1: 'J\'ai une suggestion',
             subject2: 'J\'ai trouvé un bug',
@@ -20,8 +22,14 @@ contactControllers.controller('ContactCtrl', ['$scope', 'User', 'Contact',
         $scope.email = {
             userName: '',
             subject: '',
-            emailAddress: '',
+            from: '',
             message: ''
+        };
+
+        $scope.status = {
+            sent: "Email envoyé à l'administrateur du site",
+            error: "Erreur durant l'envoie de l'email",
+            value: undefined
         };
 
         // We get the current user
@@ -29,7 +37,7 @@ contactControllers.controller('ContactCtrl', ['$scope', 'User', 'Contact',
             if($scope.user.success) {
                 $scope.user = $scope.user.user[0];
                 $scope.email.userName = $scope.user.username;
-                $scope.email.emailAddress = $scope.user.email;
+                $scope.email.from = $scope.user.email;
 
                 $scope.owner = User.UserAccount.getCurrentOwner(function() {
                     if($scope.owner.success) {
@@ -41,12 +49,16 @@ contactControllers.controller('ContactCtrl', ['$scope', 'User', 'Contact',
         });
 
         $scope.performSend = function() {
-            console.log($scope.email)
-
             var sentMessage = Contact.sendEmail({'email': $scope.email}, function () {
                 // if the message its successfully sent
                 if (sentMessage.success) {
                     console.log('Email successfully sent');
+
+                    $scope.status.value = $scope.status.sent;
+                }
+
+                else {
+                    $scope.status.value = $scope.status.error;
                 }
             });
         };

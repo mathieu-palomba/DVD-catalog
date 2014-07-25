@@ -30,7 +30,7 @@ module.exports = function (app) {
     app.post('/updateCurrentUser', user.ensureAuthenticated, user.updateCurrentUser);
     app.post('/deleteCurrentUser', user.ensureAuthenticated, user.deleteCurrentUser);
     app.post('/deleteUser', user.ensureAdmin, user.deleteUser);
-    app.post('/contact', user.ensureAuthenticated, user.sendMail);
+    app.post('/contact', user.ensureAuthenticated, user.sendContactMail);
 
     // Home route
     var portal = require('../app/controllers/portal');

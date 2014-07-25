@@ -35,10 +35,11 @@ footer, .push {
     height: 60px; /* '.push' must be the same height as 'footer' */
 }
 
-.center-label {
+.left-align-label {
     text-align: left;
     padding-top: 5px;
 }
+
 /** Detail List **/
 .informations-header {
     padding-bottom: 50px;
@@ -212,6 +213,10 @@ h1 {
     padding: 5px;
     border: 1px solid #808080;
     background-color: rgba(255,255,255,0.2);
+}
+
+.center-label {
+    text-align: center;
 }
 
 /** Administration view **/

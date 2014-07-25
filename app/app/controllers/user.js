@@ -11,7 +11,8 @@ var passport = require('passport'),
 /**
  * Server configuration
  */
-var config = require( './config/env/config' );
+var config = require('../../config/env/config');
+
 /**
  * Var to send an email.
  */
@@ -20,14 +21,6 @@ var smtpTransport = nodemailer.createTransport({
     auth: {
         user: config.smtp.user,
         pass: config.smtp.pass
-//        XOAuth2: {
-//            user: 'pedrodelamancha31@gmail.com',
-//            clientId: "1018459743391-ilhrjuigm8s9517afdmo74q1oekj1614.apps.googleusercontent.com",
-//            clientSecret: "cZwE5GZH-EFIxveqpFUvFylg"
-////            refreshToken: "https://accounts.google.com/o/oauth2/token",
-////            accessToken: "https://accounts.google.com/o/oauth2/token",
-////            timeout: 3600
-//        }
     }
 });
 
@@ -273,6 +266,24 @@ var AuthController = {
                     }
                     else {
                         console.log("Owner recorded");
+
+                        // We send an email to the newest user
+                        var email = {
+                            subject: 'Bienvenue sur Dvd-Catalog!',
+                            to: user.email,
+                            from: config.smtp.from,
+                            message: "Bonjour " + user.username + ".\n\n" +
+                            "Tout d'abord, merci de votre inscription sur Dvd-Catalog.\n\n" +
+                            "Afin d'améliorer votre expérience utilisateur, si vous détectez un problème, si vous voulez qu'une amélioration soit apportée au site, " +
+                            "ou si vous voulez tout simplement nous contacter, vous pouvez le faire grâce à la zone contact.\n" +
+                            "Nous vous prions donc de vérifier votre adresse e-mail (" + user.email + ") afin que nous puissions vous recontacter en cas de problème.\n\n" +
+                            "Merci.\n" +
+                            "L’équipe Dvd-Catalog\n" +
+                            "http://mathieu-palomba.no-ip.org"
+                        };
+                        req.body.email = email;
+
+                        AuthController.sendSignUpMail(req, res);
                     }
                 });
 
@@ -327,6 +338,7 @@ var AuthController = {
             }
 
             console.log('Current user updated')
+
             res.jsonp({"success": true});
         });
     },
@@ -355,7 +367,6 @@ var AuthController = {
             }
 
             if (req.body.newPassword != undefined && req.body.newPassword != "") {
-                console.log("password not null")
                 user.password = req.body.newPassword;
             }
 
@@ -475,31 +486,61 @@ var AuthController = {
     },
 
     /**
-     * Send and email.
+     * Send and email from the Contact zone.
      * @param req : The request
      * @param res : The response
      */
-    sendMail: function(req, res)
+    sendContactMail: function(req, res)
     {
-        console.log("Send email");
+        console.log("Send contact email");
         var email = req.body.email;
 
         var mailOptions = {
-            to: 'mathieupalomba@msn.com',  // Comma separated list of receivers
-            from: 'noreply@dvd-catalog.com',   // Sender address
-            subject: 'Node.js Password Reset',
-            text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-                'Please click on the following link, or paste this into your browser to complete the process:\n\n'
+            subject: email.subject,
+            text: email.message,
+            to: config.smtp.to,
+            from: {
+                name: email.userName,
+                address: email.from
+            }
         };
 
+        console.log(mailOptions.from);
         smtpTransport.sendMail(mailOptions, function(error, response){
             if(error){
                 console.log(error);
                 res.jsonp({"success": false});
             }
             else{
-                console.log("Message sent: " + response.message);
+                console.log("Message sent: " + email.message);
                 res.jsonp({"success": true});
+            }
+        });
+    },
+
+    /**
+     * Send a sign up email.
+     * @param req : The request
+     * @param res : The response
+     */
+    sendSignUpMail: function(req, res)
+    {
+        console.log("Send sign up email");
+        var email = req.body.email;
+
+        var mailOptions = {
+            subject: email.subject,
+            text: email.message,
+            to: email.to,
+            from: config.smtp.from
+        };
+
+        smtpTransport.sendMail(mailOptions, function(error, response){
+            if(error){
+                console.log(error);
+            }
+            else{
+                console.log("Message sent: " + email.message);
             }
         });
     }

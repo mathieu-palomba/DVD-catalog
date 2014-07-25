@@ -1,6 +1,6 @@
 {
-    "name": "Dvds-catalog",
-    "version": "0.1.0",
+    "name": "Dvd-Catalog",
+    "version": "0.0.0",
     "private": true,
     "scripts": {
         "start": "node app.js"
@@ -22,5 +22,5 @@
 		"nodemailer": "*"
     },
     "author": "Mathieu <perdodelamancha31@gmail.com>",
-    "description": "DVD catalog"
+    "description": "DVD-Catalog"
 }

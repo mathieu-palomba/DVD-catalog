@@ -9,6 +9,8 @@ var userAdministrationControllers = angular.module('userAdministrationController
  */
 userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$route', 'User',
     function ($scope, $route, User) {
+        console.log('User administration controller');
+
         // We get the all of the owners
         $scope.owners = User.Administration.getOwners(function() {
             if($scope.owners.success) {
