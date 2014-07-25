@@ -28,7 +28,7 @@ contactControllers.controller('ContactCtrl', ['$scope', 'User', 'Contact',
 
         $scope.status = {
             sent: "Email envoyé à l'administrateur du site",
-            error: "Erreur durant l'envoie de l'email",
+            error: "Erreur durant l'envoie de l'email. Veuillez réessayer demain.",
             value: undefined
         };
 

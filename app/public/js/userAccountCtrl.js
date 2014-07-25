@@ -79,7 +79,7 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
         $scope.deleteAccount = function(user) {
             console.log('Delete current account')
             // We ask user confirmation
-            bootbox.confirm('<b>Voulez-vous vraiment supprimer votre compte utilisateur? Une fois supprimer, vous ne pourrez plus récuperer l\'ensemble des informations liées à celui-ci.</b>', function(result) {
+            bootbox.confirm("<span class='delete-account'>Voulez-vous vraiment supprimer votre compte utilisateur? Une fois supprimer, vous ne pourrez plus récuperer l\'ensemble des informations liées à celui-ci.</span>", function(result) {
                 // OK clicked
                 if(result) {
                     // Owner delete

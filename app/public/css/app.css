@@ -219,6 +219,12 @@ h1 {
     text-align: center;
 }
 
+.delete-account {
+    font-weight:bold;
+    color: red;
+    font-size: 16px;
+}
+
 /** Administration view **/
 .delete-account-btn {
     float: right;

@@ -21,6 +21,14 @@ var smtpTransport = nodemailer.createTransport({
     auth: {
         user: config.smtp.user,
         pass: config.smtp.pass
+//        XOAuth2: {
+//            user: config.gmail.user,
+//            clientId: config.gmail.clientId,
+//            clientSecret: config.gmail.clientSecret,
+//            refreshToken: config.gmail.refreshToken,
+//            accessToken: config.gmail.accessToken,
+//            timeout: config.gmail.timeout
+//        }
     }
 });
 
@@ -275,7 +283,7 @@ var AuthController = {
                             message: "Bonjour " + user.username + ".\n\n" +
                             "Tout d'abord, merci de votre inscription sur Dvd-Catalog.\n\n" +
                             "Afin d'améliorer votre expérience utilisateur, si vous détectez un problème, si vous voulez qu'une amélioration soit apportée au site, " +
-                            "ou si vous voulez tout simplement nous contacter, vous pouvez le faire grâce à la zone contact.\n" +
+                            "ou si vous voulez tout simplement nous contacter, vous pouvez le faire grâce à la zone contact.\n\n" +
                             "Nous vous prions donc de vérifier votre adresse e-mail (" + user.email + ") afin que nous puissions vous recontacter en cas de problème.\n\n" +
                             "Merci.\n" +
                             "L’équipe Dvd-Catalog\n" +
@@ -283,7 +291,8 @@ var AuthController = {
                         };
                         req.body.email = email;
 
-                        AuthController.sendSignUpMail(req, res);
+                        // Send email
+                        AuthController.sendAccountMail(req, res);
                     }
                 });
 
@@ -415,6 +424,9 @@ var AuthController = {
     {
         console.log('Delete current user in the database')
 
+        // We backup the user information to used it in the email sending
+        var userToDelete = req.user;
+
         // Find the owner to remove
         req.user.remove(function (err) {
             if (err) {
@@ -422,6 +434,24 @@ var AuthController = {
             }
 
             console.log('Current user deleted')
+
+            // We send an email to the oldest user
+            var email = {
+                subject: 'Suppression de votre compte utilisateur',
+                to: userToDelete.email,
+                from: config.smtp.from,
+                message: "Bonjour " + userToDelete.username + ".\n\n" +
+                    "Nous vous confirmons la suppression de votre compte utilisateur.\n\n" +
+                    "Si vous avez exporté vos données avant de supprimer votre compte, vous pourrez les ré-importer ultérieurement (lorsque la fonctionnalité sera implémenté).\n\n" +
+                    "Nous vous remercions d’avoir utilisé notre site et espérons avoir le plaisir de vous revoir prochainement.\n\n" +
+                    "L’équipe Dvd-Catalog\n" +
+                    "http://mathieu-palomba.no-ip.org"
+            };
+            req.body.email = email;
+
+            // Send email
+            AuthController.sendAccountMail(req, res);
+
             res.jsonp({"success": true});
         });
     },
@@ -523,7 +553,7 @@ var AuthController = {
      * @param req : The request
      * @param res : The response
      */
-    sendSignUpMail: function(req, res)
+    sendAccountMail: function(req, res)
     {
         console.log("Send sign up email");
         var email = req.body.email;
