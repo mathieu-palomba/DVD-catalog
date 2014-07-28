@@ -9,8 +9,8 @@ var contactControllers = angular.module('contactControllers', ['ngRoute']);
 /**
  * User Account controllers.
  */
-contactControllers.controller('ContactCtrl', ['$scope', 'User', 'Contact',
-    function ($scope, User, Contact) {
+contactControllers.controller('ContactCtrl', ['$scope', '$location', '$timeout', 'User', 'Contact',
+    function ($scope, $location, $timeout, User, Contact) {
         console.log('Contact controller');
 
         $scope.subjects = {
@@ -27,6 +27,7 @@ contactControllers.controller('ContactCtrl', ['$scope', 'User', 'Contact',
         };
 
         $scope.status = {
+            default: undefined,
             sent: "Email envoyé à l'administrateur du site",
             error: "Erreur durant l'envoie de l'email. Veuillez réessayer demain.",
             value: undefined
@@ -55,6 +56,11 @@ contactControllers.controller('ContactCtrl', ['$scope', 'User', 'Contact',
                     console.log('Email successfully sent');
 
                     $scope.status.value = $scope.status.sent;
+
+                    // Timeout to display success message during 1.5s
+                    $timeout(function() {
+                        $location.url('/dvd-list');
+                    }, 1500);
                 }
 
                 else {

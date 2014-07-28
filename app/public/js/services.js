@@ -30,7 +30,7 @@ dvdCatServices.constant('GenresConstant', {
     martialArts: 'Arts Martiaux',
     horror: 'Horreur',
     musical: 'Musical',
-    romance: 'Romantique',
+    romance: 'Romance',
     scienceFiction: 'Science-Fiction',
     suspense: 'Mystère',
     thriller: 'Thriller',

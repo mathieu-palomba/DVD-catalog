@@ -5,6 +5,7 @@ var passport = require('passport'),
     mongoose = require('mongoose'),
     flash = require('express-flash'),
     nodemailer = require("nodemailer"),
+    sgTransport = require('nodemailer-sendgrid-transport'),
     Owner = mongoose.model('Owner'); // The model we defined in the previous example
     User = mongoose.model('User'); // The model we defined in the previous example
 
@@ -16,15 +17,23 @@ var config = require('../../config/env/config');
 /**
  * Var to send an email.
  */
+//var options = {
+//    auth: {
+//        api_user: config.smtp.user,
+//        api_key: config.smtp.pass
+//    }
+//};
+//var smtpTransport = nodemailer.createTransport(sgTransport(options));
+
 var smtpTransport = nodemailer.createTransport({
-    service: config.smtp.service,
+    service: config.gmail.service,
     auth: {
-        user: config.smtp.user,
-        pass: config.smtp.pass
+        user: config.gmail.user,
+        pass: config.gmail.pass
 //        XOAuth2: {
 //            user: config.gmail.user,
 //            clientId: config.gmail.clientId,
-//            clientSecret: config.gmail.clientSecret,
+//            clientSecret: config.gmail.clientSecret
 //            refreshToken: config.gmail.refreshToken,
 //            accessToken: config.gmail.accessToken,
 //            timeout: config.gmail.timeout
@@ -535,7 +544,6 @@ var AuthController = {
             }
         };
 
-        console.log(mailOptions.from);
         smtpTransport.sendMail(mailOptions, function(error, response){
             if(error){
                 console.log(error);

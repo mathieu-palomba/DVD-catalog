@@ -11,10 +11,22 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
     function ($scope, $route, User) {
         console.log('User administration controller');
 
+        // Object to handle progress bar
+        $scope.progressBar = {
+            loading: true,
+            type: 'info',
+            value: '0',
+            max: '100'
+        };
+
         // We get the all of the owners
         $scope.owners = User.Administration.getOwners(function() {
             if($scope.owners.success) {
                 console.log('Owners successfully found');
+
+                // Update progress bar
+                $scope.progressBar.value = '50';
+
                 $scope.owners = $scope.owners.owners;
 //                console.log($scope.owners);
 
@@ -25,23 +37,31 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
                         console.log('Users successfully found');
                         $scope.users = $scope.users.users;
 
+                        // Update progress bar
+                        var tmpProgressBarValue = 75;
+                        $scope.progressBar.value = tmpProgressBarValue.toString();
+
                         // For all owner, we add the isAdmin property
                         for(var ownerID in $scope.owners) {
                             var owner = $scope.owners[ownerID];
                             var ownerName = owner.userName;
 
                             // We search the user in relation with the owner
-                            for(var userID in $scope.users) {
-                                var user = $scope.users[userID];
-                                var userName = user.username;
+                            var findedUser = _.findWhere($scope.users, {username: ownerName});
 
-                                // We get the isAdmin properties when the user name equal the owner name
-                                if(userName == ownerName) {
-                                    owner.isAdmin = user.isAdmin;
-                                    owner.userID = user._id;
-                                }
+                            // We get the isAdmin properties when the user name equal the owner name
+                            if (findedUser != undefined) {
+                                owner.isAdmin = findedUser.isAdmin;
+                                owner.userID = findedUser._id;
                             }
+
+                            // Update progress bar
+                            $scope.progressBar.value = (parseInt($scope.progressBar.value) + ((parseInt($scope.progressBar.max) - tmpProgressBarValue)/$scope.owners.length)).toString();
                         }
+
+                        // Remove progress bar
+                        $scope.progressBar.value = '100';
+                        $scope.progressBar.loading = false;
                     }
                 });
             }

@@ -74,6 +74,9 @@
 
         <!--Body content-->
         <div class="span9">
+            <!--Progress bar during Dvd list loading-->
+            <progressbar ng-show="progressBar.loading" class="progress-striped active" value="progressBar.value" type="{{progressBar.type}}">Chargement de votre collection</progressbar>
+
             <!--If no DVD are been recorded-->
             <div ng-if="dvdList.length == 0" class="sub-section-content empty-list">
                 <span>

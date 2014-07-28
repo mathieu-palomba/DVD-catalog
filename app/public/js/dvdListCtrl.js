@@ -1,7 +1,7 @@
 /**
  * Controllers.
  */
-var dvdListControllers = angular.module('dvdListControllers', ['ngRoute', 'ui.bootstrap']);
+var dvdListControllers = angular.module('dvdListControllers', ['ngRoute', 'ui.bootstrap', 'angular-loading-bar', 'ngAnimate']);
 
 /**
  * DVD List controllers.
@@ -10,6 +10,14 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
                                               'GenresConstant', 'DvdFormatsConstant', 'Cache',
     function ($scope, $location, $cacheFactory, $route, $routeParams, $window, $anchorScroll, $filter, $timeout, Dvd, User, Rating, GenresConstant, DvdFormatsConstant, Cache) {
         console.log('Dvd List controller');
+
+        // Object to handle progress bar
+        $scope.progressBar = {
+            loading: true,
+            type: 'info',
+            value: '0',
+            max: '100'
+        };
 
         // Scroll of the top of the window per default
         $window.scrollTo(0, 0);
@@ -195,6 +203,9 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
             if($scope.user.success) {
                 $scope.user = $scope.user.user[0];
 
+                // Update progress bar
+                $scope.progressBar.value = '50';
+
                 // If the user isn't an admin, we delete the user parameter from the url
                 if(!$scope.user.isAdmin && $routeParams.userName) {
                     $location.url('/dvd-list');
@@ -206,19 +217,10 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
                     // We get owner chosen in the administration view
                     $scope.owner = User.UserAccount.getOwner({'userName': $routeParams.userName}, function() {
                         if($scope.owner.success) {
-
-                            // We get the owner in relation with the url parameter
-                            $scope.owner = $scope.owner.owner;
-
-                            // We get the DVD list in relation with this owner
-                            $scope.dvdList = $scope.owner.dvd;
-
-                            // Variable which is used to filter items
-                            $scope.filteredDvdList = $scope.dvdList;
+                            $scope.initialize();
 
                             // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
                             $scope.href = "#/dvd/" + $scope.owner.userName + "/";
-
                         }
 
                         else {
@@ -233,43 +235,33 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
                     // We get the current owner
                     $scope.owner = User.UserAccount.getCurrentOwner(function() {
                         if($scope.owner.success) {
-                            $scope.owner = $scope.owner.owner;
-
-                            // We get the DVD list in relation with this owner
-                            $scope.dvdList = $scope.owner.dvd;
-
-                            // Variable which is used to filter items
-                            $scope.filteredDvdList = $scope.dvdList;
+                            $scope.initialize();
 
                             // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
                             $scope.href = "#/dvd/";
                         }
                     });
-
-                    // We get the DVD list (NOT NECESSARY because we have the owner, but it's a second method)
-//                    $scope.dvdList = Dvd.DvdList.getAllDvd(function()
-//                    {
-//                        if( $scope.dvdList.success ) {
-//                            console.log('DVD got successfully');
-////                    console.log($scope.dvdList.dvdList[0].dvd);
-//
-//                            // We get the DVD list in relation with this owner
-//                            $scope.dvdList = $scope.dvdList.dvdList[0].dvd;
-//
-//                            // Variable which is used to filter items
-//                            $scope.filteredDvdList = $scope.dvdList.length;
-//
-//                            // We set a variable that used in the 'dvd-list' to know which route set to the 'dvd details' view
-//                            $scope.href = "#/dvd/";
-//                        }
-//                        else {
-//                            console.log('Error when getting the DVD list');
-//                            $scope.dvdList = []
-//                        }
-//                    } );
                 }
             }
         });
+
+        /**
+         * Initialize parameters which it's set in the current and url parameter case.
+         */
+        $scope.initialize = function() {
+            // We get the owner in relation with the url parameter OR with the current owner
+            $scope.owner = $scope.owner.owner;
+
+            // We get the DVD list in relation with this owner
+            $scope.dvdList = $scope.owner.dvd;
+
+            // Variable which is used to filter items
+            $scope.filteredDvdList = $scope.dvdList;
+
+            // Remove progress bar
+            $scope.progressBar.value = '100';
+            $scope.progressBar.loading = false;
+        };
 
         /**
          * Redirection into the add DVD html page.

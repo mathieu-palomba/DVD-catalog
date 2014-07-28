@@ -1,99 +1,110 @@
-<div class="dvd-thumb span5">
-    <img ng-src="{{dvd.moviePoster}}" class="dvd movie-poster-corner">
-</div>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <!--Progress bar during Dvd list loading-->
+        <progressbar ng-show="progressBar.loading" class="progress-striped active" value="progressBar.value" type="{{progressBar.type}}">Chargement des informations du film</progressbar>
 
-<div class="span7">
-<h1>{{dvd.title}}</h1>
-<p>
-    <strong>Genres :</strong>
-    {{dvd.genres | dvdGenreInline}}
-</p>
-<p>
-    <strong>Date de sortie :</strong>
-    {{dvd.releaseDate | date:'dd/MM/yyyy'}}
-</p>
-<p>
-    <strong>Durée :</strong>
-    {{dvd.runtime}} min
-</p>
-<p>
-    <strong>Producteur :</strong>
-    <a href="https://www.google.fr/search?q={{dvd.director}}" target='_blank'>{{dvd.director}}</a>
-</p>
-<p>
-    <strong>Compagnies de production :</strong>
-    {{dvd.productionCompanies}}
-</p>
-<!--<p>-->
-    <!--<strong>Résumé :</strong></br>{{dvd.overview}}-->
-<!--</p>-->
-<dl>
-    <dt>Résumé :</dt>
-    <dd>{{dvd.overview}}</dd>
-</dl>
-<!--<p>-->
-    <!--<strong>Acteurs :</strong>-->
-    <!--<p ng-repeat="actor in dvd.actors">-->
-        <!--{{actor.name}}-->
-    <!--</p>-->
-<!--</p>-->
-<dl>
-    <dt>Acteurs :</dt>
-    <dd ng-repeat="actor in dvd.actors">
-        <a href="https://www.google.fr/search?q={{actor.name}}" target='_blank'>{{actor.name}}</a>
-        ({{actor.character}})
-    </dd>
-</dl>
-<p>
-    <strong>Préférence :</strong>
-    <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
-</p>
-<p>
-    <strong>Type :</strong>
-    {{dvd.movieFormat}}
-</p>
-<p>
-    <strong>Emplacement :</strong>
-    {{dvd.location != '' ? dvd.location : 'Aucun'}}
-</p>
-<p>
-    <strong>Commentaires :</strong></br>
-    {{dvd.comments != '' ? dvd.comments : 'Aucun'}}
-</p>
-<accordion close-others="false">
-    <accordion-group is-open="false">
-        <!--Header-->
-        <accordion-heading>
-            <i class="icon-list-alt"></i>
-            Autres information
-        </accordion-heading>
 
-        <!--Content-->
-        <p>
-            <strong>Budget :</strong>
-            {{dvd.budget | currency : '€'}}
-        </p>
-        <p>
-            <strong>Revenu :</strong>
-            {{dvd.revenue | currency : '€'}}
-        </p>
-        <p>
-            <strong>Popularité :</strong>
-            {{dvd.popularity}}
-        </p>
-        <p>
-            <strong>Moyenne des votes :</strong>
-            {{dvd.voteAverage}}/10
-        </p>
-        <p>
-            <strong>Nombre de votes :</strong>
-            {{dvd.voteCount}}
-        </p>
-    </accordion-group>
-</accordion>
-<div>
-    </br>
-    <button type="button" id="editButton" ng-click="editDvd(dvd._id)" class="btn btn-success edit-button">Editer</button>
-    <button type="button" id="backButton" ng-click="back()" class="btn btn-danger back-button">Retour</button>
-</div>
+        <!--Content to display when data its loading-->
+        <div ng-show="!progressBar.loading">
+            <div class="dvd-thumb span4">
+                <img ng-src="{{dvd.moviePoster}}" class="dvd movie-poster-corner">
+            </div>
+
+            <div class="span7">
+                <h1>{{dvd.title}}</h1>
+                <p>
+                    <strong>Genres :</strong>
+                    {{dvd.genres | dvdGenreInline}}
+                </p>
+                <p>
+                    <strong>Date de sortie :</strong>
+                    {{dvd.releaseDate | date:'dd/MM/yyyy'}}
+                </p>
+                <p>
+                    <strong>Durée :</strong>
+                    {{dvd.runtime}} min
+                </p>
+                <p>
+                    <strong>Producteur :</strong>
+                    <a href="https://www.google.fr/search?q={{dvd.director}}" target='_blank'>{{dvd.director}}</a>
+                </p>
+                <p>
+                    <strong>Compagnies de production :</strong>
+                    {{dvd.productionCompanies}}
+                </p>
+                <!--<p>-->
+                    <!--<strong>Résumé :</strong></br>{{dvd.overview}}-->
+                <!--</p>-->
+                <dl>
+                    <dt>Résumé :</dt>
+                    <dd>{{dvd.overview}}</dd>
+                </dl>
+                <!--<p>-->
+                    <!--<strong>Acteurs :</strong>-->
+                    <!--<p ng-repeat="actor in dvd.actors">-->
+                        <!--{{actor.name}}-->
+                    <!--</p>-->
+                <!--</p>-->
+                <dl>
+                    <dt>Acteurs :</dt>
+                    <dd ng-repeat="actor in dvd.actors">
+                        <a href="https://www.google.fr/search?q={{actor.name}}" target='_blank'>{{actor.name}}</a>
+                        ({{actor.character}})
+                    </dd>
+                </dl>
+                <p>
+                    <strong>Préférence :</strong>
+                    <rating value="dvd.rate" max="max" readonly="isReadonly"></rating>
+                </p>
+                <p>
+                    <strong>Type :</strong>
+                    {{dvd.movieFormat}}
+                </p>
+                <p>
+                    <strong>Emplacement :</strong>
+                    {{dvd.location != '' ? dvd.location : 'Aucun'}}
+                </p>
+                <p>
+                    <strong>Commentaires :</strong></br>
+                    {{dvd.comments != '' ? dvd.comments : 'Aucun'}}
+                </p>
+                <accordion close-others="false">
+                    <accordion-group is-open="false">
+                        <!--Header-->
+                        <accordion-heading>
+                            <i class="icon-list-alt"></i>
+                            Autres information
+                        </accordion-heading>
+
+                        <!--Content-->
+                        <p>
+                            <strong>Budget :</strong>
+                            {{dvd.budget | currency : '€'}}
+                        </p>
+                        <p>
+                            <strong>Revenu :</strong>
+                            {{dvd.revenue | currency : '€'}}
+                        </p>
+                        <p>
+                            <strong>Popularité :</strong>
+                            {{dvd.popularity}}
+                        </p>
+                        <p>
+                            <strong>Moyenne des votes :</strong>
+                            {{dvd.voteAverage}}/10
+                        </p>
+                        <p>
+                            <strong>Nombre de votes :</strong>
+                            {{dvd.voteCount}}
+                        </p>
+                    </accordion-group>
+                </accordion>
+                <div>
+                    </br>
+                    <button type="button" id="editButton" ng-click="editDvd(dvd._id)" class="btn btn-success edit-button">Editer</button>
+                    <button type="button" id="backButton" ng-click="back()" class="btn btn-danger back-button">Retour</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

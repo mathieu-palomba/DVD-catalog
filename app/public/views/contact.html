@@ -3,8 +3,15 @@
         <h1>Contact</h1>
 
         <div class="sub-section-content">
-            <div ng-if="status.value">
+            <!--Default case-->
+            <div ng-if="status.value == status.default"></div>
+            <!--Updated user case-->
+            <div ng-if="status.value == status.sent">
                 <div class="alert alert-success center-label">{{status.value}}</div>
+            </div>
+            <!--Error case-->
+            <div ng-if="status.value != status.default && status.value != status.sent">
+                <div class="alert alert-danger center-label">{{status.value}}</div>
             </div>
 
             <form ng-submit="performSend()" class="form-horizontal form-left">
