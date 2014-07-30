@@ -164,14 +164,6 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
             console.log($scope.content)
         };
 
-        $scope.updateImgSrcPath = function() {
-            var ownerUpdated = User.UserAccount.updateImgSrcPath({}, function () {
-                if (ownerUpdated.success) {
-                    console.log('Owner updated');
-                }
-            });
-        };
-
         // TEST CHARTS
         $scope.$watch('owner.dvd',function(){
             if($scope.owner && $scope.owner.dvd){

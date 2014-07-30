@@ -80,5 +80,13 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
                 }
             });
         };
+
+        $scope.updateImgSrcPath = function() {
+            var ownerUpdated = User.UserAccount.updateImgSrcPath({}, function () {
+                if (ownerUpdated.success) {
+                    console.log('Owner updated');
+                }
+            });
+        };
     }
 ]);
