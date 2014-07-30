@@ -16,6 +16,7 @@ var dvdCatApp = angular.module('dvdCatApp', [
     'dvdCatAnimations',
     'contactControllers',
     'underscore'
+//    ,'chartjs-directive'
 ]);
 
 /**

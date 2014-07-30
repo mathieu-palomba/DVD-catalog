@@ -7,15 +7,25 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
 /**
  * User Account controllers.
  */
-userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', '$upload', 'User',
-    function ($scope, $location, $route, $window, $upload, User) {
+userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', '$upload', 'User', 'GenresConstant', 'DvdFormatsConstant',
+    function ($scope, $location, $route, $window, $upload, User, GenresConstant, DvdFormatsConstant) {
         console.log('User account controller');
 
+        // Status messages
         $scope.status = {
             default: undefined,
             updated: "Compte mis à jour",
             value: undefined
         };
+
+        $scope.accordion = {
+            isOpen: false,
+            closeOthers: false
+        };
+
+        // Charts
+        $scope.genresChartID = "genresChart";
+        $scope.formatsChartID = "formatsChart";
 
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
@@ -128,6 +138,7 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
             a.dispatchEvent(e);
         };
 
+        // Method with AngularJS and server calling (read with 'files.file[0].path' in the server side
         $scope.importJson = function($files) {
             // $files: an array of files selected, each file has name, size, and type.
             var $file = $files[0];
@@ -146,10 +157,109 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
                 });
         };
 
+        // Read file with AngularJS
         $scope.showContent = function($fileContent){
             console.log('Read file')
             $scope.content = JSON.parse($fileContent);
             console.log($scope.content)
         };
+
+        $scope.updateImgSrcPath = function() {
+            var ownerUpdated = User.UserAccount.updateImgSrcPath({}, function () {
+                if (ownerUpdated.success) {
+                    console.log('Owner updated');
+                }
+            });
+        };
+
+        // TEST CHARTS
+        $scope.$watch('owner.dvd',function(){
+            if($scope.owner && $scope.owner.dvd){
+                // Initialize variables
+                $scope.movieGenres = _.sortBy(GenresConstant, function (genre) {return genre});
+                $scope.movieFormats = _.sortBy(DvdFormatsConstant, function (format) {return format});
+                $scope.dataGenres = {};
+                $scope.dataFormats = {};
+
+                // Compute data
+                angular.forEach($scope.owner.dvd, function(value, key) {
+                    var dvd = value;
+
+                    // Handle genres
+                    angular.forEach(dvd.genres, function(value, key) {
+                        var genre = value;
+
+                        if (!_.has($scope.dataGenres, genre.name)) {
+                            $scope.dataGenres[genre.name] = 1;
+                        }
+                        else {
+                            $scope.dataGenres[genre.name] += 1;
+                        }
+                    });
+
+                    // Handle formats
+                    if (!_.has($scope.dataFormats, dvd.movieFormat)) {
+                        $scope.dataFormats[dvd.movieFormat] = 1;
+                    }
+                    else {
+                        $scope.dataFormats[dvd.movieFormat] += 1;
+                    }
+
+                });
+
+                // Compute not listed genres and formats
+                var genresNotListed = _.difference($scope.movieGenres, _.keys($scope.dataGenres));
+                var formatsNotListed = _.difference($scope.movieFormats, _.keys($scope.dataFormats));
+
+                // We add the not listed genres and formats to match index in the dataset
+                _.each(genresNotListed, function(genreNameNotListed) {
+                    $scope.dataGenres[genreNameNotListed] = 0;
+                });
+
+                _.each(formatsNotListed, function(formatNameNotListed) {
+                    $scope.dataFormats[formatNameNotListed] = 0;
+                });
+
+                // Compute chart datasets
+                var chartDataGenres = {
+                    labels: $scope.movieGenres,
+                    datasets: [
+                        {
+                            label: "Movie genres dataset",
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: _.sortBy($scope.dataGenres, function (value, key) {return key})
+                        }
+                    ]
+                };
+
+                var chartDataFormats = {
+                    labels: $scope.movieFormats,
+                    datasets: [
+                        {
+                            label: "Movie formats dataset",
+                            fillColor: "rgba(220,220,220,0.2)",
+                            strokeColor: "rgba(220,220,220,1)",
+                            pointColor: "rgba(220,220,220,1)",
+                            pointStrokeColor: "#fff",
+                            pointHighlightFill: "#fff",
+                            pointHighlightStroke: "rgba(220,220,220,1)",
+                            data: _.sortBy($scope.dataFormats, function (value, key) {return key})
+                        }
+                    ]
+                };
+
+                // Create charts
+                var genresCtx = document.getElementById($scope.genresChartID).getContext("2d");
+                var genresChart = new Chart(genresCtx).Bar(chartDataGenres);
+
+                var formatsCtx = document.getElementById($scope.formatsChartID).getContext("2d");
+                var formatsChart = new Chart(formatsCtx).Radar(chartDataFormats);
+            }
+        });
     }
 ]);

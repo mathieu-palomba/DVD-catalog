@@ -16,13 +16,13 @@
                         <li class="active">
                             <a showtab="" href="#account" data-toggle="tab">
                                 <span>Informations du compte</span>
-                                <i class="pull-right icon-chevron-right"></i>
+                                <i class="right icon-chevron-right"></i>
                             </a>
                         </li>
                         <li>
                             <a showtab="" href="#collection" data-toggle="tab">
                                 <span>Gestion de la collection</span>
-                                <i class="right icon-chevron-right"></i>
+                                <i class="pull-right icon-chevron-right"></i>
                             </a>
 
                         </li>
@@ -57,16 +57,16 @@
 
                             <form name="userForm" ng-submit="updateAccount(newUserName, newEmail, newPassword)" class="form-horizontal form-left">
                                 <div class="control-group">
-                                    <label class="control-label">Administrateur</label>
+                                    <span class="control-label">Administrateur</span>
                                     <div class="controls">
-                                        <label class="left-align-label">{{user.isAdmin ? 'Oui' : 'Non'}}</label>
+                                        <span class="left-align-label">{{user.isAdmin ? 'Oui' : 'Non'}}</span>
                                     </div>
                                 </div>
 
                                 <div class="control-group">
-                                    <label class="control-label">Date de création</label>
+                                    <span class="control-label">Date de création</span>
                                     <div class="controls">
-                                        <label class="left-align-label">{{user.created | date:'dd-MMMM-yyyy HH:MM:ss'}}</label>
+                                        <span class="left-align-label">{{user.created | date:'dd-MMMM-yyyy HH:MM:ss'}}</span>
                                     </div>
                                 </div>
 
@@ -110,7 +110,7 @@
 
                             <button ng-click="exportJson()" title="Exporter votre collection actuelle pour pouvoir la ré-importer ultérieurement" class="btn btn-small btn-success">Exporter votre collection</button>
 
-                            <!--&lt;!&ndash;Method with AngularJS and server calling (read with 'files.file[0].path' in the server side&ndash;&gt;-->
+                            <!--Method with AngularJS and server calling (read with 'files.file[0].path' in the server side-->
                             <!--<form name="importCollection">-->
                             <!--<span class="btn btn-small btn-info btn-file">-->
                             <!--Importer votre collection-->
@@ -118,17 +118,52 @@
                             <!--</span>-->
                             <!--</form>-->
 
-                            <!--&lt;!&ndash;Method with server calling (read with 'files.backupFile[0].path' in the server side)&ndash;&gt;-->
+                            <!--Method with server calling (read with 'files.backupFile[0].path' in the server side)-->
                             <!--<form method="post" enctype="multipart/form-data" action="/uploadBackupFile">-->
                             <!--<input type="file" name="backupFile">-->
                             <!--<input type="submit">-->
                             <!--</form>-->
 
                             <!--Read file with AngularJS-->
-                            <!--<span class="btn btn-small btn-info btn-file" title="Importer une ancienne collection sauvegardée">-->
-                                <!--Importer une collection-->
-                                <!--<input type="file" on-read-file="showContent($fileContent)" />-->
-                            <!--</span>-->
+                            <span class="btn btn-small btn-info btn-file" title="Importer une ancienne collection sauvegardée">
+                                Importer une collection
+                                <input type="file" on-read-file="showContent($fileContent)" />
+                            </span>
+
+                            <button ng-click="updateImgSrcPath()" class="btn btn-small btn-info">Mise à jour de votre collection</button>
+                        </div>
+
+                        <div class="sub-section">
+                            <h1>Informations sur votre collection</h1>
+
+                            <!--Movies number-->
+                            <p class="text-info">Nombre total de films : <span class="badge badge-info">{{owner.dvd.length}}</span></p>
+
+                            <!--Charts-->
+                            <!--<accordion close-others="accordion.closeOther">-->
+                                <!--<accordion-group is-open="accordion.isOpen">-->
+                                    <!--&lt;!&ndash;Header&ndash;&gt;-->
+                                    <!--<accordion-heading>-->
+                                        <!--Graphiques de votre collection-->
+                                        <!--<i class="pull-right glyphicon" ng-class="{'icon-chevron-down': accordion.isOpen, 'icon-chevron-right': !accordion.isOpen}"></i>-->
+                                    <!--</accordion-heading>-->
+
+                                    <!--Content-->
+                                    <!--Formats chart-->
+                                    <div class="row-fluid">
+                                        <div class="span6">
+                                            <span class="text-info center-label chart-label">Graphique des différents formats</span>
+                                            <canvas id="{{formatsChartID}}" width="400" height="400" class="formats-chart"></canvas>
+                                        </div>
+
+                                        <!--Genres chart-->
+                                        <div class="span6">
+                                            <span class="text-info center-label chart-label">Graphique des différents genres</span>
+                                            <canvas id="{{genresChartID}}" width="600" height="600"></canvas>
+                                        </div>
+                                    </div>
+                                    <!--</accordion-group>-->
+                            <!--</accordion>-->
                         </div>
                     </div>
 
@@ -139,7 +174,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 

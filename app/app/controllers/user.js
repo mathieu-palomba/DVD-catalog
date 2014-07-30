@@ -19,8 +19,8 @@ var config = require('../../config/env/config');
  */
 //var options = {
 //    auth: {
-//        api_user: config.smtp.user,
-//        api_key: config.smtp.pass
+//        api_user: config.sendGrid.user,
+//        api_key: config.sendGrid.pass
 //    }
 //};
 //var smtpTransport = nodemailer.createTransport(sgTransport(options));

@@ -577,7 +577,7 @@ exports.saveImage = function(req, res){
     var result = res;
 
     // We compute the good path
-    var imagePath = path.resolve(__dirname, '../../public/img/', filename);
+    var imagePath = path.resolve(__dirname, '../../public/img/users/movie-posters/', filename);
 
     // We get the image with the uri
     request.head(uri, function(err, res, body){
@@ -614,8 +614,8 @@ exports.renameImage = function(req, res){
     var filename = req.body.filename;
 
     // We compute the good paths
-    var temporaryImagePath = path.resolve(__dirname, '../../public/img/', temporaryFilename)
-    var imagePath = path.resolve(__dirname, '../../public/img/', filename);
+    var temporaryImagePath = path.resolve(__dirname, '../../public/img/users/movie-posters/', temporaryFilename)
+    var imagePath = path.resolve(__dirname, '../../public/img/users/movie-posters/', filename);
 
     console.log(temporaryImagePath);
     console.log(imagePath);
@@ -642,7 +642,7 @@ exports.uploadImage = function(req, res){
     console.log('Upload image');
 
     // We compute the good path
-    var temporaryImagePath = path.resolve(__dirname, '../../public/img/')
+    var temporaryImagePath = path.resolve(__dirname, '../../public/img/users/movie-posters/')
 
     // We create the form which permit to get the uploaded image
     var form = new multipart.Form({autoFiles: true, uploadDir: temporaryImagePath});
@@ -682,4 +682,61 @@ exports.uploadBackupFile = function(req, res){
         });
     });
 
+};
+
+exports.updateImgSrcPath = function(req, res) {
+    console.log('Update img src path');
+
+//    if (typeof model[property] == 'function')
+    Owner.find(null, function (err, owners) {
+        if (err) {
+            return handleError(err);
+        }
+
+        else {
+            if(owners) {
+                owners.forEach(function(owner){
+
+                    owner.dvd.forEach(function(dvd){
+                        console.log('For each DVD');
+                        console.log(dvd);
+
+                        dvd.moviePoster = dvd.moviePoster.replace("img/", "img/users/movie-posters/");
+                        console.log('DVD updated');
+                        console.log(dvd);
+
+                        // We update the dvd list
+//                        dvd.save(function(err) {
+//                            if (err) {
+//                                console.log("Error during updating the dvd: " + dvd.title);
+//                            }
+//                            else {
+//                                console.log("Dvd updated: " + dvd.title);
+//                                console.log(dvd.moviePoster);
+//                            }
+//                        });
+                    });
+
+                    // We update the owner
+                    owner.save(function(err) {
+                        if (err) {
+                            console.log("Error during updating the Owner: " + owner.userName);
+                        }
+                        else {
+                            console.log("Owner updated: " + owner.userName);
+                        }
+                    });
+                });
+
+
+                // We return OK
+                res.jsonp({"success": true});
+            }
+
+            else {
+                console.log("Error when getting all of the owners");
+                res.jsonp({"success": false});
+            }
+        }
+    });
 };

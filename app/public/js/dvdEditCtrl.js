@@ -40,12 +40,12 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         $scope.format = $scope.formats[0];
 
         // We get the genres list
-        $scope.genres = GenresConstant;
+        $scope.genres = _.sortBy(GenresConstant, function (genre) {return genre});
         $scope.defaultGenre = $scope.genres.default;
         $scope.currentGenre = $scope.defaultGenre;
 
         // The movie format list
-        $scope.movieFormats = DvdFormatsConstant;
+        $scope.movieFormats = _.sortBy(DvdFormatsConstant, function (genre) {return genre});
 
         // Initialize the DVD form
         $scope.imagesFolder = 'img/';

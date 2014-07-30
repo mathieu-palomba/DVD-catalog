@@ -54,4 +54,5 @@ module.exports = function (app) {
     app.post('/updateCurrentOwner', user.ensureAuthenticated, dvd.updateCurrentOwner);
     app.post('/owner/deleteCurrentOwner', user.ensureAuthenticated, dvd.deleteCurrentOwner);
     app.post('/owner/deleteOwner', user.ensureAdmin, dvd.deleteOwner);
+    app.post('/owner/updateImgSrcPath', user.ensureAuthenticated, dvd.updateImgSrcPath);
 };

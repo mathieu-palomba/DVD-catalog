@@ -7,17 +7,9 @@ var dvdDetailsControllers = angular.module('dvdDetailsControllers', ['ngRoute'])
 /**
  * DVD Details controllers.
  */
-dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$location', '$window', 'Dvd', 'User', 'Rating',
-    function ($scope, $routeParams, $location, $window, Dvd, User, Rating) {
+dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$location', '$window', 'Dvd', 'User', 'Rating', 'DvdFormatsConstant',
+    function ($scope, $routeParams, $location, $window, Dvd, User, Rating, DvdFormatsConstant) {
         console.log('Dvd Details controller');
-
-        // Object to handle progress bar
-        $scope.progressBar = {
-            loading: true,
-            type: 'info',
-            value: '0',
-            max: '100'
-        };
 
         // Scroll of the top of the window per default
         $window.scrollTo(0, 0)
@@ -25,6 +17,9 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
         // Rating handle
         $scope.max = Rating.max;
         $scope.isReadonly = Rating.readOnly;
+
+        // Movie formats handle
+        $scope.movieFormats = DvdFormatsConstant;
 
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
@@ -36,9 +31,6 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
                     $location.url('/dvd-list');
                 }
 
-                // Update progress bar
-                $scope.progressBar.value = '50';
-
                 // Administration case
                 if($scope.user.isAdmin && $routeParams.userName) {
                     // We get owner chosen in the administration view
@@ -47,9 +39,6 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
                             console.log('From administration');
                             // We get the owner in relation with the url parameter
                             $scope.owner = $scope.owner.owner;
-
-                            // Update progress bar
-                            $scope.progressBar.value = '75';
 
                             // We call the getDvd function to have the DVD details
                             getDvd();
@@ -67,11 +56,7 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
                     $scope.owner = User.UserAccount.getCurrentOwner(function() {
                         if($scope.owner.success) {
                             console.log('From DVD list');
-        //                    console.log($scope.owner.owner);
                             $scope.owner = $scope.owner.owner;
-
-                            // Update progress bar
-                            $scope.progressBar.value = '75';
 
                             // We call the getDvd function to have the DVD details
                             getDvd();
@@ -87,12 +72,7 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
                 if( $scope.dvdSearch.success )
                 {
                     console.log('DVD got successfully');
-//                    console.log($scope.dvdSearch.dvd.dvd[0]);
                     $scope.dvd = $scope.dvdSearch.dvd.dvd[0];
-
-                    // Remove progress bar
-                    $scope.progressBar.value = '100';
-                    $scope.progressBar.loading = false;
                 }
                 else
                 {

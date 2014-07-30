@@ -11,14 +11,6 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
     function ($scope, $location, $cacheFactory, $route, $routeParams, $window, $anchorScroll, $filter, $timeout, Dvd, User, Rating, GenresConstant, DvdFormatsConstant, Cache) {
         console.log('Dvd List controller');
 
-        // Object to handle progress bar
-        $scope.progressBar = {
-            loading: true,
-            type: 'info',
-            value: '0',
-            max: '100'
-        };
-
         // Scroll of the top of the window per default
         $window.scrollTo(0, 0);
 
@@ -96,11 +88,12 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
 
         // Handle movie format filter
         $scope.movieFormats = DvdFormatsConstant;
+        var sortedMovieFormats = _.sortBy($scope.movieFormats, function (genre) {return genre});
         $scope.dvdFormats = [];
         $scope.selectedDvdFormats = [];
         var counter = 0;
 
-        angular.forEach(DvdFormatsConstant, function(value, key){
+        angular.forEach(sortedMovieFormats, function(value, key){
             var newFormat = {};
             newFormat.id = counter++;
             newFormat.name = value;
@@ -109,14 +102,17 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
             // We push the new genre in the list
             $scope.dvdFormats.push(newFormat);
         });
+        // Alphabetically order
+        $scope.dvdFormats = _.sortBy($scope.dvdFormats, function (format) {return format.name});
 
         // Handle Dvd genres filter
+        var sortedMovieGenres = _.sortBy(GenresConstant, function (genre) {return genre});
         $scope.dvdGenres = [];
         $scope.selectedDvdGenres = [];
         var counter = 0;
 
         // We replace the french value (old value) by boolean value to use it in the checkbox filter
-        angular.forEach(GenresConstant, function(value, key){
+        angular.forEach(sortedMovieGenres, function(value, key){
             var newGenre = {};
             newGenre.id = counter++;
             newGenre.name = value;
@@ -125,6 +121,8 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
             // We push the new genre in the list
             $scope.dvdGenres.push(newGenre);
         });
+        // Alphabetically order
+        $scope.dvdGenres = _.sortBy($scope.dvdGenres, function (genre) {return genre.name});
 
         // Handle all filters
         $scope.filteredMovieFormatDvdList = [];
@@ -203,9 +201,6 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
             if($scope.user.success) {
                 $scope.user = $scope.user.user[0];
 
-                // Update progress bar
-                $scope.progressBar.value = '50';
-
                 // If the user isn't an admin, we delete the user parameter from the url
                 if(!$scope.user.isAdmin && $routeParams.userName) {
                     $location.url('/dvd-list');
@@ -257,10 +252,6 @@ dvdListControllers.controller('DvdListCtrl', ['$scope', '$location', '$cacheFact
 
             // Variable which is used to filter items
             $scope.filteredDvdList = $scope.dvdList;
-
-            // Remove progress bar
-            $scope.progressBar.value = '100';
-            $scope.progressBar.loading = false;
         };
 
         /**

@@ -4,7 +4,7 @@
        <!--Sidebar content-->
         <div id="top" class="span3">
             <div class="informations-header">
-                <p class="text-info">Nombre total de DVD : <span class="badge badge-info">{{dvdList.length}}</span></p>
+                <p class="text-info">Nombre total de films : <span class="badge badge-info">{{dvdList.length}}</span></p>
 
                 <button type="button" ng-click="addDvd()" class="btn btn-primary">Ajouter un film</button>
                 <button type="button" ng-click="collapseExpandAll()" class="btn btn-info">{{dvdOpenStatus ? 'Réduire tout' : 'Ouvrir tout'}}
@@ -74,9 +74,6 @@
 
         <!--Body content-->
         <div class="span9">
-            <!--Progress bar during Dvd list loading-->
-            <progressbar ng-show="progressBar.loading" class="progress-striped active" value="progressBar.value" type="{{progressBar.type}}">Chargement de votre collection</progressbar>
-
             <!--If no DVD are been recorded-->
             <div ng-if="dvdList.length == 0" class="sub-section-content empty-list">
                 <span>
@@ -152,7 +149,26 @@
                                     </p>
                                     <p>
                                         <strong>Type :</strong>
-                                        {{dvd.movieFormat}}
+
+                                        <!--Blue-ray case-->
+                                        <span ng-if="dvd.movieFormat == movieFormats.blueray">
+                                            <img ng-src="/img/dvd-catalog/blue-ray-icon.png" class="movie-format">
+                                        </span>
+
+                                        <!--Divx case-->
+                                        <span ng-if="dvd.movieFormat == movieFormats.divx">
+                                            <img ng-src="/img/dvd-catalog/divx-icon.png" class="movie-format">
+                                        </span>
+
+                                        <!--Blue-ray case-->
+                                        <span ng-if="dvd.movieFormat == movieFormats.dvd">
+                                            <img ng-src="/img/dvd-catalog/dvd-icon.png" class="movie-format">
+                                        </span>
+
+                                        <!--Blue-ray case-->
+                                        <span ng-if="dvd.movieFormat == movieFormats.dvdrip">
+                                            <img ng-src="/img/dvd-catalog/dvdrip-icon.png" class="movie-format">
+                                        </span>
                                     </p>
                                     <p>
                                         <strong>Emplacement :</strong>
