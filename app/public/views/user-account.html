@@ -108,6 +108,10 @@
                         <div class="sub-section">
                             <h1>Options d'export et d'import</h1>
 
+                            <!--CSV export-->
+                            <button ng-click="JSONToCSVConvertor()" title="Exporter votre collection actuelle au format CSV" class="btn btn-small btn-success">Exporter votre collection au format CSV</button>
+
+                            <!--Backup export-->
                             <button ng-click="exportJson()" title="Exporter votre collection actuelle pour pouvoir la ré-importer ultérieurement" class="btn btn-small btn-success">Exporter votre collection</button>
 
                             <!--Method with AngularJS and server calling (read with 'files.file[0].path' in the server side-->
@@ -167,7 +171,23 @@
 
                     <!--Theme-->
                     <div class="tab-pane" id="theme">
-                        <p>TO DO</p>
+                        <div class="sub-section">
+                            <h1>Préférences de votre compte</h1>
+
+                            <!--Backgrounds-->
+                            <span class="text-info">Fonds d'écrans</span>
+
+                            <div class="row-fluid">
+                                <ul class="thumbnails">
+                                    <li ng-repeat="backgroundPath in backgroundPaths" class="span1">
+                                        <a href="" class="thumbnail" ng-class="{active: isEnabled(backgroundPath)}">
+                                            <img ng-src="{{backgroundPath}}" ng-click="changeBackground(backgroundPath)">
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>

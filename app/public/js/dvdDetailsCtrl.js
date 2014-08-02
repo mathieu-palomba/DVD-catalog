@@ -9,8 +9,6 @@ var dvdDetailsControllers = angular.module('dvdDetailsControllers', ['ngRoute'])
  */
 dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$location', '$window', 'Dvd', 'User', 'Rating', 'DvdFormatsConstant',
     function ($scope, $routeParams, $location, $window, Dvd, User, Rating, DvdFormatsConstant) {
-        console.log('Dvd Details controller');
-
         // Scroll of the top of the window per default
         $window.scrollTo(0, 0)
 
@@ -73,6 +71,10 @@ dvdDetailsControllers.controller('DvdDetailsCtrl', ['$scope', '$routeParams', '$
                 {
                     console.log('DVD got successfully');
                     $scope.dvd = $scope.dvdSearch.dvd.dvd[0];
+
+                    // Add cache breaker to reload img if it changed with the 'dvd-edit' view
+                    var random = (new Date()).toString();
+                    $scope.dvd.moviePoster = $scope.dvd.moviePoster + "?cb=" + random;
                 }
                 else
                 {

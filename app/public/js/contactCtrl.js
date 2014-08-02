@@ -11,8 +11,6 @@ var contactControllers = angular.module('contactControllers', ['ngRoute']);
  */
 contactControllers.controller('ContactCtrl', ['$scope', '$location', '$timeout', 'User', 'Contact',
     function ($scope, $location, $timeout, User, Contact) {
-        console.log('Contact controller');
-
         $scope.subjects = {
             subject1: 'J\'ai une suggestion',
             subject2: 'J\'ai trouvé un bug',

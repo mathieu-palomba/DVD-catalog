@@ -49,11 +49,11 @@
 
 
     <!-- Bootstrap library for popover tooltips (require by bootstrap-ui) -->
-    <!--<script src="lib/Bootstrap/bootstrap-2.3.1.js"></script>-->
-    <script src="lib/Bootstrap/modal.js"></script>
-    <script src="lib/Bootstrap/tooltip.js"></script>
-    <script src="lib/Bootstrap/popover.js"></script>
-    <script src="lib/Bootstrap/tab.js"></script>
+    <script src="lib/Bootstrap/bootstrap.min-2.3.2.js"></script>
+    <!--<script src="lib/Bootstrap/modal.js"></script>-->
+    <!--<script src="lib/Bootstrap/tooltip.js"></script>-->
+    <!--<script src="lib/Bootstrap/popover.js"></script>-->
+    <!--<script src="lib/Bootstrap/tab.js"></script>-->
 
     <!-- Bootstrap-UI library for popover tooltips -->
     <!--<script src="lib/Bootstrap-UI/ui-bootstrap-0.9.0.min.js"></script>-->
@@ -71,6 +71,9 @@
     <!-- Chart JS library -->
     <script src="lib/Chart-js/Chart.min.js"></script>
     <!--<script src="lib/Chart-js/chartjs-directive.js"></script>-->
+
+    <!-- CryptoJS library -->
+    <script src="lib/CryptoJS/aes.js"></script>
 
     <!-- JavaScript files -->
     <script src="js/dvdListCtrl.js"></script>
@@ -111,7 +114,7 @@
                 // Remove all pre-existing active classes
                 $('.active').removeClass('active');
 
-                // We set an 'active' class to 'acceuil' ancre
+                // We set an 'active' class to 'accueil' ancre
                 $('#homeLink ').addClass('active');
             });
         });
@@ -125,7 +128,7 @@
         <div class="container">
             <!-- Home -->
             <a href="#" class="brand">
-                <span>Acceuil</span>
+                <span>Accueil</span>
             </a>
 
             <!-- Space Divider -->
@@ -141,7 +144,7 @@
                 <li id="homeLink" class="active">
                     <a href="#">
                         <i class="icon-home"></i>
-                        <span>Acceuil</span>
+                        <span>Accueil</span>
                     </a>
                 </li>
             </ul>

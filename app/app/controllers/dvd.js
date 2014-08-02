@@ -684,6 +684,12 @@ exports.uploadBackupFile = function(req, res){
 
 };
 
+/**
+ * Update the moviePoster path fo all owners.
+ *
+ * @param req
+ * @param res
+ */
 exports.updateImgSrcPath = function(req, res) {
     console.log('Update img src path');
 
@@ -704,17 +710,6 @@ exports.updateImgSrcPath = function(req, res) {
                         dvd.moviePoster = dvd.moviePoster.replace("img/", "img/users/movie-posters/");
                         console.log('DVD updated');
                         console.log(dvd);
-
-                        // We update the dvd list
-//                        dvd.save(function(err) {
-//                            if (err) {
-//                                console.log("Error during updating the dvd: " + dvd.title);
-//                            }
-//                            else {
-//                                console.log("Dvd updated: " + dvd.title);
-//                                console.log(dvd.moviePoster);
-//                            }
-//                        });
                     });
 
                     // We update the owner

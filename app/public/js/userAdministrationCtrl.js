@@ -9,8 +9,6 @@ var userAdministrationControllers = angular.module('userAdministrationController
  */
 userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$route', 'User',
     function ($scope, $route, User) {
-        console.log('User administration controller');
-
         // We get the all of the owners
         $scope.owners = User.Administration.getOwners(function() {
             if($scope.owners.success) {
@@ -38,11 +36,12 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
                             if (foundUser != undefined) {
                                 owner.isAdmin = foundUser.isAdmin;
                                 owner.userID = foundUser._id;
+                                owner.email = foundUser.email;
                             }
                         }
 
                         // Alphabetically order
-                        $scope.owners = _.sortBy($scope.owners, function (user) {return user.userName});
+                        $scope.owners = _.sortBy($scope.owners, function (user) {return user.userName.toLowerCase()});
                     }
                 });
             }
@@ -52,7 +51,8 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
             console.log('Delete account ' + owner.userName)
 
             // We ask user confirmation
-            bootbox.confirm('Voulez-vous vraiment supprimer le compte utilisateur de <b><i>' + owner.userName + '</i></b> ?', function(result) {
+            bootbox.confirm('<span class="delete-account">Voulez-vous vraiment supprimer le compte utilisateur de <b><i>' + owner.userName + '</i></b>?' +
+                'L\'utilisateur ne pourra plus accéder à son compte, et perdra toutes ses données. Voulez-vous continuer?</span>', function(result) {
                 // OK clicked
                 if(result) {
                     if (owner.isAdmin) {
@@ -81,10 +81,10 @@ userAdministrationControllers.controller('UserAdministrationCtrl', ['$scope', '$
             });
         };
 
-        $scope.updateImgSrcPath = function() {
-            var ownerUpdated = User.UserAccount.updateImgSrcPath({}, function () {
+        $scope.update = function() {
+            var ownerUpdated = User.Administration.update({}, function () {
                 if (ownerUpdated.success) {
-                    console.log('Owner updated');
+                    console.log('Update');
                 }
             });
         };

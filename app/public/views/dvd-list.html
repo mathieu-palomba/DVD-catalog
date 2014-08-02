@@ -99,7 +99,7 @@
                             <div class="row-fluid">
                                 <!-- We redirect to the correct view when the user click on the picture -->
                                 <div class="span3">
-                                    <a href="{{href}}{{dvd._id}}" class="thumb"><img ng-src="{{dvd.moviePoster}}" class="movie-poster movie-poster-corner"></a>
+                                    <a href="{{href}}{{dvd._id}}" class="thumb"><img ng-src="{{dvd.moviePoster + cacheBreaker}}" class="movie-poster movie-poster-corner"></a>
                                 </div>
 
                                 <!-- We redirect to the correct view when the user click on the description -->

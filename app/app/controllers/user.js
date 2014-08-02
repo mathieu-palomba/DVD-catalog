@@ -4,10 +4,10 @@
 var passport = require('passport'),
     mongoose = require('mongoose'),
     flash = require('express-flash'),
-    nodemailer = require("nodemailer"),
-    sgTransport = require('nodemailer-sendgrid-transport'),
+    nodemailer = require('nodemailer'),
     Owner = mongoose.model('Owner'); // The model we defined in the previous example
     User = mongoose.model('User'); // The model we defined in the previous example
+    UserPreferences = mongoose.model('UserPreferences');
 
 /**
  * Server configuration
@@ -402,6 +402,29 @@ var AuthController = {
     },
 
     /**
+     * Update the current user preferences.
+     * @param req : The request
+     * @param res : The response
+     */
+    updateCurrentUserPreferences: function(req, res)
+    {
+        console.log('Update the current user preferences')
+        var newBackgroundPath = req.body.newBackgroundPath;
+
+        req.user.preferences[0].backgroundPath = newBackgroundPath;
+
+        req.user.save(function (err) {
+            if (err) {
+                console.log('Current user preferences not updated');
+                res.jsonp({"success": false});
+            }
+
+            console.log('Current user preferences updated')
+            res.jsonp({"success": true});
+        });
+    },
+
+    /**
      * Delete the given user.
      * @param req : The request
      * @param res : The response
@@ -476,7 +499,7 @@ var AuthController = {
 //        res.jsonp({"success": true, "user": req.user || null});
 
         // Find the current user
-        User.find({_id: req.user._id }, 'username email created isAdmin', function (err, user) {
+        User.find({_id: req.user._id }, 'username email created preferences isAdmin', function (err, user) {
             if (err) {
                 return handleError(err);
             }
@@ -505,7 +528,7 @@ var AuthController = {
         console.log("Find users");
 
         // Find the users
-        User.find('username email created isAdmin', function (err, users) {
+        User.find('username email created preferences isAdmin', function (err, users) {
             if (err) {
                 return handleError(err);
             }
@@ -581,8 +604,50 @@ var AuthController = {
                 console.log("Message sent: " + email.message);
             }
         });
-    }
+    },
 
+    /**
+     * Update all of the user accounts.
+     * @param req : The request
+     * @param res : The response
+     */
+    update: function(req, res)
+    {
+        console.log("Update all of user accounts");
+
+        // Find the users
+        User.find(null, function (err, users) {
+            if (err) {
+                return handleError(err);
+            }
+
+            else {
+                if(users) {
+                    console.log('Users found');
+
+                    users.forEach(function(user){
+                        user.preferences = new UserPreferences();
+
+                        user.save(function (err) {
+                            if (err) {
+                                console.log('Error during updating the user: ' + user.username);
+                                return handleError(err);
+                            }
+
+                            console.log('User updated: ' + user.username)
+                        });
+                    });
+
+                    res.jsonp({"success": true});
+                }
+
+                else {
+                    console.log('Users not found');
+                    res.jsonp({"success": false});
+                }
+            }
+        });
+    }
 };
 
 exports = module.exports = AuthController;

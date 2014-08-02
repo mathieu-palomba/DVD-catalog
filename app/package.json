@@ -1,6 +1,6 @@
 {
     "name": "Dvd-Catalog",
-    "version": "0.2.0",
+    "version": "0.3.0",
     "private": true,
     "scripts": {
         "start": "node app.js"
@@ -19,7 +19,8 @@
 		"underscore": "*",
 		"multiparty": "*",
 		"maintenance": "*",
-		"nodemailer": "*"
+		"nodemailer": "*",
+        "jsdom": "*"
     },
     "author": "Mathieu <perdodelamancha31@gmail.com>",
     "description": "DVD-Catalog"

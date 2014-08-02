@@ -9,8 +9,6 @@ var dvdEditControllers = angular.module('dvdEditControllers', ['ngRoute', 'ui.bo
  */
 dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routeParams', '$upload', '$window', 'Dvd', 'User', 'GenresConstant', 'DvdFormatsConstant', 'IdGenerator', 'MultiField', 'Array', 'Rating',
     function ($scope, $location, $routeParams, $upload, $window, Dvd, User, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
-        console.log('Dvd Edit controller');
-
         // Scroll of the top of the window per default
         $window.scrollTo(0, 0)
 
@@ -48,8 +46,9 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
         $scope.movieFormats = _.sortBy(DvdFormatsConstant, function (genre) {return genre});
 
         // Initialize the DVD form
-        $scope.imagesFolder = 'img/';
+        $scope.imagesFolder = 'img/users/movie-posters/';
         $scope.temporaryMoviePosterName = 'temporaryImg.jpg';
+        $scope.moviePosterUplodedByUser = false;
 
         // We get the current user
         $scope.user = User.UserAccount.getCurrentUser(function() {
@@ -185,8 +184,10 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
                 }).then(function(data, status, headers, config) {
                     // File is uploaded successfully
                     console.log('File successfully uploaded');
+
                     var uploadedImageName = data.data.uploadedImageName;
                     var newImageName = data.data.newImageName;
+                    $scope.moviePosterUplodedByUser = true;
 
                     // We save the movie poster
                     var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': uploadedImageName, 'filename': $scope.temporaryMoviePosterName}, function () {
@@ -222,7 +223,7 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
                 var titleHash = $scope.dvd.title + $scope.dvd.releaseDate;
                 var oldTitleHash = $scope.dvd.oldTitle + $scope.dvd.releaseDate;
 
-                $scope.dvd.moviePoster = 'img/' + IdGenerator.moviePosterID(titleHash);
+                $scope.dvd.moviePoster = $scope.imagesFolder + IdGenerator.moviePosterID(titleHash);
 
                 // We rename the movie poster
                 var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': IdGenerator.moviePosterID(oldTitleHash), 'filename': IdGenerator.moviePosterID(titleHash)}, function () {
@@ -233,6 +234,24 @@ dvdEditControllers.controller('DvdEditCtrl', ['$scope', '$location', '$routePara
                         console.log("Error when saved the image");
                     }
                 });
+            }
+
+            // If the picture change
+            if ($scope.moviePosterUplodedByUser) {
+                console.log('Change dvd image');
+                var titleHash = $scope.dvd.title + $scope.dvd.releaseDate;
+
+                // We rename the movie poster
+                var renamedImage = Dvd.DvdAdd.renameImage({'temporaryFilename': $scope.temporaryMoviePosterName, 'filename': IdGenerator.moviePosterID(titleHash)}, function () {
+                    if (renamedImage.success) {
+                        console.log('Image successfully renamed');
+                    }
+                    else {
+                        console.log("Error when saved the image");
+                    }
+                });
+
+//                $scope.moviePosterUplodedByUser = false;
             }
 
             // We edit the DVD

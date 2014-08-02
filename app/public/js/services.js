@@ -29,10 +29,13 @@ dvdCatServices.constant('GenresConstant', {
     family: 'Familial',
     fantastic: 'Fantastique',
     fantasy: 'Fantaisie',
+    foreign: 'Étranger',
     martialArts: 'Arts Martiaux',
     history: 'Histoire',
     horror: 'Horreur',
+    indie: 'Indie',
     mystery: 'Mystère',
+    music: 'Musique',
     musical: 'Musical',
     romance: 'Romance',
     scienceFiction: 'Science-Fiction',
@@ -81,6 +84,19 @@ dvdCatServices.factory('IdGenerator', function () {
             // We return the movie poster ID
             var hashCode = Math.abs(moviePosterName.hashCode());
             return hashCode + '.jpg';
+        }
+    };
+});
+
+/**
+ * This services permit to update the background image.
+ */
+dvdCatServices.factory('Preferences', function () {
+    return {
+        updateBackground: function (backgroundPath) {
+            // Update background in CSS
+            var body = document.body;
+            body.style.background = 'url(' + backgroundPath + ') repeat';
         }
     };
 });
@@ -194,14 +210,15 @@ dvdCatServices.factory('User', ['$resource',
                 deleteCurrentUser: {method: 'POST', url: '/deleteCurrentUser'},
                 updateCurrentOwner: {method: 'POST', url: '/updateCurrentOwner'},
                 updateCurrentUser: {method: 'POST', url: '/updateCurrentUser'},
-                logout: {method: 'GET', url: '/user/logout'},
-                updateImgSrcPath: {method: 'POST', url: '/owner/updateImgSrcPath'}
+                updateCurrentUserPreferences: {method: 'POST', url: '/updateCurrentUserPreferences'},
+                logout: {method: 'GET', url: '/user/logout'}
             }),
             Administration: $resource('', {}, {
                 getOwners: {method: 'GET', url: '/owners'},
                 getUsers: {method: 'GET', url: '/user/users'},
                 deleteOwner: {method: 'POST', url: '/owner/deleteOwner'},
-                deleteUser: {method: 'POST', url: '/deleteUser'}
+                deleteUser: {method: 'POST', url: '/deleteUser'},
+                update: {method: 'POST', url: '/update'}
             })
         }
     }]

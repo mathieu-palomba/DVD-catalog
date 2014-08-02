@@ -10,8 +10,6 @@ var dvdAddControllers = angular.module('dvdAddControllers', ['ui.bootstrap', 'ng
 dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$upload', '$window', 'Dvd', 'User', 'MovieDB', 'GenresConstant', 'DvdFormatsConstant',
                                             'IdGenerator', 'MultiField', 'Array', 'Rating',
     function ($scope, $location, $http, $upload, $window, Dvd, User, MovieDB, GenresConstant, DvdFormatsConstant, IdGenerator, MultiField, Array, Rating) {
-        console.log('Dvd Add controller');
-
         // Scroll of the top of the window per default
         $window.scrollTo(0, 0)
 
@@ -40,7 +38,7 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
             productionCompanies: '',
             director: '',
             actors: [ {name: '', character: ''} ],
-            movieFormat: $scope.movieFormats.dvd,
+            movieFormat: DvdFormatsConstant.dvd,
             location: ''
         };
 
@@ -55,11 +53,13 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
 
         // Initialize the dynamic popover when the user save a movie already recorder in the database.
         $scope.dynamicSavePopoverStatus = {
+            default: 'Tous les champs doivent être complétés correctement avant de valider la sauvegarde',
+            errorDate: "Le champ de la date n'a pas été correctement rempli",
             error: 'Le film est déjà répertorié',
             success: 'Le film a été sauvegardé',
             retry: 'Attendez un peu avant de cliquez s\'il vous plait'
         };
-        $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.success;
+        $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.default;
         $scope.dynamicSavePopoverPlacement = 'bottom';
         $scope.dynamicSavePopoverTrigger = 'focus';     // Primary it's "click"
 
@@ -358,6 +358,18 @@ dvdAddControllers.controller('DvdAddCtrl', ['$scope', '$location', '$http', '$up
          * Save the new DVD in the database.
          */
         $scope.performSave = function () {
+
+            // Error date format or empty field
+            if (!($scope.dvd.releaseDate instanceof Date)) {
+                $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.errorDate;
+                return;
+            }
+
+            // We reset the error message
+            else {
+                $scope.dynamicSavePopover = $scope.dynamicSavePopoverStatus.default;
+            }
+
             // We check if a DVD already exist in the database
             var check = Dvd.DvdAdd.isDvdExist({'dvdTitle': $scope.dvd.title, 'releaseDate': $scope.dvd.releaseDate}, function () {
                 if (check.success) {

@@ -7,10 +7,8 @@ var userAccountControllers = angular.module('userAccountControllers', ['ngRoute'
 /**
  * User Account controllers.
  */
-userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', '$upload', 'User', 'GenresConstant', 'DvdFormatsConstant',
-    function ($scope, $location, $route, $window, $upload, User, GenresConstant, DvdFormatsConstant) {
-        console.log('User account controller');
-
+userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$route', '$window', '$upload', 'User', 'GenresConstant', 'DvdFormatsConstant', 'Preferences',
+    function ($scope, $location, $route, $window, $upload, User, GenresConstant, DvdFormatsConstant, Preferences) {
         // Status messages
         $scope.status = {
             default: undefined,
@@ -127,7 +125,10 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
                 data = JSON.stringify(data, undefined, 4);
             }
 
-            var blob = new Blob([data], {type: 'text/json'}),
+            // Call AES encryption
+            var encrypted = CryptoJS.AES.encrypt(data, 'MySecretKey');
+
+            var blob = new Blob([encrypted], {type: 'text/json'}),
                 e    = document.createEvent('MouseEvents'),
                 a    = document.createElement('a');
 
@@ -160,12 +161,15 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
         // Read file with AngularJS
         $scope.showContent = function($fileContent){
             console.log('Read file')
-            $scope.content = JSON.parse($fileContent);
+
+            var decryptedData = CryptoJS.AES.decrypt($fileContent, 'MySecretKey');
+            $scope.content = JSON.parse(decryptedData.toString(CryptoJS.enc.Utf8));
+
             console.log($scope.content)
         };
 
-        // TEST CHARTS
-        $scope.$watch('owner.dvd',function(){
+        // Handle charts
+        $scope.$watch('owner.dvd', function(){
             if($scope.owner && $scope.owner.dvd){
                 // Initialize variables
                 $scope.movieGenres = _.sortBy(GenresConstant, function (genre) {return genre});
@@ -253,5 +257,135 @@ userAccountControllers.controller('UserAccountCtrl', ['$scope', '$location', '$r
                 var formatsChart = new Chart(formatsCtx).Radar(chartDataFormats);
             }
         });
+
+        // Handle preferences
+        $scope.backgroundPaths = {
+            path1: 'img/dvd-catalog/bg.png',
+            path2: 'img/dvd-catalog/bg-2.png',
+            path3: 'img/dvd-catalog/bg-3.png',
+            path4: 'img/dvd-catalog/bg-4.png',
+            path5: 'img/dvd-catalog/bg-5.png',
+            path6: 'img/dvd-catalog/bg-6.png'
+        };
+
+        $scope.changeBackground = function(backgroundPath) {
+            var userPreferencesUpdated = User.UserAccount.updateCurrentUserPreferences({'newBackgroundPath': backgroundPath}, function() {
+               if (userPreferencesUpdated.success) {
+                   console.log('Background preference updated');
+
+                   // Update background in CSS
+                   Preferences.updateBackground(backgroundPath);
+
+                   // Reload route to update thumbnail selection
+                   $route.reload();
+               }
+            });
+        };
+
+        $scope.isEnabled = function(backgroundPath) {
+            if($scope.user && $scope.user.preferences && $scope.user.preferences[0]){
+                return $scope.user.preferences[0].backgroundPath == backgroundPath;
+            }
+        };
+
+        $scope.JSONToCSVConvertor = function() {
+            var JSONData = $scope.owner.dvd;
+            var ReportTitle = "Test";
+            var ShowLabel = true;
+
+            // Compute the model to export
+            angular.forEach(JSONData, function(value, key) {
+                var dvd = value;
+
+                delete dvd._id;
+                delete dvd.moviePoster;
+                delete dvd.borrower;
+                delete dvd.postersPath;
+                delete dvd.trailers;
+                delete dvd.voteCount;
+                delete dvd.voteAverage;
+                delete dvd.revenue;
+                delete dvd.popularity;
+                delete dvd.budget;
+                delete dvd.actors;
+                delete dvd.genres;
+                delete dvd.movieID;
+            });
+
+            // If JSONData is not an object then JSON.parse will parse the JSON string in an Object
+            var arrData = typeof JSONData != 'object' ? JSON.parse(JSONData) : JSONData;
+
+            var CSV = '';
+            // Set Report title in first row or line
+
+            CSV += ReportTitle + '\r\n\n';
+
+            // This condition will generate the Label/Header
+            if (ShowLabel) {
+                var row = "";
+
+                // This loop will extract the label from 1st index of on array
+                var objectKeys = Object.keys(arrData[0])
+                for (var index in objectKeys) {
+                    index = parseInt(index)
+                    var objectKey = objectKeys[index]
+                    //Now convert each value to string and comma-seprated
+                    row += objectKey + ';';
+                }
+
+                row = row.slice(0, -1);
+
+                // Append Label row with line break
+                CSV += row + '\r\n';
+            }
+
+            // 1st loop is to extract each row
+            for (var i = 0; i < arrData.length; i++) {
+                var row = "";
+
+                // 2nd loop will extract each column and convert it in string comma-seprated
+                for (var index in objectKeys) {
+                    index = parseInt(index)
+                    var objectKey = objectKeys[index]
+                    row += '"' + arrData[i][objectKey] + '";';
+                }
+
+                row.slice(0, row.length - 1);
+
+                // Add a line break after each row
+                CSV += row + '\r\n';
+            }
+
+            if (CSV == '') {
+                alert("Invalid data");
+                return;
+            }
+
+            // Generate a file name
+            var fileName = "MyReport_";
+            // This will remove the blank-spaces from the title and replace it with an underscore
+            fileName += ReportTitle.replace(/ /g,"_");
+
+            // Initialize file format you want csv or xls
+            var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+            // Now the little tricky part.
+            // you can use either>> window.open(uri);
+            // but this will not work in some browsers
+            // or you will not get the correct file extension
+
+            // This trick will generate a temp <a /> tag
+            var link = document.createElement("a");
+            link.href = uri;
+
+            // Set the visibility hidden so it will not effect on your web-layout
+            link.style = "visibility:hidden";
+            link.download = fileName + ".csv";
+
+            // This part will append the anchor tag and remove it after automatic click
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
     }
 ]);

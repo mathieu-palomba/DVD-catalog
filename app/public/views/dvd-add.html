@@ -5,7 +5,7 @@
         <div class="span4">
             <!-- Form content -->
             <div class="row-fluid">
-                <form name="dvdForm" class="form-horizontal">
+                <form name="dvdForm" ng-submit="performSave()" class="form-horizontal">
                     <div class="control-group">
                         <label for="inputDvdName" class="control-label">Nom du film</label>
 
@@ -58,8 +58,8 @@
                             <!--Date picker-->
                             <div class="input-append">
                                 <input type="text" id="inputDvdReleaseData" class="form-control" datepicker-popup="{{format}}" ng-model="dvd.releaseDate"
-                                       is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Fermer"
-                                       current-text="Aujourd'hui" toggle-weeks-text="Week-end" clear-text="Supprimer" readonly required/>
+                                       is-open="opened" datepicker-options="dateOptions" close-text="Fermer"
+                                       current-text="Aujourd'hui" toggle-weeks-text="Week-end" clear-text="Supprimer" readonly/>
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" ng-click="open($event)">
                                         <i class="icon-calendar"></i>
@@ -74,7 +74,7 @@
 
                         <div class="controls">
                             <textarea rows="10" id="inputDvdOverview" ng-model="dvd.overview" placeholder="Resumé du film"
-                                      required class="text-area"></textarea>
+                                      class="text-area" required></textarea>
                         </div>
                     </div>
 
@@ -83,8 +83,7 @@
 
                         <div class="controls">
                             <textarea rows="2" id="inputDvdProductionCompanies" ng-model="dvd.productionCompanies"
-                                      placeholder="MGM, Pixar, ..."
-                                      class="text-area"></textarea>
+                                      placeholder="MGM, Pixar, ..." class="text-area" required></textarea>
                         </div>
                     </div>
 
@@ -134,16 +133,16 @@
                     </div>
 
                     <div class="control-group">
-                        <label for="inputDvdLocation" class="control-label">Emplacement</label>
+                        <label for="inputDvdLocation" class="control-label">Emplacement dans votre collection</label>
 
                         <div class="controls">
                             <input type="text" id="inputDvdLocation" ng-model="dvd.location"
-                                   placeholder="A1" class="character-area">
+                                   placeholder="Étagères du haut, position 3" class="character-area">
                         </div>
                     </div>
 
                     <div class="controls">
-                        <button type="submit" id="saveButton" ng-click="performSave()" ng-disabled="!dvdForm.$valid || dvd.genre==''"
+                        <button type="submit" id="saveButton"
                                 popover-placement="{{dynamicSavePopoverPlacement}}" popover="{{dynamicSavePopover}}"
                                 popover-title="{{dynamicSavePopoverTitle}}" popover-trigger="{{dynamicSavePopoverTrigger}}"
                                 class="btn btn-primary">Sauvegarder

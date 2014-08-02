@@ -42,7 +42,8 @@ module.exports = function( app, passport, db )
         }))
         .use(passport.initialize())     // The important part. Must go AFTER the express session is initialized
         .use(passport.session())        // The important part. Must go AFTER the express session is initialized
-        .use(flash());                  // Connect flash for flash messages
+        .use(flash())                   // Connect flash for flash messages
+        .use(express.errorHandler());
 
     app.use(app.router);
 

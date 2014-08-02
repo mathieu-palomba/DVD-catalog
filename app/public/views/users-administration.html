@@ -12,6 +12,7 @@
                 <thead>
                     <tr>
                         <th>Nom d'utilisateur</th>
+                        <th>Email</th>
                         <th>Nombre de films</th>
                         <th>Admin</th>
                         <th>Supprimer le compte</th>
@@ -21,6 +22,9 @@
                     <tr ng-repeat="owner in owners">
                         <td>
                             <a href="#/dvd-list/{{owner.userName}}" class="lead">{{owner.userName}}</a>
+                        </td>
+                        <td>
+                            <span class="text-info">{{owner.email}}</span>
                         </td>
                         <td>
                             <span class="badge badge-info">{{owner.dvd.length}}</span>
@@ -35,7 +39,7 @@
                 </tbody>
             </table>
 
-            <button ng-click="updateImgSrcPath()" class="btn btn-small btn-info">Mise à jour des utilisateurs</button>
+            <button ng-click="update()" class="btn btn-small btn-info">Mise à jour des utilisateurs</button>
         </div>
     </div>
 </div>

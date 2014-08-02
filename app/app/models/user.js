@@ -6,6 +6,16 @@ var mongoose = require('mongoose'),
     SALT_WORK_FACTOR = 10;
 
 /**
+ * The User Preferences Schema.
+ */
+var userPreferencesSchema = new mongoose.Schema({
+    backgroundPath: {
+        type: String,
+        default: ''
+    }
+});
+
+/**
  * The User Schema.
  */
 var userSchema = new mongoose.Schema({
@@ -35,7 +45,8 @@ var userSchema = new mongoose.Schema({
         default: false
     },
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
+    preferences: [userPreferencesSchema]
 });
 
 /**
@@ -79,4 +90,5 @@ userSchema.methods.comparePassword = function(candidatePassword, cb) {
     });
 };
 
+var UserPreferences = mongoose.model('UserPreferences', userPreferencesSchema);
 var User = mongoose.model('User', userSchema);
